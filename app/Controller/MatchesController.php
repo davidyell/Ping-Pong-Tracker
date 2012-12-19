@@ -52,7 +52,30 @@ class MatchesController extends AppController {
         }
         $players = $this->Match->MatchesPlayer->Player->find('list');
         $players[0] = 'Choose player';
-        $this->set(compact('players'));
+
+        $matchTypes = $this->Match->MatchType->find('list');
+
+        $this->set(compact('players','matchTypes'));
+    }
+
+    public function singles(){
+        
+
+
+        $players = $this->Match->MatchesPlayer->Player->find('list');
+        $players[0] = 'Choose player';
+        $matchTypes = $this->Match->MatchType->find('list');
+        $this->set(compact('players','matchTypes'));
+    }
+
+    public function doubles(){
+
+
+
+        $players = $this->Match->MatchesPlayer->Player->find('list');
+        $players[0] = 'Choose player';
+        $matchTypes = $this->Match->MatchType->find('list');
+        $this->set(compact('players','matchTypes'));
     }
 
     /**

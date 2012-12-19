@@ -5,8 +5,8 @@ $('#Player3Id').parents('div.input.select').hide();
 $('#Player4Id').parents('div.input.select').hide();
 
 // Change visible fields
-   $('#MatchType').change(function(){
-       if($(this).val() == 2){ // Singles
+   $('#MatchMatchTypeId').change(function(){
+       if($(this).val() == 1){ // Singles
            $('#Player3Id').parents('div.input.select').hide();
            $('#Player4Id').parents('div.input.select').hide();
        }else{ // Doubles

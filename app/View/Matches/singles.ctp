@@ -3,12 +3,10 @@
 	<fieldset>
 		<legend><?php echo __('Add Match'); ?></legend>
                 <?php
-                echo $this->Form->input('match_type_id');
+                echo $this->Form->input('match_type_id', array('value'=>1, 'type'=>'hidden'));
 
 		echo $this->Form->input('Player.1.id', array('type'=>'select', 'options'=>$players, 'label'=>'Player 1', 'selected'=>0));
 		echo $this->Form->input('Player.2.id', array('type'=>'select', 'options'=>$players, 'label'=>'Player 2', 'selected'=>0));
-		echo $this->Form->input('Player.3.id', array('type'=>'select', 'options'=>$players, 'label'=>'Player 3', 'selected'=>0));
-		echo $this->Form->input('Player.4.id', array('type'=>'select', 'options'=>$players, 'label'=>'Player 4', 'selected'=>0));
                 ?>
 
                 <div class="scores">

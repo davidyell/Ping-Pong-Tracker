@@ -27,21 +27,25 @@ class Match extends AppModel {
                     unset($this->data['Player'][$i]);
                 }
             }
-            
-        }
 
-        public function beforeSave($options = array()){
-            parent::beforeSave($options);
-
-            // Assign a player_id to the score
-            foreach($this->data['Player'] as $k => $player){
-                $this->data['MatchesPlayer'][$k]['MatchesPlayer']['player_id'] = $player['id'];
+            // Copy player_id's
+            if(count($this->data['Player']) == 2){ // Singles - two players
+                foreach($this->data['Player'] as $k => $player){
+                    $this->data['MatchesPlayer'][$k]['player_id'] = $player['id'];
+                }
+            }else{ // Doubles - 4 players
+                
             }
+
             exit(var_dump($this->data));
         }
 
         public $hasMany = array(
             'MatchesPlayer'
+        );
+
+        public $belongsTo = array(
+            'MatchType'
         );
 
 }
