@@ -1,19 +1,12 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Player Model
+ * MatchesPlayer Model
  *
- * @property Department $Department
  * @property Match $Match
+ * @property Player $Player
  */
-class Player extends AppModel {
-
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'name';
+class MatchesPlayer extends AppModel {
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -24,18 +17,19 @@ class Player extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Department' => array(
-			'className' => 'Department',
-			'foreignKey' => 'department_id',
+		'Match' => array(
+			'className' => 'Match',
+			'foreignKey' => 'match_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Player' => array(
+			'className' => 'Player',
+			'foreignKey' => 'player_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
 	);
-
-
-        public $hasMany = array(
-            'MatchesPlayer'
-        );
-
 }
