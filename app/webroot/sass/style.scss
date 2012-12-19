@@ -1,0 +1,46 @@
+/*
+Document   : style
+Created on : Dec 19, 2012, 3:48:40 PM
+Author     : david
+Description:
+Purpose of the stylesheet follows.
+*/
+
+@import url(http://fonts.googleapis.com/css?family=Telex);
+
+$ttBlue: #2E3F73;
+$ttGreen: #088B29;
+$fg: #fff;
+
+body{
+    background-color: $ttBlue;
+    color: $fg;
+    font-family: Telex, Arial, sans-serif;
+}
+
+legend{
+    color: $fg;
+}
+
+.scores{
+    clear: both;
+    .input{
+        float: left;
+    }
+}
+#score0, #score1{
+    width: 30px;
+}
+
+div.input{
+    &.required label:after{
+        content: "*";
+    }
+    &.error{
+        padding: 10px;
+        color: #B94A48;
+        background-color: #F2DEDE;
+        border: 1px solid #EED3D7;
+        border-radius: 4px;
+    }
+}
