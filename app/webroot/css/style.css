@@ -11,8 +11,13 @@ body {
   color: white;
   font-family: Telex, Arial, sans-serif; }
 
-h1 {
-  font-size: 30px; }
+a.logo {
+  color: white;
+  text-decoration: none; }
+  a.logo h1 {
+    padding-left: 30px;
+    background: url(../img/table-tennis.png) 0 6px no-repeat;
+    font-size: 30px; }
 
 legend {
   color: #333333; }
@@ -86,3 +91,8 @@ div.content {
       padding: 20px 10px;
       font-size: 26px;
       font-weight: bold; }
+
+.buttons a {
+  float: left;
+  clear: left;
+  margin: 10px auto; }

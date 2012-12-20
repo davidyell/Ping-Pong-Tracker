@@ -34,8 +34,14 @@ body{
     color: $fg;
     font-family: Telex, Arial, sans-serif;
 }
-h1{
-    font-size: 30px;
+a.logo{
+    color: $fg;
+    text-decoration: none;
+    h1{
+        padding-left: 30px;
+        background: url(../img/table-tennis.png) 0 6px no-repeat;
+        font-size: 30px;
+    }
 }
 
 legend{
@@ -107,5 +113,13 @@ div.content{
             font-size: 26px;
             font-weight: bold;
         }
+    }
+}
+
+.buttons{
+    a{
+        float: left;
+        clear: left;
+        margin: 10px auto;
     }
 }

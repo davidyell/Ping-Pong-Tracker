@@ -21,7 +21,7 @@
         <div class="container-fluid">
             <header class="row-fluid">
                 <div class="span12">
-                    <h1>UKWM Ping-Pong</h1>
+                    <?php echo $this->Html->link("<h1>UKWM Ping-Pong</h1>", '/', array('class'=>'logo', 'escape'=>false)); ?>
                     <?php echo $this->element('navigation');?>
                 </div>
             </header>

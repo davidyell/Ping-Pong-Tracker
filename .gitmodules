@@ -1,3 +1,6 @@
 [submodule "app/Plugin/NiceAdmin"]
 	path = app/Plugin/NiceAdmin
 	url = https://github.com/davidyell/CakePHP-NiceAdmin.git
+[submodule "app/Plugin/Users"]
+	path = app/Plugin/Users
+	url = https://github.com/CakeDC/users.git

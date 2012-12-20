@@ -1,5 +1,5 @@
 <div class="matches index">
-    <h2><?php echo __('Matches'); ?></h2>
+    <h2>Matches played</h2>
     <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped">
         <tr>
             <th><?php echo $this->Paginator->sort('id'); ?></th>
