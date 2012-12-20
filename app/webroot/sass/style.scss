@@ -3,7 +3,7 @@ Document   : style
 Created on : Dec 19, 2012, 3:48:40 PM
 Author     : david
 Description:
-Purpose of the stylesheet follows.
+    Purpose of the stylesheet follows.
 */
 
 @import url(http://fonts.googleapis.com/css?family=Telex);
@@ -12,6 +12,9 @@ $ttBlue: #2E3F73;
 $ttGreen: #088B29;
 $fg: #fff;
 
+$contentBg: #eee;
+$contentText: #333;
+
 body{
     background-color: $ttBlue;
     color: $fg;
@@ -19,7 +22,7 @@ body{
 }
 
 legend{
-    color: $fg;
+    color: $contentText;
 }
 
 .scores{
@@ -43,4 +46,23 @@ div.input{
         border: 1px solid #EED3D7;
         border-radius: 4px;
     }
+}
+
+textarea{
+    width: 440px;
+}
+
+.one, .two, .three, .four{
+    float: left;
+}
+.three{
+    clear: left;
+}
+
+div.content{
+    padding: 15px;
+    background-color: $contentBg;
+    color: $contentText;
+    border: 1px solid darken($contentBg, 30%);
+    border-radius: 4px;
 }

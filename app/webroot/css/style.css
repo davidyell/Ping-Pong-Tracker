@@ -4,7 +4,7 @@ Document   : style
 Created on : Dec 19, 2012, 3:48:40 PM
 Author     : david
 Description:
-Purpose of the stylesheet follows.
+    Purpose of the stylesheet follows.
 */
 body {
   background-color: #2e3f73;
@@ -12,7 +12,7 @@ body {
   font-family: Telex, Arial, sans-serif; }
 
 legend {
-  color: white; }
+  color: #333333; }
 
 .scores {
   clear: both; }
@@ -29,4 +29,20 @@ div.input.error {
   color: #B94A48;
   background-color: #F2DEDE;
   border: 1px solid #EED3D7;
+  border-radius: 4px; }
+
+textarea {
+  width: 440px; }
+
+.one, .two, .three, .four {
+  float: left; }
+
+.three {
+  clear: left; }
+
+div.content {
+  padding: 15px;
+  background-color: #eeeeee;
+  color: #333333;
+  border: 1px solid #a2a2a2;
   border-radius: 4px; }

@@ -8,7 +8,7 @@
         <?php
         echo $this->Html->meta('icon');
 
-        echo $this->Html->css(array('../bootstrap/css/bootstrap.min', '../bootstrap/css/bootstrap-responsive.min', 'style'));
+        echo $this->Html->css(array('../bootstrap/css/bootstrap.min', '../bootstrap/css/bootstrap-responsive.min', 'NiceAdmin.pagination',  'style'));
 
         echo $this->fetch('meta');
         echo $this->fetch('css');

@@ -9,7 +9,35 @@ App::uses('AppModel', 'Model');
 class MatchesPlayer extends AppModel {
 
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+	public $validate = array(
+            'score'=>array(
+                'one'=>array(
+                    'rule'=>'notEmpty',
+                    'message'=>'Please enter a score',
+                    'required'=>true
+                ),
+                'two'=>array(
+                    'rule'=>'numeric',
+                    'message'=>'Please enter a number'
+                )
+            ),
+            'Player.id'=>array(
+                'one'=>array(
+                    'rule'=>array('comparison', '>', 0),
+                    'message'=>'Please pick a player',
+                    'required'=>true
+                ),
+                'two'=>array(
+                    'rule'=>'different',
+                    'message'=>'Players must be different',
+                ),
+            )
+        );
+
+        public function different($check){
+            var_dump($check);
+            exit;
+        }
 
 /**
  * belongsTo associations

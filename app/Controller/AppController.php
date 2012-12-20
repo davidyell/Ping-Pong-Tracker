@@ -38,4 +38,7 @@ class AppController extends Controller {
         'DebugKit.Toolbar'
         );
 
+    public $helpers = array(
+        'NiceAdmin.Actions'
+    );
 }
