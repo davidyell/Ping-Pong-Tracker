@@ -3,6 +3,7 @@
     <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped">
         <tr>
             <th><?php echo $this->Paginator->sort('id'); ?></th>
+            <th><?php echo $this->Paginator->sort('match_type_id'); ?></th>
             <th><?php echo $this->Paginator->sort('created'); ?></th>
             <th><?php echo $this->Paginator->sort('notes'); ?></th>
             <th class="actions"><?php echo __('Actions'); ?></th>
@@ -10,6 +11,7 @@
         <?php foreach($matches as $match): ?>
             <tr>
                 <td><?php echo h($match['Match']['id']); ?>&nbsp;</td>
+                <td><?php echo h($match['MatchType']['name']); ?>&nbsp;</td>
                 <td><?php echo $this->Time->niceShort($match['Match']['created']); ?>&nbsp;</td>
                 <td><?php echo h($match['Match']['notes']); ?>&nbsp;</td>
                 <td class="actions">

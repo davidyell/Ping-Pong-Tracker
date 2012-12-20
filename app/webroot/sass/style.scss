@@ -15,6 +15,9 @@ $fg: #fff;
 $contentBg: #eee;
 $contentText: #333;
 
+$teamRed: #a50000;
+$teamBlue: #004ea3;
+
 body{
     background-color: $ttBlue;
     color: $fg;
@@ -59,10 +62,38 @@ textarea{
     clear: left;
 }
 
+label[for='MatchesPlayer1Score'],
+.one label, .three label{
+    color: $teamRed;
+}
+label[for='MatchesPlayer2Score'],
+.two label, .four label{
+    color: $teamBlue;
+}
+
 div.content{
     padding: 15px;
     background-color: $contentBg;
     color: $contentText;
     border: 1px solid darken($contentBg, 30%);
     border-radius: 4px;
+}
+
+table.result-table{
+    margin: 10px;
+    border: 1px solid darken($contentBg, 30%);
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    background-color: #fff;
+    td{
+        font-size: 16px;
+        padding: 10px;
+        text-align: center;
+        border: 1px solid darken($contentBg, 30%);
+    }
+    tr.scores td{
+        padding: 20px 10px;
+        font-size: 20px;
+        font-weight: bold;
+    }
 }

@@ -5,10 +5,38 @@
                 <?php
                 echo $this->Form->input('match_type_id');
 
-		echo $this->Form->input('Player.1.id', array('type'=>'select', 'options'=>$players, 'label'=>'Player 1', 'selected'=>0, 'div'=>array('class'=>'input select one'), 'after'=>' vs '));
-		echo $this->Form->input('Player.2.id', array('type'=>'select', 'options'=>$players, 'label'=>'Player 2', 'selected'=>0, 'div'=>array('class'=>'input select two')));
-		echo $this->Form->input('Player.3.id', array('type'=>'select', 'options'=>$players, 'label'=>'Player 1 partner', 'selected'=>0, 'div'=>array('class'=>'input select three'), 'after'=>' vs '));
-		echo $this->Form->input('Player.4.id', array('type'=>'select', 'options'=>$players, 'label'=>'Player 2 partner', 'selected'=>0, 'div'=>array('class'=>'input select four')));
+                $nums = array(
+                    1=>'one',
+                    2=>'two',
+                    3=>'three',
+                    4=>'four'
+                );
+
+                $vs = array('after'=>'&nbsp;vs&nbsp;');
+
+                for($i = 1; $i <= 4; $i++){
+
+                    $options = array('type'=>'select', 'options'=>$players, 'div'=>array('class'=>'input select '.$nums[$i]));
+                    $selected = array('selected'=>0);
+                    $label = array('label'=>'Player '.$nums[$i]);
+                    
+                    if(isset($this->request->data['MatchesPlayer'][$i]['id']) && $this->request->data['MatchesPlayer'][$i]['id'] != 0){
+                        $selected = array('selected'=>$this->request->data['MatchesPlayer'][$i]['id']);
+                    }
+                    $options = array_merge($options, $selected);
+                    
+                    if($i == 1 || $i == 3){
+                        $options = array_merge($options, $vs);
+                    }
+                    if($i == 3 || $i == 4){
+                        $options = array_merge($options, array('label'=>'Player '.$nums[$i-2].' partner'));
+                    }else{
+                        $options = array_merge($options, $label);
+                    }
+                    
+                    echo $this->Form->input('MatchesPlayer.'.$i.'.player_id', $options);
+                }
+
                 ?>
 
                 <div class="scores">

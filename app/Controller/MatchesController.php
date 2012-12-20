@@ -15,7 +15,12 @@ class MatchesController extends AppController {
      * @return void
      */
     public function index(){
-        $this->Match->recursive = 0;
+        $this->paginate = array(
+            'contain'=>array(
+                'MatchType'
+            ),
+            'order'=>'Match.created DESC'
+        );
         $this->set('matches', $this->paginate());
     }
 
@@ -31,7 +36,18 @@ class MatchesController extends AppController {
         if(!$this->Match->exists()){
             throw new NotFoundException(__('Invalid match'));
         }
-        $this->set('match', $this->Match->read(null, $id));
+        $match = $this->Match->find('first', array(
+            'contain'=>array(
+                'MatchesPlayer'=>array(
+                    'Player'
+                ),
+                'MatchType'
+            ),
+            'conditions'=>array(
+                'Match.id'=>$id
+            )
+        ));
+        $this->set('match', $match);
     }
 
     /**
@@ -50,8 +66,8 @@ class MatchesController extends AppController {
                 $this->Session->setFlash(__('The match could not be saved. Please, try again.'), 'alert-box', array('class'=>'alert-error'));
             }
         }
-        $players = $this->Match->MatchesPlayer->Player->find('list');
-        $players[0] = 'Choose player';
+
+        $players = $this->Match->MatchesPlayer->Player->getPlayers();
 
         $matchTypes = $this->Match->MatchType->find('list');
 

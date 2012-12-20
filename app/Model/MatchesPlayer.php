@@ -21,23 +21,14 @@ class MatchesPlayer extends AppModel {
                     'message'=>'Please enter a number'
                 )
             ),
-            'Player.id'=>array(
+            'player_id'=>array(
                 'one'=>array(
                     'rule'=>array('comparison', '>', 0),
                     'message'=>'Please pick a player',
                     'required'=>true
-                ),
-                'two'=>array(
-                    'rule'=>'different',
-                    'message'=>'Players must be different',
-                ),
+                )
             )
         );
-
-        public function different($check){
-            var_dump($check);
-            exit;
-        }
 
 /**
  * belongsTo associations

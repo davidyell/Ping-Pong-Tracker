@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs">
-    <li <?php echo ($this->request->controller == 'matches' && $this->request->action == 'index')? 'class="active"' : '';?>>
+    <li <?php echo ($this->request->controller == 'matches' && ($this->request->action == 'index' || $this->request->action == 'view'))? 'class="active"' : '';?>>
         <?php echo $this->Html->link('Matches', array('controller'=>'matches','action'=>'index'));?>
     </li>
     <li <?php echo ($this->request->controller == 'matches' && $this->request->action == 'add')? 'class="active"' : '';?>>

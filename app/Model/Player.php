@@ -13,9 +13,22 @@ class Player extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'name';
+	public $displayField = 'first_name';
 
+        public function getPlayers(){
+            $players = $this->find('all', array(
+                'contain'=>false,
+                'fields'=>array('id','first_name','last_name')
+            ));
 
+            foreach($players as $p){
+                $return[$p['Player']['id']] = $p['Player']['first_name'].' '.substr($p['Player']['last_name'], 0, 1);
+            }
+
+            array_unshift($return, 'Choose player');
+
+            return $return;
+        }
 
 /**
  * belongsTo associations
