@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-pills">
     <li <?php echo ($this->request->controller == 'pages')? 'class="active"' : '';?>>
         <?php echo $this->Html->link('Home', array('controller'=>'pages','action'=>'display','home'));?>
     </li>
