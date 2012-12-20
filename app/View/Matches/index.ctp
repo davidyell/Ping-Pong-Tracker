@@ -2,7 +2,6 @@
     <h2>Matches played</h2>
     <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped">
         <tr>
-            <th><?php echo $this->Paginator->sort('id'); ?></th>
             <th><?php echo $this->Paginator->sort('match_type_id'); ?></th>
             <th>Players</th>
             <th><?php echo $this->Paginator->sort('created', 'Played'); ?></th>
@@ -11,7 +10,6 @@
         </tr>
         <?php foreach($matches as $match): ?>
             <tr>
-                <td><?php echo h($match['Match']['id']); ?>&nbsp;</td>
                 <td><?php echo h($match['MatchType']['name']); ?>&nbsp;</td>
                 <td>
                     <?php
