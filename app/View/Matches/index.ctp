@@ -4,8 +4,8 @@
         <tr>
             <th><?php echo $this->Paginator->sort('id'); ?></th>
             <th><?php echo $this->Paginator->sort('match_type_id'); ?></th>
-            <th><?php echo $this->Paginator->sort('created'); ?></th>
-            <th><?php echo $this->Paginator->sort('notes'); ?></th>
+            <th><?php echo $this->Paginator->sort('created', 'Played'); ?></th>
+            <th class="hidden-phone"><?php echo $this->Paginator->sort('notes'); ?></th>
             <th class="actions"><?php echo __('Actions'); ?></th>
         </tr>
         <?php foreach($matches as $match): ?>
@@ -13,7 +13,7 @@
                 <td><?php echo h($match['Match']['id']); ?>&nbsp;</td>
                 <td><?php echo h($match['MatchType']['name']); ?>&nbsp;</td>
                 <td><?php echo $this->Time->niceShort($match['Match']['created']); ?>&nbsp;</td>
-                <td><?php echo h($match['Match']['notes']); ?>&nbsp;</td>
+                <td class="hidden-phone"><?php echo h($match['Match']['notes']); ?>&nbsp;</td>
                 <td class="actions">
                     <?php echo $this->Actions->actions($match['Match']['id'], array('v'));?>
                 </td>

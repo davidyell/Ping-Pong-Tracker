@@ -31,9 +31,6 @@ div.input.error {
   border: 1px solid #EED3D7;
   border-radius: 4px; }
 
-textarea {
-  width: 440px; }
-
 .one, .two, .three, .four {
   float: left; }
 
@@ -55,18 +52,34 @@ div.content {
   border: 1px solid #a2a2a2;
   border-radius: 4px; }
 
-table.result-table {
-  margin: 10px;
-  border: 1px solid #a2a2a2;
+#scorecard {
+  /*width: 520px;*/
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  background-color: #fff; }
-  table.result-table td {
-    font-size: 16px;
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #a2a2a2; }
-  table.result-table tr.scores td {
-    padding: 20px 10px;
-    font-size: 20px;
-    font-weight: bold; }
+  background: #fefcea;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #fefcea 0%, #efdf77 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fefcea), color-stop(100%, #efdf77));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #fefcea 0%, #efdf77 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #fefcea 0%, #efdf77 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #fefcea 0%, #efdf77 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #fefcea 0%, #efdf77 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefcea', endColorstr='#efdf77',GradientType=0 );
+  /* IE6-9 */ }
+  #scorecard table.result-table {
+    /*width: 500px;*/
+    margin: 10px; }
+    #scorecard table.result-table td {
+      font-size: 16px;
+      padding: 10px;
+      text-align: center; }
+    #scorecard table.result-table tr.scores td {
+      padding: 20px 10px;
+      font-size: 26px;
+      font-weight: bold; }

@@ -18,6 +18,17 @@ $contentText: #333;
 $teamRed: #a50000;
 $teamBlue: #004ea3;
 
+@mixin cardBg{
+    background: #fefcea; /* Old browsers */
+    background: -moz-linear-gradient(top,  #fefcea 0%, #efdf77 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefcea), color-stop(100%,#efdf77)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #fefcea 0%,#efdf77 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #fefcea 0%,#efdf77 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #fefcea 0%,#efdf77 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #fefcea 0%,#efdf77 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#efdf77',GradientType=0 ); /* IE6-9 */
+}
+
 body{
     background-color: $ttBlue;
     color: $fg;
@@ -51,10 +62,6 @@ div.input{
     }
 }
 
-textarea{
-    width: 440px;
-}
-
 .one, .two, .three, .four{
     float: left;
 }
@@ -79,21 +86,23 @@ div.content{
     border-radius: 4px;
 }
 
-table.result-table{
-    margin: 10px;
-    border: 1px solid darken($contentBg, 30%);
+#scorecard{
+    /*width: 520px;*/
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
-    background-color: #fff;
-    td{
-        font-size: 16px;
-        padding: 10px;
-        text-align: center;
-        border: 1px solid darken($contentBg, 30%);
-    }
-    tr.scores td{
-        padding: 20px 10px;
-        font-size: 20px;
-        font-weight: bold;
+    @include cardBg;
+    table.result-table{
+        /*width: 500px;*/
+        margin: 10px;
+        td{
+            font-size: 16px;
+            padding: 10px;
+            text-align: center;
+        }
+        tr.scores td{
+            padding: 20px 10px;
+            font-size: 26px;
+            font-weight: bold;
+        }
     }
 }

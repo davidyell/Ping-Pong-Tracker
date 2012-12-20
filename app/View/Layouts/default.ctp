@@ -25,10 +25,12 @@
                     <?php echo $this->element('navigation');?>
                 </div>
             </header>
-            <div class="row-fluid content">
+            <div class="row-fluid">
                 <div class="span12">
-                    <?php echo $this->Session->flash(); ?>
-                    <?php echo $this->fetch('content'); ?>
+                    <div class="content">
+                        <?php echo $this->Session->flash(); ?>
+                        <?php echo $this->fetch('content'); ?>
+                    </div>
                 </div>
             </div>
             <footer class="row-fluid">
