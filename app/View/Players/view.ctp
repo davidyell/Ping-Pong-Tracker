@@ -13,10 +13,6 @@
 		<dd>
 			<?php echo h($player['Player']['id']); ?>
 		</dd>
-		<dt><?php echo __('Dob'); ?></dt>
-		<dd>
-			<?php echo h($player['Player']['dob']); ?>
-		</dd>
 		<dt><?php echo __('Department'); ?></dt>
 		<dd>
 			<?php echo $this->Html->link($player['Department']['name'], array('controller' => 'departments', 'action' => 'view', $player['Department']['id'])); ?>

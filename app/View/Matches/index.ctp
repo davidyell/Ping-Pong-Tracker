@@ -4,6 +4,7 @@
         <tr>
             <th><?php echo $this->Paginator->sort('id'); ?></th>
             <th><?php echo $this->Paginator->sort('match_type_id'); ?></th>
+            <th>Players</th>
             <th><?php echo $this->Paginator->sort('created', 'Played'); ?></th>
             <th class="hidden-phone"><?php echo $this->Paginator->sort('notes'); ?></th>
             <th class="actions"><?php echo __('Actions'); ?></th>
@@ -12,6 +13,15 @@
             <tr>
                 <td><?php echo h($match['Match']['id']); ?>&nbsp;</td>
                 <td><?php echo h($match['MatchType']['name']); ?>&nbsp;</td>
+                <td>
+                    <?php
+                    $names = '';
+                    foreach($match['MatchesPlayer'] as $player){
+                        $names .= $player['Player']['first_name'].' '.substr($player['Player']['last_name'],0,1).', ';
+                    }
+                    echo rtrim($names, ', ');
+                    ?>
+                </td>
                 <td><?php echo $this->Time->niceShort($match['Match']['created']); ?>&nbsp;</td>
                 <td class="hidden-phone"><?php echo h($match['Match']['notes']); ?>&nbsp;</td>
                 <td class="actions">

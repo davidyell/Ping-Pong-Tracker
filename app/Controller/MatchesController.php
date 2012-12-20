@@ -17,7 +17,10 @@ class MatchesController extends AppController {
     public function index(){
         $this->paginate = array(
             'contain'=>array(
-                'MatchType'
+                'MatchType',
+                'MatchesPlayer'=>array(
+                    'Player'
+                )
             ),
             'order'=>'Match.created DESC'
         );
