@@ -6,7 +6,6 @@
 			<th><?php echo $this->Paginator->sort('first_name'); ?></th>
 			<th><?php echo $this->Paginator->sort('nickname'); ?></th>
 			<th><?php echo $this->Paginator->sort('last_name'); ?></th>
-			<th  class="hidden-phone"><?php echo $this->Paginator->sort('dob'); ?></th>
 			<th><?php echo $this->Paginator->sort('department_id'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
@@ -17,7 +16,6 @@
 		<td><?php echo h($player['Player']['first_name']); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['nickname']); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['last_name']); ?>&nbsp;</td>
-		<td class="hidden-phone"><?php echo h($player['Player']['dob']); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($player['Department']['name'], array('controller' => 'departments', 'action' => 'view', $player['Department']['id'])); ?>
 		</td>

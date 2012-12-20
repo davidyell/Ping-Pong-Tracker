@@ -11,4 +11,7 @@
     <li <?php echo ($this->request->controller == 'players')? 'class="active"' : '';?>>
         <?php echo $this->Html->link('Players', array('controller'=>'players','action'=>'index'));?>
     </li>
+    <li <?php echo ($this->request->controller == 'departments')? 'class="active"' : '';?>>
+        <?php echo $this->Html->link('Departments', array('controller'=>'departments','action'=>'index'));?>
+    </li>
 </ul>
