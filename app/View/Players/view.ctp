@@ -24,40 +24,30 @@
                 <dt>Latest victory</dt>
                 <dd>
                     <?php
-                    // TODO: This needs sorting out. I reckon using Set::extract() will be better. Also look at the Controller.
-                    foreach($matches as $match){
-                        if($match['MatchesPlayer']['result'] == 'Won'){
-                            if($match['Match']['MatchType']['id'] == 2){ // Doubles
-                                $against = $match['Match']['MatchesPlayer'][1]['Player']['first_name']." & ".$match['Match']['MatchesPlayer'][3]['Player']['first_name'];
-                            }else{
-                                $against = $match['Match']['MatchesPlayer'][1]['Player']['first_name'];
-                            }
-                            echo "<div class='alert alert-success'>Won a {$match['Match']['MatchType']['name']} match against $against ".$this->Time->niceShort($match['Match']['created']);
-                            break;
-                        }
+                    $against = '';
+                    $losing_team = Set::extract("/MatchesPlayer[result=Lost]", $last_win);
+                    foreach($losing_team as $p){
+                        $against .= $p['MatchesPlayer']['Player']['first_name'].' '.substr($p['MatchesPlayer']['Player']['last_name'], 0, 1).', ';
                     }
+                    $against = rtrim($against, ", ");
+                    echo "<p>Won a <b>{$last_win['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_win['Match']['created']).' '.$this->Html->link('View', array('controller'=>'matches','action'=>'view',$last_win['Match']['id']), array('class'=>'btn'))."</p>";
                     ?>
                 </dd>
                 <dt>Latest defeat</dt>
                 <dd>
-                    <?php
-                    // TODO: This needs sorting out. I reckon using Set::extract() will be better. Also look at the Controller.
-                    foreach($matches as $match){
-                        if($match['MatchesPlayer']['result'] == 'Lost'){
-                            if($match['Match']['MatchType']['id'] == 2){ // Doubles
-                                $against = $match['Match']['MatchesPlayer'][0]['Player']['first_name']." & ".$match['Match']['MatchesPlayer'][2]['Player']['first_name'];
-                            }else{
-                                $against = $match['Match']['MatchesPlayer'][0]['Player']['first_name'];
-                            }
-                            echo "<div class='alert alert-error'>Lost a {$match['Match']['MatchType']['name']} match against $against ".$this->Time->niceShort($match['Match']['created']);
-                            break;
-                        }
+                   <?php
+                    $against = '';
+                    $winning_team = Set::extract("/MatchesPlayer[result=Won]", $last_loss);
+                    foreach($winning_team as $p){
+                        $against .= $p['MatchesPlayer']['Player']['first_name'].' '.substr($p['MatchesPlayer']['Player']['last_name'], 0, 1).', ';
                     }
+                    $against = rtrim($against, ", ");
+                    echo "<p>Lost a <b>{$last_loss['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_loss['Match']['created']).' '.$this->Html->link('View', array('controller'=>'matches','action'=>'view',$last_loss['Match']['id']), array('class'=>'btn'))."</p>";
                     ?>
                 </dd>
                 <dt>Win:Loss</dt>
                 <dd>
-                    <?php echo $this->element('score-stats', array('wins'=>$wins,'losses'=>$losses,'total_points'=>$score_total));?>
+                    <?php echo $this->element('score-stats', array('wins'=>$results['wins'],'losses'=>$results['losses'],'total_points'=>$results['total_score']));?>
                 </dd>
 	</dl>
 </div>

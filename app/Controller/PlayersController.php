@@ -32,54 +32,24 @@ class PlayersController extends AppController {
 
                 $player = $this->Player->find('first', array(
                     'contain'=>array(
-                        'Department',
+                        'Department'
                     ),
                     'conditions'=>array(
                         'Player.id'=>$id
                     )
                 ));
-		$this->set('player', $player);
+                $this->set('player',$player);
 
-                // TODO: I think this could be better organised, as it's _way_ too nested
-                $matches = $this->Player->MatchesPlayer->find('all', array(
-                    'contain'=>array(
-                        'Match'=>array(
-                            'MatchType',
-                            'MatchesPlayer'=>array(
-                                'Player'=>array(
-                                    'fields'=>array('id','first_name','nickname','last_name')
-                                )
-                            )
-                        )
-                    ),
-                    'conditions'=>array(
-                        'MatchesPlayer.player_id'=>$id
-                    ),
-                    'order'=>'Match.created DESC'
-                ));
-                $this->set('matches',$matches);
+                $last_win_id = $this->Player->MatchesPlayer->getLastResult($id, 'Won');
+                $last_win = $this->Player->MatchesPlayer->getMatch($last_win_id['Match']['id']);
 
-                $winloss = $this->Player->MatchesPlayer->find('all', array(
-                    'contain'=>false,
-                    'conditions'=>array(
-                        'MatchesPlayer.player_id'=>$id
-                    )
-                ));
+                $last_loss_id = $this->Player->MatchesPlayer->getLastResult($id, 'Lost');
+                $last_loss = $this->Player->MatchesPlayer->getMatch($last_loss_id['Match']['id']);
 
-                $wins = 0;
-                $losses = 0;
-                $score_total = 0;
-                foreach($winloss as $item){
-                    if($item['MatchesPlayer']['result'] == 'Lost'){
-                        $losses++;
-                    }else{
-                        $wins++;
-                    }
-                    $score_total += $item['MatchesPlayer']['score'];
-                }
+                $this->set(compact('last_win', 'last_loss'));
 
-                $this->set(compact('wins','losses','score_total'));
-
+                $results = $this->Player->MatchesPlayer->getResults(array($id));
+                $this->set('results',$results);
 	}
 
 /**

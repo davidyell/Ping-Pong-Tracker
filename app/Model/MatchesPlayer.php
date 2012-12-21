@@ -62,6 +62,46 @@ class MatchesPlayer extends AppModel {
         }
 
 /**
+ * Get the match details
+ * @param int $id
+ * @return array A cake data array of the match details with the players
+ */
+        public function getMatch($id){
+            $match = $this->Match->find('first', array(
+                'contain'=>array(
+                    'MatchType',
+                    'MatchesPlayer'=>array(
+                        'Player'
+                    )
+                ),
+                'conditions'=>array(
+                    'Match.id'=>$id
+                )
+            ));
+            return $match;
+        }
+
+/**
+ * Find the last 'Won' or 'Lost' match for a player
+ * @param int $id Player id
+ * @param string $type Either 'Won' or 'Lost'
+ * @return array Cake data array
+ */
+        public function getLastResult($id, $type){
+            $result = $this->find('first', array(
+                'contain'=>array(
+                    'Match'
+                ),
+                'conditions'=>array(
+                    'player_id'=>$id,
+                    'result'=>$type
+                ),
+                'order'=>'MatchesPlayer.created DESC'
+            ));
+            return $result;
+        }
+
+/**
  * belongsTo associations
  *
  * @var array
