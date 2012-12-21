@@ -30,7 +30,7 @@
                         $against .= $p['MatchesPlayer']['Player']['first_name'].' '.substr($p['MatchesPlayer']['Player']['last_name'], 0, 1).', ';
                     }
                     $against = rtrim($against, ", ");
-                    echo "<p>Won a <b>{$last_win['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_win['Match']['created']).' '.$this->Html->link('View', array('controller'=>'matches','action'=>'view',$last_win['Match']['id']), array('class'=>'btn'))."</p>";
+                    echo $this->Html->link("Won a <b>{$last_loss['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_loss['Match']['created']), array('controller'=>'matches','action'=>'view',$last_win['Match']['id']), array('escape'=>false));
                     ?>
                 </dd>
                 <dt>Latest defeat</dt>
@@ -42,7 +42,7 @@
                         $against .= $p['MatchesPlayer']['Player']['first_name'].' '.substr($p['MatchesPlayer']['Player']['last_name'], 0, 1).', ';
                     }
                     $against = rtrim($against, ", ");
-                    echo "<p>Lost a <b>{$last_loss['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_loss['Match']['created']).' '.$this->Html->link('View', array('controller'=>'matches','action'=>'view',$last_loss['Match']['id']), array('class'=>'btn'))."</p>";
+                    echo $this->Html->link("Lost a <b>{$last_loss['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_loss['Match']['created']), array('controller'=>'matches','action'=>'view',$last_loss['Match']['id']), array('escape'=>false));
                     ?>
                 </dd>
                 <dt>Win:Loss</dt>
