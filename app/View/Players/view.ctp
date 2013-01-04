@@ -27,9 +27,9 @@
                     $against = '';
                     $losing_team = Set::extract("/MatchesPlayer[result=Lost]", $last_win);
                     foreach($losing_team as $p){
-                        $against .= $p['MatchesPlayer']['Player']['first_name'].' '.substr($p['MatchesPlayer']['Player']['last_name'], 0, 1).', ';
+                        $against .= $p['MatchesPlayer']['Player']['first_name'].' '.substr($p['MatchesPlayer']['Player']['last_name'], 0, 1).' &amp; ';
                     }
-                    $against = rtrim($against, ", ");
+                    $against = rtrim($against, "&amp; ");
                     echo $this->Html->link("Won a <b>{$last_loss['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_loss['Match']['created']), array('controller'=>'matches','action'=>'view',$last_win['Match']['id']), array('escape'=>false));
                     ?>
                 </dd>
@@ -39,9 +39,9 @@
                     $against = '';
                     $winning_team = Set::extract("/MatchesPlayer[result=Won]", $last_loss);
                     foreach($winning_team as $p){
-                        $against .= $p['MatchesPlayer']['Player']['first_name'].' '.substr($p['MatchesPlayer']['Player']['last_name'], 0, 1).', ';
+                        $against .= $p['MatchesPlayer']['Player']['first_name'].' '.substr($p['MatchesPlayer']['Player']['last_name'], 0, 1).' &amp; ';
                     }
-                    $against = rtrim($against, ", ");
+                    $against = rtrim($against, "&amp; ");
                     echo $this->Html->link("Lost a <b>{$last_loss['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_loss['Match']['created']), array('controller'=>'matches','action'=>'view',$last_loss['Match']['id']), array('escape'=>false));
                     ?>
                 </dd>

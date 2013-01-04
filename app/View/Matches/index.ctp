@@ -15,9 +15,10 @@
                     <?php
                     $names = '';
                     foreach($match['MatchesPlayer'] as $player){
-                        $names .= $player['Player']['first_name'].' '.substr($player['Player']['last_name'],0,1).', ';
+                        $names .= $this->Html->link($player['Player']['first_name'].' '.substr($player['Player']['last_name'],0,1), array('controller'=>'players','action'=>'view',$player['Player']['id']));
+                        $names .= "&nbsp;";
                     }
-                    echo rtrim($names, ', ');
+                    echo $names;
                     ?>
                 </td>
                 <td><?php echo $this->Time->niceShort($match['Match']['created']); ?>&nbsp;</td>
