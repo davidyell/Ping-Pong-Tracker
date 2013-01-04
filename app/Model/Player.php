@@ -25,7 +25,7 @@ class Player extends AppModel {
                 $return[$p['Player']['id']] = $p['Player']['first_name'].' '.substr($p['Player']['last_name'], 0, 1);
             }
 
-            array_unshift($return, 'Choose player');
+            $return[0] = 'Choose player';
 
             return $return;
         }
