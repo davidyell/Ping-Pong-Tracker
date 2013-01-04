@@ -64,7 +64,7 @@ class MatchesController extends AppController {
             $this->Match->create();
             if($this->Match->saveAll($this->request->data)){
                 $this->Session->setFlash(__('The match has been saved'), 'alert-box', array('class'=>'alert-success'));
-                $this->redirect(array('action'=>'index'));
+                $this->redirect(array('action'=>'add'));
             } else{
                 $this->Session->setFlash(__('The match could not be saved. Please, try again.'), 'alert-box', array('class'=>'alert-error'));
             }
