@@ -17,8 +17,14 @@
                 for($i = 1; $i <= 4; $i++){
 
                     $options = array('type'=>'select', 'options'=>$players, 'div'=>array('class'=>'input select '.$nums[$i]));
-                    $selected = array('selected'=>0);
                     $label = array('label'=>'Player '.$nums[$i]);
+                    
+                    // Pre-select a player if remembered
+                    if($this->Session->check('match')){
+                        $selected = array('selected'=>$this->Session->read("match.MatchesPlayer.$i.player_id"));
+                    }else{
+                        $selected = array('selected'=>0);
+                    }
                     
                     if(isset($this->request->data['MatchesPlayer'][$i]['id']) && $this->request->data['MatchesPlayer'][$i]['id'] != 0){
                         $selected = array('selected'=>$this->request->data['MatchesPlayer'][$i]['id']);
@@ -46,7 +52,7 @@
                 </div>
 
                 <?php
-                echo $this->Form->input('remember', array('type'=>'checkbox', 'label'=>'Remember players?'));
+                echo $this->Form->input('remember', array('type'=>'checkbox', 'label'=>'Remember players & match type?'));
                 echo $this->Form->input('notes');
                 ?>
 	</fieldset>
