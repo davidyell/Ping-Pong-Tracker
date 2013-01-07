@@ -2,7 +2,12 @@
 <p><b>Matches lost: </b><span class="badge badge-important"><?php echo $losses; ?></span></p>
 
 <?php
-$percent = ($wins / ($wins + $losses)) * 100;
+if($wins > 0 && $losses > 0){
+    $percent = ($wins / ($wins + $losses)) * 100;
+}else{
+    $percent = 0;
+}
+
 if($percent > 0 && $percent < 20){
     $class = "badge-important";
 } elseif($percent > 20 && $percent < 40){
