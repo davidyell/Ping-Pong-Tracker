@@ -59,7 +59,18 @@ class MatchesController extends AppController {
      * @return void
      */
     public function add(){
+
         if($this->request->is('post')){
+
+            if(isset($this->request->data['Match']['remember'])){
+                $this->Session->write('match', $this->request->data);
+
+                // Remove the scores
+                $this->Session->delete('match.MatchesPlayer.1.score');
+                $this->Session->delete('match.MatchesPlayer.2.score');
+            }elseif($this->Session->check('match')){
+                $this->Session->delete('match');
+            }
 
             $this->Match->create();
             if($this->Match->saveAll($this->request->data)){
@@ -68,6 +79,10 @@ class MatchesController extends AppController {
             } else{
                 $this->Session->setFlash(__('The match could not be saved. Please, try again.'), 'alert-box', array('class'=>'alert-error'));
             }
+        }
+
+        if($this->Session->check('match')){
+            $this->request->data = $this->Session->read('match');
         }
 
         $players = $this->Match->MatchesPlayer->Player->getPlayers();

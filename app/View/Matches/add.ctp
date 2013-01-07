@@ -17,8 +17,14 @@
                 for($i = 1; $i <= 4; $i++){
 
                     $options = array('type'=>'select', 'options'=>$players, 'div'=>array('class'=>'input select '.$nums[$i]));
-                    $selected = array('selected'=>0);
                     $label = array('label'=>'Player '.$nums[$i]);
+                    
+                    // Pre-select a player if remembered
+                    if($this->Session->check('match')){
+                        $selected = array('selected'=>$this->Session->read("match.MatchesPlayer.$i.player_id"));
+                    }else{
+                        $selected = array('selected'=>0);
+                    }
                     
                     if(isset($this->request->data['MatchesPlayer'][$i]['id']) && $this->request->data['MatchesPlayer'][$i]['id'] != 0){
                         $selected = array('selected'=>$this->request->data['MatchesPlayer'][$i]['id']);
@@ -40,12 +46,13 @@
                 ?>
 
                 <div class="scores">
-                    <?php echo $this->Form->input('MatchesPlayer.1.score', array('label'=>'Team 1 score', 'after'=>' vs ')); ?>
-                    <?php echo $this->Form->input('MatchesPlayer.2.score', array('label'=>'Team 2 score')); ?>
+                    <?php echo $this->Form->input('MatchesPlayer.1.score', array('label'=>'Team 1 score', 'after'=>'&nbsp;vs&nbsp;', 'div'=>array('class'=>'team1 input number'))); ?>
+                    <?php echo $this->Form->input('MatchesPlayer.2.score', array('label'=>'Team 2 score', 'div'=>array('class'=>'team2 input number'))); ?>
                     <div style="clear:both"><!-- blank --></div>
                 </div>
 
                 <?php
+                echo $this->Form->input('remember', array('type'=>'checkbox', 'label'=>'Remember players & match type?'));
                 echo $this->Form->input('notes');
                 ?>
 	</fieldset>
