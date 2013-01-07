@@ -40,12 +40,13 @@
                 ?>
 
                 <div class="scores">
-                    <?php echo $this->Form->input('MatchesPlayer.1.score', array('label'=>'Team 1 score', 'after'=>' vs ')); ?>
-                    <?php echo $this->Form->input('MatchesPlayer.2.score', array('label'=>'Team 2 score')); ?>
+                    <?php echo $this->Form->input('MatchesPlayer.1.score', array('label'=>'Team 1 score', 'after'=>'&nbsp;vs&nbsp;', 'div'=>array('class'=>'team1 input number'))); ?>
+                    <?php echo $this->Form->input('MatchesPlayer.2.score', array('label'=>'Team 2 score', 'div'=>array('class'=>'team2 input number'))); ?>
                     <div style="clear:both"><!-- blank --></div>
                 </div>
 
                 <?php
+                echo $this->Form->input('remember', array('type'=>'checkbox', 'label'=>'Remember players?'));
                 echo $this->Form->input('notes');
                 ?>
 	</fieldset>

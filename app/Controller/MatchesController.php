@@ -61,6 +61,10 @@ class MatchesController extends AppController {
     public function add(){
         if($this->request->is('post')){
 
+            if(isset($this->request->data['Match']['remember'])){
+                $data = $this->request->data;
+            }
+
             $this->Match->create();
             if($this->Match->saveAll($this->request->data)){
                 $this->Session->setFlash(__('The match has been saved'), 'alert-box', array('class'=>'alert-success'));
@@ -68,6 +72,10 @@ class MatchesController extends AppController {
             } else{
                 $this->Session->setFlash(__('The match could not be saved. Please, try again.'), 'alert-box', array('class'=>'alert-error'));
             }
+        }
+
+        if(isset($data)){
+            $this->request->data = $data;
         }
 
         $players = $this->Match->MatchesPlayer->Player->getPlayers();
