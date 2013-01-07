@@ -18,6 +18,31 @@ class PlayersController extends AppController {
 	}
 
 /**
+ * Rankings method
+ * @return void
+ */
+        public function rankings(){
+            $this->loadModel('MatchesPlayer');
+            $rankings = $this->MatchesPlayer->find('all', array(
+                'contain'=>array(
+                    'Player'=>array(
+                        'fields'=>array('id','first_name','nickname','last_name')
+                    )
+                ),
+                'fields'=>array(
+                    'player_id',
+                    'SUM(if(result = "Won", 1, 0)) as wins',
+                    'SUM(if(result = "Lost", 1, 0)) as losses',
+                    'COUNT(MatchesPlayer.id) as matches',
+                    'SUM(if(result = "Won", 1, 0)) / ( SUM(if(result = "Won", 1, 0)) + SUM(if(result = "Lost", 1, 0)) ) * 100 as percent'
+                ),
+                'group'=>'MatchesPlayer.player_id',
+                'order'=>'percent DESC'
+            ));
+            $this->set('rankings', $rankings);
+        }
+
+/**
  * view method
  *
  * @throws NotFoundException
