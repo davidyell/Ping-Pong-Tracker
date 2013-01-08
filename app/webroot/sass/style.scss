@@ -139,3 +139,18 @@ div.content{
     font-size: 24px;
     font-weight: bold;
 }
+
+#rankings{
+    th{
+        cursor: pointer;
+        &.sorting-asc, &.sorting-desc{
+            background-color: #ccc;
+        }
+        &.sorting-asc:after{
+            content: ' v';
+        }
+        &.sorting-desc:after{
+            content: ' ^';
+        }
+    }
+}

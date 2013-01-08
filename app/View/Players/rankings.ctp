@@ -1,16 +1,16 @@
 <div class="players rankings">
     <h2><?php echo __('Rankings'); ?></h2>
-    <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped">
+    <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped" id="rankings">
         <thead>
             <tr>
-                <th>Rank</th>
-                <th>Rating</th>
-                <th>Player</th>
-                <th>Won</th>
-                <th>Lost</th>
-                <th>Win %</th>
-                <th>Winning points</th>
-                <th>Total points</th>
+                <th data-sort="int">Rank</th>
+                <th data-sort="float">Rating</th>
+                <th data-sort="string">Player</th>
+                <th data-sort="int">Won</th>
+                <th data-sort="int">Lost</th>
+                <th data-sort="flaot">Win %</th>
+                <th data-sort="int">Winning points</th>
+                <th data-sort="int">Total points</th>
             </tr>
         </thead>
         <tbody>
@@ -41,3 +41,14 @@
         </tbody>
     </table>
 </div>
+
+<?php
+$this->Blocks->append('script');
+    echo $this->Html->script('stupidtable.min');
+    ?>
+    <script type="text/javascript">
+        $(function(){
+            $('#rankings').stupidtable();
+        })
+    </script>
+<?php $this->Blocks->end();?>
