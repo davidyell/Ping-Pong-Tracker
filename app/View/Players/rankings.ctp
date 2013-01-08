@@ -4,6 +4,7 @@
         <thead>
             <tr>
                 <th>Rank</th>
+                <th>Rating</th>
                 <th>Player</th>
                 <th>Won</th>
                 <th>Lost</th>
@@ -14,11 +15,12 @@
         </thead>
         <tbody>
             <?php
+            $i = 1;
             // Count down in reverse
-            for($i = count($rankings) -1; $i > 0; $i--):
-                $player = $rankings[$i];
+            foreach($rankings as $player):
                 ?>
                 <tr>
+                    <td><?php echo $i;?></td>
                     <td><?php echo number_format($player[0]['rank'], 1);?></td>
                     <td><?php
                         echo $player['Player']['first_name'];
@@ -34,7 +36,8 @@
                     <td><?php echo $player[0]['total_score'];?></td>
                 </tr>
                 <?php
-            endfor;?>
+                $i++;
+            endforeach;?>
         </tbody>
     </table>
 </div>

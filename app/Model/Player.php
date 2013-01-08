@@ -69,10 +69,12 @@ class Player extends AppModel {
             }
 
             // http://stackoverflow.com/questions/2699086/sort-multidimensional-array-by-value-2
-            // For some reason this returns the ranks in reverse order, but that's okay.
             usort($rankings, function($a, $b) {
                 return $a[0]['rank'] - $b[0]['rank'];
             });
+
+            // For some reason this ^ returns the ranks in reverse order, but that's okay.
+            $rankings = array_reverse($rankings);
 
             return $rankings;
         }
