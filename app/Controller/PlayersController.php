@@ -18,6 +18,14 @@ class PlayersController extends AppController {
 	}
 
 /**
+ * Rankings method
+ * @return void
+ */
+        public function rankings(){
+            $this->set('rankings', $this->Player->getRankings());
+        }
+
+/**
  * view method
  *
  * @throws NotFoundException

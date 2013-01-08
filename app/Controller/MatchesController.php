@@ -62,6 +62,7 @@ class MatchesController extends AppController {
 
         if($this->request->is('post')){
 
+            // Do we need to remember the details for the user to add again?
             if(isset($this->request->data['Match']['remember'])){
                 $this->Session->write('match', $this->request->data);
 
