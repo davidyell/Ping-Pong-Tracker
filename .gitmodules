@@ -4,6 +4,3 @@
 [submodule "app/Plugin/Users"]
 	path = app/Plugin/Users
 	url = https://github.com/CakeDC/users.git
-[submodule "app/Vendor/elo-rating"]
-	path = app/Vendor/elo-rating
-	url = https://github.com/priyeshpatel/elo-rating.git

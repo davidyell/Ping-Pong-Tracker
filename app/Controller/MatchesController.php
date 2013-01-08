@@ -1,7 +1,6 @@
 <?php
 
 App::uses('AppController', 'Controller');
-App::import('Vendor', 'Rating', array('file'=>'elo-rating/EloRating/EloRating.php'));
 
 /**
  * Matches Controller
@@ -76,28 +75,6 @@ class MatchesController extends AppController {
 
             $this->Match->create();
             if($this->Match->saveAll($this->request->data)){
-
-                // TODO: Move this out of the controller
-                // Lookup and calculate the rankings
-                foreach($this->request->data['MatchesPlayer'] as $player){
-                    $player_ids[] = $player['player_id'];
-                }
-
-                $players = $this->Match->MatchesPlayer->Player->find('all', array(
-                    'contain'=>false,
-                    'conditions'=>array(
-                        'Player.id'=>$player_ids
-                    ),
-                    'fields'=>array('id','ranking')
-                ));
-
-                var_dump($players);
-                var_dump($this->request->data);
-
-                $rating = new Rating($players[0]['Player']['ranking'], $players[1]['Player']['ranking'], Set::extract('MatchesPlayer/{n}/player_id=', $data), $scoreB);
-
-                exit(var_dump($rating));
-
                 $this->Session->setFlash(__('The match has been saved'), 'alert-box', array('class'=>'alert-success'));
                 $this->redirect(array('action'=>'add'));
             } else{
