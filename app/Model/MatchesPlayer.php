@@ -53,40 +53,6 @@ class MatchesPlayer extends AppModel {
 	);
 
 /**
- * Lookup a collection of results for a specific player or group of players
- *
- * Deprecated. TODO: Check for usage and remove.
- *
- * @param array $player_ids
- * @return array
- */
-        public function getResults($player_ids = array()){
-            $results = $this->find('all', array(
-                'contain'=>false,
-                'conditions'=>array(
-                    'player_id'=>$player_ids
-                )
-            ));
-
-            $wins = 0;
-            $losses = 0;
-            $total_points = 0;
-
-            if($results){
-                foreach($results as $item){
-                    if($item['MatchesPlayer']['result'] == 'Won'){
-                        $wins++;
-                    }else{
-                        $losses++;
-                    }
-                    $total_points += $item['MatchesPlayer']['score'];
-                }
-            }
-
-            return array('wins'=>$wins, 'losses'=>$losses, 'total_score'=>$total_points);
-        }
-
-/**
  * Get the match details
  * @param int $id
  * @return array A cake data array of the match details with the players
