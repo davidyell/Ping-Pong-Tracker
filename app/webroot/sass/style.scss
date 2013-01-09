@@ -159,12 +159,13 @@ td.result{
         color: #fff;
     }
 }
+
+/** Players::compare() **/
 div.player1, div.player2{
     float: left;
 }
-div.player1.well, div.player2.well{
-    width: 180px;
-}
-div.player1.well{
-    margin-right: 22px;
+table.comparison{
+    h4{
+        margin: 0;
+    }
 }
