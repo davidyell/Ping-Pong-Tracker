@@ -17,7 +17,7 @@
     <li <?php echo ($this->request->controller == 'matches' && ($this->request->action == 'index' || $this->request->action == 'view'))? 'class="active"' : '';?>>
         <?php echo $this->Html->link('Match list', array('controller'=>'matches','action'=>'index'));?>
     </li>
-    <li <?php echo ($this->request->controller == 'players' && $this->request->action == 'index')? 'class="active"' : '';?>>
+    <li <?php echo ($this->request->controller == 'players' && ($this->request->action == 'index' || $this->request->action == 'view'))? 'class="active"' : '';?>>
         <?php echo $this->Html->link('Player list', array('controller'=>'players','action'=>'index'));?>
     </li>
 </ul>
