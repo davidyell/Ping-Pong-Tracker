@@ -32,4 +32,7 @@ $('#MatchesPlayer4PlayerId').parents('div.input.select').hide();
         }
     });
 
+    $('#department-ranks').stupidtable();
+    $('#rankings').stupidtable();
+
 });

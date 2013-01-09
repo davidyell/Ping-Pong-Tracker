@@ -140,7 +140,7 @@ div.content{
     font-weight: bold;
 }
 
-#rankings{
+#rankings, #department-ranks{
     th{
         cursor: pointer;
         &.sorting-asc, &.sorting-desc{

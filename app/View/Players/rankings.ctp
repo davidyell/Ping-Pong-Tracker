@@ -45,14 +45,3 @@
         </tbody>
     </table>
 </div>
-
-<?php
-$this->Blocks->append('script');
-    echo $this->Html->script('stupidtable.min');
-    ?>
-    <script type="text/javascript">
-        $(function(){
-            $('#rankings').stupidtable();
-        })
-    </script>
-<?php $this->Blocks->end();?>

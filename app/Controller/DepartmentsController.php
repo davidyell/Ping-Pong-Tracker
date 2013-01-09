@@ -9,10 +9,9 @@ App::uses('AppController', 'Controller');
 class DepartmentsController extends AppController {
 
         public function index(){
-            $this->Department->recursive = 0;
-            $this->set('departments', $this->paginate());
+            $this->set('departments', $this->Department->Player->MatchesPlayer->getDepartmentRankings());
         }
-    
+
 	public function view($id){
             // Get the department and it's players
             $department = $this->Department->find('first', array(
@@ -31,9 +30,9 @@ class DepartmentsController extends AppController {
             }
 
             // Get the departments scores
-            $results = $this->Department->Player->MatchesPlayer->getResults($player_ids);
+            
 
-            $this->set(compact('department', 'results'));
+            $this->set(compact('department'));
         }
         
 }

@@ -8,6 +8,7 @@ App::uses('AppModel', 'Model');
  */
 class MatchesPlayer extends AppModel {
 
+        public $actsAs = array('Linkable.Linkable');
 
 	public $validate = array(
             'score'=>array(
@@ -74,6 +75,7 @@ class MatchesPlayer extends AppModel {
 
 /**
  * Find the last 'Won' or 'Lost' match for a player
+ *
  * @param int $id Player id
  * @param string $type Either 'Won' or 'Lost'
  * @return array Cake data array
@@ -90,5 +92,30 @@ class MatchesPlayer extends AppModel {
                 'order'=>'MatchesPlayer.created DESC'
             ));
             return $result;
+        }
+
+/**
+ * Get a set of aggregated statistics for all the departments
+ *
+ * @return array
+ */
+        public function getDepartmentRankings(){
+            $stats = $this->find('all', array(
+                'link'=>array(
+                    'Player'=>array(
+                        'fields'=>array('department_id'),
+                        'Department'=>array(
+                            'fields'=>array('id','name')
+                        )
+                    )
+                ),
+                'conditions'=>array(
+
+                ),
+                'fields'=>$this->Player->stats_fields,
+                'group'=>'Department.id',
+                'order'=>'rank DESC'
+            ));
+            return $stats;
         }
 }

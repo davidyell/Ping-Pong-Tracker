@@ -1,31 +1,35 @@
 <div class="departments index">
     <h2>Departments</h2>
-    <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped">
-        <tr>
-            <th><?php echo $this->Paginator->sort('name'); ?></th>
-            <th class="actions"><?php echo __('Actions'); ?></th>
-        </tr>
-        <?php foreach($departments as $department): ?>
+    <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped" id="department-ranks">
+        <thead>
             <tr>
-                <td><?php echo h($department['Department']['name']); ?>&nbsp;</td>
-                <td class="actions">
-                    <?php echo $this->Actions->actions($department['Department']['id'], array('v'));?>
-                </td>
+                <th data-sort="int">Rank</th>
+                <th data-sort="float">Rating</th>
+                <th data-sort="string">Name</th>
+                <th data-sort="int">Won</th>
+                <th data-sort="int">Lost</th>
+                <th data-sort="flaot">Win %</th>
+                <th data-sort="int" class="hidden-phone">Winning points</th>
+                <th data-sort="int" class="hidden-phone">Total points</th>
+                <th data-sort="int"><acronym title="Points difference">PD</acronym></th>
             </tr>
-        <?php endforeach; ?>
+        </thead>
+        <?php
+        $i = 1;
+        foreach($departments as $department): ?>
+            <tr>
+                <td><?php echo $i;?></td>
+                <td><?php echo number_format($department[0]['rank'],2);?></td>
+                <td><?php echo $this->Html->link($department['Department']['name'], array('controller'=>'departments','action'=>'view',$department['Department']['id']));?></td>
+                <td><?php echo $department[0]['wins'];?></td>
+                <td><?php echo $department[0]['losses'];?></td>
+                <td><?php echo number_format($department[0]['win_percent']);?></td>
+                <td><?php echo $department[0]['win_points'];?></td>
+                <td><?php echo $department[0]['total_score'];?></td>
+                <td><?php echo $department[0]['diff'];?></td>
+            </tr>
+        <?php 
+        $i++;
+        endforeach; ?>
     </table>
-    <p class="hidden-phone">
-        <?php
-        echo $this->Paginator->counter(array(
-            'format'=>__('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-        ));
-        ?>	</p>
-
-    <div class="paging">
-        <?php
-        echo $this->Paginator->prev('< '.__('previous'), array(), null, array('class'=>'prev disabled'));
-        echo $this->Paginator->numbers(array('separator'=>''));
-        echo $this->Paginator->next(__('next').' >', array(), null, array('class'=>'next disabled'));
-        ?>
-    </div>
 </div>
