@@ -66,6 +66,22 @@ class PlayersController extends AppController {
 	}
 
 /**
+ * Compare the stats of two players
+ *
+ * @return void
+ */
+        public function compare(){
+
+            if($this->request->is('post')){
+                $player1 = $this->Player->getPlayerStats($this->request->data['Player']['player1']);
+                $player2 = $this->Player->getPlayerStats($this->request->data['Player']['player2']);
+                $this->set(compact('player1','player2'));
+            }
+            
+            $this->set('player_list', $this->Player->getPlayers());
+        }
+
+/**
  * admin_index method
  *
  * @return void
