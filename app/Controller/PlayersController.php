@@ -76,8 +76,11 @@ class PlayersController extends AppController {
                 $player1 = $this->Player->getPlayerStats($this->request->data['Player']['player1']);
                 $player2 = $this->Player->getPlayerStats($this->request->data['Player']['player2']);
                 $this->set(compact('player1','player2'));
+            }else{
+                $this->request->data['Player']['player1'] = 0;
+                $this->request->data['Player']['player2'] = 0;
             }
-            
+
             $this->set('player_list', $this->Player->getPlayers());
         }
 
