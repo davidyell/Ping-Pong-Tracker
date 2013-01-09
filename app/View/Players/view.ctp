@@ -94,7 +94,7 @@
                         title: 'Matches by day'
                     };
 
-                    var chart = new google.visualization.LineChart(document.getElementById('wins_by_time'));
+                    var chart = new google.visualization.AreaChart(document.getElementById('wins_by_time'));
                     chart.draw(data, options);
                 }
             </script>
