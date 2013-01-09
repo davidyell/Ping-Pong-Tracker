@@ -20,11 +20,13 @@
                         echo $this->Html->image('gold_star_medal_32.png', array('title'=>'Winner','alt'=>'Gold star medal'))." ";
                     }
 
-                    echo h($player1[0]['Player']['first_name']);
+                    $name = h($player1[0]['Player']['first_name']);
                     if(!empty($player1[0]['Player']['nickname'])){
-                        echo ' "'.$player1[0]['Player']['nickname'].'"';
+                        $name .= ' "'.$player1[0]['Player']['nickname'].'"';
                     }
-                    echo ' '.h($player1[0]['Player']['last_name']);
+                    $name .= ' '.h($player1[0]['Player']['last_name']);
+
+                    echo $this->Html->link($name, array('controller'=>'players','action'=>'view',$player1[0]['Player']['id']))
                     ?>
                     </h4>
                 </td>
@@ -35,11 +37,13 @@
                         echo $this->Html->image('gold_star_medal_32.png', array('title'=>'Winner','alt'=>'Gold star medal'))." ";
                     }
 
-                    echo h($player2[0]['Player']['first_name']);
+                    $name = h($player2[0]['Player']['first_name']);
                     if(!empty($player2[0]['Player']['nickname'])){
-                        echo ' "'.$player2[0]['Player']['nickname'].'"';
+                        $name .= ' "'.$player2[0]['Player']['nickname'].'"';
                     }
-                    echo ' '.h($player2[0]['Player']['last_name']);
+                    $name .= ' '.h($player2[0]['Player']['last_name']);
+
+                    echo $this->Html->link($name, array('controller'=>'players','action'=>'view',$player2[0]['Player']['id']))
                     ?>
                     </h4>
                 </td>
