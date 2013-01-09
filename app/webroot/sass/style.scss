@@ -132,3 +132,43 @@ div.content{
         margin: 10px auto;
     }
 }
+
+.undefeated, .winless{
+    display: block;
+    margin: 5px 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#rankings{
+    th{
+        cursor: pointer;
+        &.sorting-asc, &.sorting-desc{
+            background-color: #ccc;
+        }
+        &.sorting-asc:after{
+            content: ' v';
+        }
+        &.sorting-desc:after{
+            content: ' ^';
+        }
+    }
+}
+td.result{
+    span.label a{
+        color: #fff;
+    }
+}
+
+/** Players::compare() **/
+div.player1, div.player2{
+    float: left;
+}
+table.comparison{
+    td{
+        text-align: center;
+    }
+    h4{
+        margin: 0;
+    }
+}

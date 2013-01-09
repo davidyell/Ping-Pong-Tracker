@@ -49,16 +49,37 @@ class PlayersController extends AppController {
                 $this->set('player',$player);
 
                 $last_win_id = $this->Player->MatchesPlayer->getLastResult($id, 'Won');
-                $last_win = $this->Player->MatchesPlayer->getMatch($last_win_id['Match']['id']);
+                if($last_win_id){
+                    $this->set('last_win', $this->Player->MatchesPlayer->getMatch($last_win_id['Match']['id']));
+                }
 
                 $last_loss_id = $this->Player->MatchesPlayer->getLastResult($id, 'Lost');
-                $last_loss = $this->Player->MatchesPlayer->getMatch($last_loss_id['Match']['id']);
+                if($last_loss_id){
+                    $this->set('last_loss', $this->Player->MatchesPlayer->getMatch($last_loss_id['Match']['id']));
+                }
 
-                $this->set(compact('last_win', 'last_loss'));
+                $results = $this->Player->getPlayerStats($id);
+                $this->set('results', $results);
 
-                $results = $this->Player->MatchesPlayer->getResults(array($id));
-                $this->set('results',$results);
+                $this->set('winsbytime', $this->Player->winsOverTime($id));
+
 	}
+
+/**
+ * Compare the stats of two players
+ *
+ * @return void
+ */
+        public function compare(){
+
+            if($this->request->is('post')){
+                $player1 = $this->Player->getPlayerStats($this->request->data['Player']['player1']);
+                $player2 = $this->Player->getPlayerStats($this->request->data['Player']['player2']);
+                $this->set(compact('player1','player2'));
+            }
+            
+            $this->set('player_list', $this->Player->getPlayers());
+        }
 
 /**
  * admin_index method

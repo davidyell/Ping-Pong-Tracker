@@ -16,6 +16,46 @@ class Player extends AppModel {
 	public $displayField = 'first_name';
 
 /**
+ * belongsTo associations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'Department' => array(
+			'className' => 'Department',
+			'foreignKey' => 'department_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+	);
+
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+        public $hasMany = array(
+            'MatchesPlayer'
+        );
+
+/**
+ * An array of fields used to generate statistics for players
+ * TODO: Perhaps simplfy the math somehow to avoid this repetition?
+ * @var array
+ */
+        public $stats_fields = array(
+            'SUM(if(result = "Won", 1, 0)) as wins',
+            'SUM(if(result = "Lost", 1, 0)) as losses',
+            'SUM(if(result = "Won", score, 0)) - SUM(if(result = "Lost", score, 0)) as diff',
+            'COUNT(MatchesPlayer.id) as total_matches',
+            'SUM(score) as total_score',
+            'SUM(if(result = "Won", score, 0)) as win_points',
+            'SUM(if(result = "Won", 1, 0)) / ( SUM(if(result = "Won", 1, 0)) + SUM(if(result = "Lost", 1, 0)) ) * 100 as win_percent',
+            '(SUM(if(result = "Won", score, 0)) * SUM(if(result = "Won", 1, 0))) / SUM(if(result = "Lost", 1, 0)) as rank', /* (won_points * wins) / losses */
+        );
+
+/**
  * Gets list of players as an array for a select in the format David Y
  * @return array An array of players by FirstName and Surname initial
  */
@@ -48,15 +88,7 @@ class Player extends AppModel {
                 'conditions'=>array(
 
                 ),
-                'fields'=>array( // TODO: Perhaps simplfy the math somehow to avoid this repetition
-                    'SUM(if(result = "Won", 1, 0)) as wins',
-                    'SUM(if(result = "Lost", 1, 0)) as losses',
-                    'COUNT(MatchesPlayer.id) as total_matches',
-                    'SUM(score) as total_score',
-                    'SUM(if(result = "Won", score, 0)) as win_points',
-                    'SUM(if(result = "Won", 1, 0)) / ( SUM(if(result = "Won", 1, 0)) + SUM(if(result = "Lost", 1, 0)) ) * 100 as win_percent',
-                    '(SUM(if(result = "Won", score, 0)) * SUM(if(result = "Won", 1, 0))) / SUM(if(result = "Lost", 1, 0)) as rank', /* (won_points * wins) / losses */
-                ),
+                'fields'=>$this->stats_fields,
                 'group'=>'player_id',
                 'order'=>'rank DESC'
             ));
@@ -68,33 +100,63 @@ class Player extends AppModel {
                 }
             }
 
-            // http://stackoverflow.com/questions/2699086/sort-multidimensional-array-by-value-2
-            // For some reason this returns the ranks in reverse order, but that's okay.
+            /**
+             * Sort the array, as anyone undefeated will have a rating divided by zero
+             * http://stackoverflow.com/questions/2699086/sort-multidimensional-array-by-value-2
+             */
             usort($rankings, function($a, $b) {
                 return $a[0]['rank'] - $b[0]['rank'];
             });
+
+            // For some reason this ^ returns the ranks in reverse order, but that's okay.
+            $rankings = array_reverse($rankings);
 
             return $rankings;
         }
 
 /**
- * belongsTo associations
- *
- * @var array
+ * Gets a players matches ordered by date over the last 30 days for display as a graph
+ * @param int $player_id
+ * @return array Cake data array
  */
-	public $belongsTo = array(
-		'Department' => array(
-			'className' => 'Department',
-			'foreignKey' => 'department_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
+        public function winsOverTime($player_id, $days = 30){
+            $data = $this->MatchesPlayer->find('all', array(
+                'contain'=>false,
+                'conditions'=>array(
+                    'player_id'=>$player_id,
+                ),
+                'fields'=>array(
+                    'SUM(if(result = "Won", 1, 0)) as wins',
+                    'SUM(if(result = "Lost", 1, 0)) as losses',
+                    'DATE_FORMAT(created, "%a %D %b") as day'
+                ),
+                'group'=>'day',
+                'order'=>'created ASC',
+                'limit'=>$days
+            ));
+            return $data;
+        }
 
-
-        public $hasMany = array(
-            'MatchesPlayer'
-        );
+/**
+ * Returns a set of stats for a single player
+ * @param int $player_id
+ * @return array
+ */
+        public function getPlayerStats($player_id){
+            $player = $this->find('all', array(
+                'contain'=>array(
+                    'MatchesPlayer'=>array(
+                        'fields'=>$this->stats_fields // TODO: Figure out why this is generating an extra dimension - $player['MatchesPlayer'][0]['MatchesPlayer'][0]['wins']
+                    ),
+                    'Department'=>array(
+                        'fields'=>array('id','name')
+                    )
+                ),
+                'conditions'=>array(
+                    'Player.id'=>$player_id
+                )
+            ));
+            return $player;
+        }
 
 }

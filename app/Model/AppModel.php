@@ -34,6 +34,6 @@ class AppModel extends Model {
 
     public $actsAs = array('Containable');
 
-    public $useDbConfig = 'development';
+//    public $useDbConfig = 'development';
 
 }
