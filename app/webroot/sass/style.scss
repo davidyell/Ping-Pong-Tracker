@@ -8,6 +8,7 @@ Description:
 
 @import url(http://fonts.googleapis.com/css?family=Telex);
 
+/** Palette **/
 $ttBlue: #2E3F73;
 $ttGreen: #088B29;
 $fg: #fff;
@@ -18,6 +19,7 @@ $contentText: #333;
 $teamRed: #a50000;
 $teamBlue: #004ea3;
 
+/** Mixins **/
 @mixin cardBg{
     background: #fefcea; /* Old browsers */
     background: -moz-linear-gradient(top,  #fefcea 0%, #efdf77 100%); /* FF3.6+ */
@@ -171,4 +173,10 @@ table.comparison{
     h4{
         margin: 0;
     }
+}
+.gravatar{
+    margin-right: 10px;
+}
+td .gravatar{
+    margin-right: 5px;
 }

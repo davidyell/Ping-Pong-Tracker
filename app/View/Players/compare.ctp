@@ -16,9 +16,8 @@
                 <td>
                     <h4>
                     <?php
-                    if($player1[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['rank'] > $player2[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['rank']){
-                        echo $this->Html->image('gold_star_medal_32.png', array('title'=>'Winner','alt'=>'Gold star medal'))." ";
-                    }
+
+                    echo "<span class='gravatar'>".$this->Gravatar->image($player1[0]['Player']['email'], array('s'=>32,'d'=>'wavatar'))."</span>";
 
                     $name = h($player1[0]['Player']['first_name']);
                     if(!empty($player1[0]['Player']['nickname'])){
@@ -26,16 +25,18 @@
                     }
                     $name .= ' '.h($player1[0]['Player']['last_name']);
 
-                    echo $this->Html->link($name, array('controller'=>'players','action'=>'view',$player1[0]['Player']['id']))
+                    echo $this->Html->link($name, array('controller'=>'players','action'=>'view',$player1[0]['Player']['id']));
+
+                    if($player1[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['rank'] > $player2[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['rank']){
+                        echo $this->Html->image('gold_star_medal_32.png', array('title'=>'Winner','alt'=>'Gold star medal'))." ";
+                    }
                     ?>
                     </h4>
                 </td>
                 <td>
                     <h4>
                     <?php
-                    if($player2[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['rank'] > $player1[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['rank']){
-                        echo $this->Html->image('gold_star_medal_32.png', array('title'=>'Winner','alt'=>'Gold star medal'))." ";
-                    }
+                    echo "<span class='gravatar'>".$this->Gravatar->image($player2[0]['Player']['email'], array('s'=>32,'d'=>'wavatar'))."</span>";
 
                     $name = h($player2[0]['Player']['first_name']);
                     if(!empty($player2[0]['Player']['nickname'])){
@@ -43,7 +44,11 @@
                     }
                     $name .= ' '.h($player2[0]['Player']['last_name']);
 
-                    echo $this->Html->link($name, array('controller'=>'players','action'=>'view',$player2[0]['Player']['id']))
+                    echo $this->Html->link($name, array('controller'=>'players','action'=>'view',$player2[0]['Player']['id']));
+
+                    if($player2[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['rank'] > $player1[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['rank']){
+                        echo $this->Html->image('gold_star_medal_32.png', array('title'=>'Winner','alt'=>'Gold star medal'))." ";
+                    }
                     ?>
                     </h4>
                 </td>

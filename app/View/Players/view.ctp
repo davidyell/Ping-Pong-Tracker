@@ -1,6 +1,7 @@
 <div class="players view">
     <h2>
-        Player profile: <?php
+        <?php
+        echo "<span class='gravatar'>".$this->Gravatar->image($player['Player']['email'], array('s'=>72,'d'=>'wavatar'))."</span>";
         echo h($player['Player']['first_name']);
         if(!empty($player['Player']['nickname'])){
             echo ' "'.$player['Player']['nickname'].'"';
