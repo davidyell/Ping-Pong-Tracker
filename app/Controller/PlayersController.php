@@ -60,6 +60,9 @@ class PlayersController extends AppController {
 
                 $results = $this->Player->MatchesPlayer->getResults(array($id));
                 $this->set('results',$results);
+
+                $this->set('winsbytime', $this->Player->winsOverTime($id));
+
 	}
 
 /**

@@ -81,6 +81,29 @@ class Player extends AppModel {
         }
 
 /**
+ * Gets a players matches ordered by date over the last 30 days for display as a graph
+ * @param int $player_id
+ * @return array Cake data array
+ */
+        public function winsOverTime($player_id){
+            $data = $this->MatchesPlayer->find('all', array(
+                'contain'=>false,
+                'conditions'=>array(
+                    'player_id'=>$player_id,
+                ),
+                'fields'=>array(
+                    'SUM(if(result = "Won", 1, 0)) as wins',
+                    'SUM(if(result = "Lost", 1, 0)) as losses',
+                    'DATE_FORMAT(created, "%a %D %b") as day'
+                ),
+                'group'=>'day',
+                'order'=>'created ASC',
+                'limit'=>30
+            ));
+            return $data;
+        }
+
+/**
  * belongsTo associations
  *
  * @var array
