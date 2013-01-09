@@ -82,7 +82,7 @@ class Player extends AppModel {
             $rankings = $this->MatchesPlayer->find('all', array(
                 'contain'=>array(
                     'Player'=>array(
-                        'fields'=>array('id','first_name','nickname','last_name')
+                        'fields'=>array('id','first_name','nickname','last_name','email')
                     )
                 ),
                 'conditions'=>array(

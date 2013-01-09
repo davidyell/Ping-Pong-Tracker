@@ -24,6 +24,8 @@
                     <td><?php echo $i;?></td>
                     <td><?php echo number_format($player[0]['rank'], 1);?></td>
                     <td><?php
+                        echo "<span class='gravatar'>".$this->Gravatar->image($player['Player']['email'], array('s'=>24,'d'=>'wavatar'))."</span>";
+                        
                             $name = $player['Player']['first_name'];
                             if(!empty($player['Player']['nickname'])){
                                 $name .= " '{$player['Player']['nickname']}'";
