@@ -24,11 +24,13 @@
                     <td><?php echo $i;?></td>
                     <td><?php echo number_format($player[0]['rank'], 1);?></td>
                     <td><?php
-                        echo $player['Player']['first_name'];
-                        if(!empty($player['Player']['nickname'])){
-                            echo " '{$player['Player']['nickname']}'";
-                        }
-                        echo ' '.$player['Player']['last_name'];
+                            $name = $player['Player']['first_name'];
+                            if(!empty($player['Player']['nickname'])){
+                                $name .= " '{$player['Player']['nickname']}'";
+                            }
+                            $name .= ' '.$player['Player']['last_name'];
+                        echo $this->Html->link($name, array('controller'=>'players','action'=>'view',$player['Player']['id']));
+
                     ?></td>
                     <td><?php echo $player[0]['wins'];?></td>
                     <td><?php echo $player[0]['losses'];?></td>
