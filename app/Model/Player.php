@@ -65,7 +65,8 @@ class Player extends AppModel {
         public function getPlayers(){
             $players = $this->find('all', array(
                 'contain'=>false,
-                'fields'=>array('id','first_name','last_name')
+                'fields'=>array('id','first_name','last_name'),
+                'order'=>'first_name'
             ));
 
             foreach($players as $p){
