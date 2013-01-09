@@ -31,7 +31,32 @@ class MatchesPlayer extends AppModel {
         );
 
 /**
+ * belongsTo associations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'Match' => array(
+			'className' => 'Match',
+			'foreignKey' => 'match_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Player' => array(
+			'className' => 'Player',
+			'foreignKey' => 'player_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+	);
+
+/**
  * Lookup a collection of results for a specific player or group of players
+ *
+ * Deprecated. TODO: Check for usage and remove.
+ *
  * @param array $player_ids
  * @return array
  */
@@ -100,26 +125,4 @@ class MatchesPlayer extends AppModel {
             ));
             return $result;
         }
-
-/**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'Match' => array(
-			'className' => 'Match',
-			'foreignKey' => 'match_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Player' => array(
-			'className' => 'Player',
-			'foreignKey' => 'player_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
 }

@@ -58,8 +58,8 @@ class PlayersController extends AppController {
                     $this->set('last_loss', $this->Player->MatchesPlayer->getMatch($last_loss_id['Match']['id']));
                 }
 
-                $results = $this->Player->MatchesPlayer->getResults(array($id));
-                $this->set('results',$results);
+                $results = $this->Player->getPlayerStats($id);
+                $this->set('results', $results);
 
                 $this->set('winsbytime', $this->Player->winsOverTime($id));
 

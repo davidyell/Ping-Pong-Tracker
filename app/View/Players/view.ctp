@@ -64,7 +64,7 @@
         </dd>
         <dt>Win:Loss</dt>
         <dd>
-            <?php echo $this->element('score-stats', array('wins'=>$results['wins'], 'losses'=>$results['losses'], 'total_points'=>$results['total_score'])); ?>
+            <?php echo $this->element('score-stats', array('stats'=>$results[0]['MatchesPlayer'][0]['MatchesPlayer'][0])); ?>
         </dd>
     </dl>
 
