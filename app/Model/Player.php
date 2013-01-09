@@ -51,6 +51,7 @@ class Player extends AppModel {
                 'fields'=>array( // TODO: Perhaps simplfy the math somehow to avoid this repetition
                     'SUM(if(result = "Won", 1, 0)) as wins',
                     'SUM(if(result = "Lost", 1, 0)) as losses',
+                    'SUM(if(result = "Won", 1, 0)) - SUM(if(result = "Lost", 1, 0)) as diff',
                     'COUNT(MatchesPlayer.id) as total_matches',
                     'SUM(score) as total_score',
                     'SUM(if(result = "Won", score, 0)) as win_points',

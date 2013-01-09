@@ -8,9 +8,10 @@
                 <th data-sort="string">Player</th>
                 <th data-sort="int">Won</th>
                 <th data-sort="int">Lost</th>
+                <th data-sort="int">GD</th>
                 <th data-sort="flaot">Win %</th>
-                <th data-sort="int">Winning points</th>
-                <th data-sort="int">Total points</th>
+                <th data-sort="int" class="hidden-phone">Winning points</th>
+                <th data-sort="int" class="hidden-phone">Total points</th>
             </tr>
         </thead>
         <tbody>
@@ -31,9 +32,10 @@
                     ?></td>
                     <td><?php echo $player[0]['wins'];?></td>
                     <td><?php echo $player[0]['losses'];?></td>
+                    <td><?php echo $player[0]['diff'];?></td>
                     <td><?php echo number_format($player[0]['win_percent'], 0);?>%</td>
-                    <td><?php echo $player[0]['win_points'];?></td>
-                    <td><?php echo $player[0]['total_score'];?></td>
+                    <td class="hidden-phone"><?php echo $player[0]['win_points'];?></td>
+                    <td class="hidden-phone"><?php echo $player[0]['total_score'];?></td>
                 </tr>
                 <?php
                 $i++;
