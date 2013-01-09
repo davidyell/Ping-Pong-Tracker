@@ -1,5 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
+
 /**
  * MatchesPlayer Model
  *
@@ -8,8 +9,17 @@ App::uses('AppModel', 'Model');
  */
 class MatchesPlayer extends AppModel {
 
+/**
+ * Attach behaviours
+ *
+ * @var array
+ */
         public $actsAs = array('Linkable.Linkable');
 
+/**
+ * Configure validation rules
+ * @var array
+ */
 	public $validate = array(
             'score'=>array(
                 'one'=>array(
@@ -55,6 +65,7 @@ class MatchesPlayer extends AppModel {
 
 /**
  * Get the match details
+ * 
  * @param int $id
  * @return array A cake data array of the match details with the players
  */
@@ -97,9 +108,17 @@ class MatchesPlayer extends AppModel {
 /**
  * Get a set of aggregated statistics for all the departments
  *
+ * @param int $id The department id
  * @return array
  */
-        public function getDepartmentRankings(){
+        public function getDepartmentRankings($id = null){
+
+            if(isset($id)){
+                $conditions = array('Department.id'=>$id);
+            }else{
+                $conditions = array();
+            }
+
             $stats = $this->find('all', array(
                 'link'=>array(
                     'Player'=>array(
@@ -109,9 +128,7 @@ class MatchesPlayer extends AppModel {
                         )
                     )
                 ),
-                'conditions'=>array(
-
-                ),
+                'conditions'=>$conditions,
                 'fields'=>$this->Player->stats_fields,
                 'group'=>'Department.id',
                 'order'=>'rank DESC'

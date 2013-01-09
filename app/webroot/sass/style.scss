@@ -31,6 +31,7 @@ $teamBlue: #004ea3;
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#efdf77',GradientType=0 ); /* IE6-9 */
 }
 
+/** Standard styles **/
 body{
     background-color: $ttBlue;
     color: $fg;
@@ -45,21 +46,60 @@ a.logo{
         font-size: 30px;
     }
 }
-
 legend{
     color: $contentText;
 }
+div.content{
+    padding: 5px;
+    background-color: $contentBg;
+    color: $contentText;
+    border: 1px solid darken($contentBg, 30%);
+    border-radius: 4px;
+}
+.buttons{
+    a{
+        float: left;
+        clear: left;
+        margin: 10px auto;
+    }
+}
 
+.undefeated, .winless{
+    display: block;
+    margin: 5px 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/** Score card **/
 .scores{
     clear: both;
     .input{
         float: left;
     }
 }
-#score0, #score1{
-    width: 30px;
+#scorecard{
+    /*width: 520px;*/
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    @include cardBg;
+    table.result-table{
+        /*width: 500px;*/
+        margin: 10px;
+        td{
+            font-size: 16px;
+            padding: 10px;
+            text-align: center;
+        }
+        tr.scores td{
+            padding: 20px 10px;
+            font-size: 26px;
+            font-weight: bold;
+        }
+    }
 }
 
+/** Form styles and Add match **/
 div.input{
     &.required label:after{
         content: "*";
@@ -98,50 +138,7 @@ label[for='MatchesPlayer2Score'],
     color: $teamBlue;
 }
 
-div.content{
-    padding: 5px;
-    background-color: $contentBg;
-    color: $contentText;
-    border: 1px solid darken($contentBg, 30%);
-    border-radius: 4px;
-}
-
-#scorecard{
-    /*width: 520px;*/
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
-    @include cardBg;
-    table.result-table{
-        /*width: 500px;*/
-        margin: 10px;
-        td{
-            font-size: 16px;
-            padding: 10px;
-            text-align: center;
-        }
-        tr.scores td{
-            padding: 20px 10px;
-            font-size: 26px;
-            font-weight: bold;
-        }
-    }
-}
-
-.buttons{
-    a{
-        float: left;
-        clear: left;
-        margin: 10px auto;
-    }
-}
-
-.undefeated, .winless{
-    display: block;
-    margin: 5px 0;
-    font-size: 24px;
-    font-weight: bold;
-}
-
+/** Tables **/
 #rankings, #department-ranks{
     th{
         cursor: pointer;

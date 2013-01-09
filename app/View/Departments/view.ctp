@@ -5,6 +5,8 @@
         <?php foreach($department['Player'] as $player):?>
             <li>
                 <?php
+                echo "<span class='gravatar'>".$this->Gravatar->image($player['email'], array('s'=>24,'d'=>'wavatar'))."</span>";
+
                 $name = $player['first_name']." ";
                 if(!empty($player['nickname'])){
                     $name .= '"'.$player['nickname'].'" ';
@@ -18,5 +20,5 @@
     </ul>
 
     <h4>Record</h4>
-    <?php echo $this->element('score-stats', array('wins'=>$results['wins'],'losses'=>$results['losses'],'total_points'=>$results['total_score']));?>
+    <?php echo $this->element('score-stats', array('stats'=>$department_stats[0][0])); ?>
 </div>

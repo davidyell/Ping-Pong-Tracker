@@ -29,6 +29,8 @@ class Match extends AppModel {
 
 /**
  * Process the current data and remove any players which have an id of 0. Which will remove the spare doubles players
+ *
+ * @return void
  */
         private function _unsetBlankPlayers(){
             foreach($this->data['MatchesPlayer'] as $i => $player){
@@ -40,6 +42,8 @@ class Match extends AppModel {
 
 /**
  * Find out which person or pair won the match and make a note of it to save time on display later
+ *
+ * @return void
  */
         private function _findWinner(){
             if($this->data['MatchesPlayer'][1]['score'] > $this->data['MatchesPlayer'][2]['score']){
@@ -56,6 +60,8 @@ class Match extends AppModel {
 
 /**
  * Copy the scores and results from the first pair of players to the doubles players
+ *
+ * @return void
  */
         private function _assignScores(){
              // Doubles - 4 players (1+3) v (2+4)

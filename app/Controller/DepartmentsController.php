@@ -17,7 +17,7 @@ class DepartmentsController extends AppController {
             $department = $this->Department->find('first', array(
                 'contain'=>array(
                     'Player'=>array(
-                        'fields'=>array('id','first_name','nickname','last_name'),
+                        'fields'=>array('id','first_name','nickname','last_name','email'),
                     )
                 ),
                 'conditions'=>array(
@@ -30,9 +30,9 @@ class DepartmentsController extends AppController {
             }
 
             // Get the departments scores
-            
+            $department_stats = $this->Department->Player->MatchesPlayer->getDepartmentRankings($id);
 
-            $this->set(compact('department'));
+            $this->set(compact('department','department_stats'));
         }
         
 }
