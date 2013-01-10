@@ -39,6 +39,10 @@
             </footer>
         </div>
 
+        <div id="loading" style="display:none">
+            <?php echo $this->Html->image('ajax-loader.gif', array('title'=>'Loading','alt'=>'Loading'));?> Loading&hellip;
+        </div>
+
         <?php
         echo $this->Html->script(array('//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js', 'common'));
         echo $this->fetch('script');

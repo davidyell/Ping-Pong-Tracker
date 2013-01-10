@@ -1,8 +1,12 @@
 $(function(){
 
+// Ajax globals
+    $('#loading').ajaxStart().show();
+    $('#loading').ajaxStop().hide();
+
 // Defaults
-$('#MatchesPlayer3PlayerId').parents('div.input.select').hide();
-$('#MatchesPlayer4PlayerId').parents('div.input.select').hide();
+    $('#MatchesPlayer3PlayerId').parents('div.input.select').hide();
+    $('#MatchesPlayer4PlayerId').parents('div.input.select').hide();
 
 // Change visible fields
    $('#MatchMatchTypeId').change(function(){
