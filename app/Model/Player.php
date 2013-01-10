@@ -50,7 +50,7 @@ class Player extends AppModel {
             'SUM(if(result = "Won", 1, 0)) as wins',
             'SUM(if(result = "Lost", 1, 0)) as losses',
             'SUM(if(result = "Won", score, 0)) - SUM(if(result = "Lost", score, 0)) as diff',
-            'COUNT(MatchesPlayer.id) as total_matches',
+            'COUNT(DISTINCT(MatchesPlayer.match_id)) as total_matches',
             'SUM(score) as total_score',
             'SUM(if(result = "Won", score, 0)) as win_points',
             'SUM(if(result = "Won", 1, 0)) / ( SUM(if(result = "Won", 1, 0)) + SUM(if(result = "Lost", 1, 0)) ) * 100 as win_percent',
