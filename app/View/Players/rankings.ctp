@@ -22,7 +22,7 @@
                 ?>
                 <tr>
                     <td><?php echo $i;?></td>
-                    <td><?php echo number_format($player[0]['rank'], 1);?></td>
+                    <td><?php echo $this->Number->precision($player[0]['rank'], 1);?></td>
                     <td><?php
                         echo "<span class='gravatar'>".$this->Gravatar->image($player['Player']['email'], array('s'=>24,'d'=>'wavatar'))."</span>";
                         
@@ -36,7 +36,7 @@
                     ?></td>
                     <td><?php echo $player[0]['wins'];?></td>
                     <td><?php echo $player[0]['losses'];?></td>
-                    <td><?php echo number_format($player[0]['win_percent'], 0);?>%</td>
+                    <td><?php echo $this->Number->precision($player[0]['win_percent'], 0);?>%</td>
                     <td class="hidden-phone"><?php echo $player[0]['win_points'];?></td>
                     <td class="hidden-phone"><?php echo $player[0]['total_score'];?></td>
                     <td><?php echo $player[0]['diff'];?></td>

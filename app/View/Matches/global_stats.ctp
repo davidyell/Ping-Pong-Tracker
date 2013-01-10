@@ -16,7 +16,7 @@
         }
         ?>
         <p><b>Points difference: </b><span class="badge <?php echo $class;?>"><?php echo $stats['stats']['diff']; ?></span></p>
-        <p><b>Rating: </b><span class="badge"><?php echo number_format($stats['stats']['rank'],2); ?></span></p>
+        <p><b>Rating: </b><span class="badge"><?php echo $this->Number->precision($stats['stats']['rank'],2); ?></span></p>
 
     </div>
 
