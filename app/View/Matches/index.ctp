@@ -1,7 +1,7 @@
 <div class="matches index">
     <h2>Matches played <?php echo $this->Html->link('Auto reload', '#', array('title'=>'Auto reload page','class'=>'btn btn-small', 'id'=>'reload-page'));?></h2>
 
-    <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped">
+    <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped">
         <tr>
             <th><?php echo $this->Paginator->sort('match_type_id'); ?></th>
             <th>Players</th>

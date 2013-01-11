@@ -1,6 +1,6 @@
 <div class="players rankings">
     <h2><?php echo __('Rankings'); ?></h2>
-    <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped" id="rankings">
+    <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped" id="rankings">
         <thead>
             <tr>
                 <th data-sort="int">Rank</th>

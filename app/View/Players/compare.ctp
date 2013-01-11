@@ -10,7 +10,7 @@
     ?>
 
     <?php if(isset($player1) && isset($player2)):?>
-        <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped comparison">
+        <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped comparison">
             <tr>
                 <th scope="col">&nbsp;</th>
                 <td>

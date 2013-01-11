@@ -1,6 +1,6 @@
 <div class="departments index">
     <h2>Departments</h2>
-    <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped" id="department-ranks">
+    <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped" id="department-ranks">
         <thead>
             <tr>
                 <th data-sort="int">Rank</th>
