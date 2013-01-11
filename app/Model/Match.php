@@ -138,7 +138,29 @@ class Match extends AppModel {
                 'limit'=>3
             ));
 
+            // Latest highest scoring match of all time
+            $match_id = $this->MatchesPlayer->find('first', array(
+                'contain'=>false,
+                'fields'=>array('match_id'),
+                'order'=>'score DESC, created DESC'
+            ));
+
+            $high_score_match = $this->find('first', array(
+                'contain'=>array(
+                    'MatchesPlayer'=>array(
+                        'Player'
+                    ),
+                    'MatchType'=>array(
+                        'fields'=>array('id', 'name')
+                    )
+                ),
+                'conditions'=>array(
+                    'Match.id'=>$match_id['MatchesPlayer']['match_id']
+                )
+            ));
+
             // Format arrays for return
+            $return['highest_match_score'] = $high_score_match;
             $return['stats'] = $stats[0][0];
             $return['matches_by_day'] = $matches_by_day;
             $return['most_played_days'] = $most_matches;

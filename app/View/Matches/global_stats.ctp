@@ -27,6 +27,18 @@
         <?php endforeach;?>
     </ol>
 
+    <h3>Latest high score match</h3>
+    <div id="scorecard">
+        <?php
+        if($stats['highest_match_score']['MatchType']['id'] == 1){
+            echo $this->element('scorecard-singles', array('match'=>$stats['highest_match_score']));
+        }else{
+            echo $this->element('scorecard-doubles', array('match'=>$stats['highest_match_score']));
+        }
+        ?>
+    </div>
+    <p>Played: <?php echo $this->Time->nice($stats['highest_match_score']['Match']['created']);?></p>
+
     <div class="charts">
         <h3>Matches by day</h3>
         <div id="matches_by_day"></div>
