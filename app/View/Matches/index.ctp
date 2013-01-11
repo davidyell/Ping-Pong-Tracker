@@ -35,12 +35,21 @@
             $(function(){
 
                 function reloadPage(){
-                    location.reload();
+                    $('#matches-tbody').load('/matches');
                 }
 
-                $('#reload-page').click(function(e){
+                var timer;
+
+                $('#reload-page').toggle(function(e){
                     e.preventDefault();
-                    $('#matches-tbody').load('/matches');
+                    $(this).toggleClass('btn-info');
+
+                    timer = window.setInterval(reloadPage, 10000);
+                }, function(e){
+                    e.preventDefault();
+                    $(this).toggleClass('btn-info');
+
+                    window.clearInterval(timer);
                 });
 
             });
