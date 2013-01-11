@@ -25,6 +25,10 @@ class MatchesController extends AppController {
             'order'=>'Match.created DESC'
         );
         $this->set('matches', $this->paginate());
+
+        if($this->request->is('ajax')){
+            $this->render('/Elements/matches-index-table', 'ajax');
+        }
     }
 
     /**

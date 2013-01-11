@@ -63,15 +63,29 @@ div.content{
         margin: 10px auto;
     }
 }
-
 .undefeated, .winless{
     display: block;
     margin: 5px 0;
     font-size: 24px;
     font-weight: bold;
 }
+#loading{
+    position: fixed;
+    top: 50%;
+    left: 48%;
+    padding: 15px 20px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 5px;
+}
 
 /** Score card **/
+div.content{
+    padding: 5px;
+    background-color: $contentBg;
+    color: $contentText;
+    border: 1px solid darken($contentBg, 30%);
+    border-radius: 4px;
+}
 .scores{
     clear: both;
     .input{
