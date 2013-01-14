@@ -24,8 +24,8 @@
                 <td><?php echo $department[0]['wins'];?></td>
                 <td><?php echo $department[0]['losses'];?></td>
                 <td><?php echo $this->Number->precision($department[0]['win_percent'],0);?></td>
-                <td><?php echo $department[0]['win_points'];?></td>
-                <td><?php echo $department[0]['total_score'];?></td>
+                <td class="hidden-phone"><?php echo $department[0]['win_points'];?></td>
+                <td class="hidden-phone"><?php echo $department[0]['total_score'];?></td>
                 <td><?php echo $department[0]['diff'];?></td>
             </tr>
         <?php 
