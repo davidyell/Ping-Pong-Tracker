@@ -22,7 +22,7 @@ if($percent > 0 && $percent < 20){
 }
 ?>
 
-<p><b>Win%: </b><span class="badge <?php echo $class; ?>"><?php echo $this->Number->precision($percent) ?></span></p>
+<p><b>Win%: </b><span class="badge <?php echo $class; ?>"><?php echo $this->Number->precision($percent, 2) ?></span></p>
 <p><b>Total points: </b><span class="badge"><?php echo $stats['total_score']; ?></span></p>
 <p><b>Winning points: </b><span class="badge"><?php echo $stats['win_points']; ?></span></p>
 <p><b>Points difference: </b><span class="badge"><?php echo $stats['diff']; ?></span></p>
