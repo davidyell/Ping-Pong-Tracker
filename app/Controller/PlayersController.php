@@ -13,12 +13,18 @@ class PlayersController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Player->recursive = 0;
+		$this->paginate = array(
+            'contain'=>array(
+                'Department'
+            ),
+            'order'=>'first_name'
+        );
 		$this->set('players', $this->paginate());
 	}
 
 /**
  * Rankings method
+ *
  * @return void
  */
         public function rankings(){
