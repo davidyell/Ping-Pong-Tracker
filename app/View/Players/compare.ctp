@@ -10,7 +10,7 @@
     ?>
 
     <?php if(isset($player1) && isset($player2)):?>
-        <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped comparison">
+        <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped comparison">
             <tr>
                 <th scope="col">&nbsp;</th>
                 <td>
@@ -90,13 +90,13 @@
             </tr>
             <tr>
                 <th scope="col">Win percent</th>
-                <td><?php echo number_format($player1[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['win_percent']); ?>%</td>
-                <td><?php echo number_format($player2[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['win_percent']); ?>%</td>
+                <td><?php echo $this->Number->precision($player1[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['win_percent'],0); ?>%</td>
+                <td><?php echo $this->Number->precision($player2[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['win_percent'],0); ?>%</td>
             </tr>
             <tr>
                 <th scope="col">Rating</th>
-                <td><?php echo number_format($player1[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['rank'],2); ?></td>
-                <td><?php echo number_format($player2[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['rank'],2); ?></td>
+                <td><?php echo $this->Number->precision($player1[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['rank'],2); ?></td>
+                <td><?php echo $this->Number->precision($player2[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['rank'],2); ?></td>
             </tr>
         </table>
     <?php endif;?>

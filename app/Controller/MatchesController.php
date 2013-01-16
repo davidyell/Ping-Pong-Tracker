@@ -97,6 +97,10 @@ class MatchesController extends AppController {
         $this->set(compact('players','matchTypes'));
     }
 
+    public function global_stats(){
+        $this->set('stats', $this->Match->getGlobalStats());
+    }
+
     /**
      * admin_index method
      *

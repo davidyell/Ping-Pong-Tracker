@@ -1,6 +1,6 @@
 <div class="players index">
     <h2><?php echo __('Players'); ?></h2>
-    <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped">
+    <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped">
         <tr>
             <th><?php echo $this->Paginator->sort('first_name'); ?></th>
             <th class="hidden-phone"><?php echo $this->Paginator->sort('nickname'); ?></th>

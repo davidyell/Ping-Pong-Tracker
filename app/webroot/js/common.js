@@ -36,4 +36,7 @@ $(function(){
         }
     });
 
+    $('#department-ranks').stupidtable();
+    $('#rankings').stupidtable();
+
 });

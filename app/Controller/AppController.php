@@ -40,7 +40,7 @@ class AppController extends Controller {
 
     public $helpers = array(
         'NiceAdmin.Actions',
-        'Gravatar'
+        'Gravatar',
     );
 
     public function beforeFilter(){

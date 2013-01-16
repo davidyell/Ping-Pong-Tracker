@@ -1,5 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
+
 /**
  * MatchesPlayer Model
  *
@@ -8,7 +9,17 @@ App::uses('AppModel', 'Model');
  */
 class MatchesPlayer extends AppModel {
 
+/**
+ * Attach behaviours
+ *
+ * @var array
+ */
+        public $actsAs = array('Linkable.Linkable');
 
+/**
+ * Configure validation rules
+ * @var array
+ */
 	public $validate = array(
             'score'=>array(
                 'one'=>array(
@@ -53,41 +64,8 @@ class MatchesPlayer extends AppModel {
 	);
 
 /**
- * Lookup a collection of results for a specific player or group of players
- *
- * Deprecated. TODO: Check for usage and remove.
- *
- * @param array $player_ids
- * @return array
- */
-        public function getResults($player_ids = array()){
-            $results = $this->find('all', array(
-                'contain'=>false,
-                'conditions'=>array(
-                    'player_id'=>$player_ids
-                )
-            ));
-
-            $wins = 0;
-            $losses = 0;
-            $total_points = 0;
-
-            if($results){
-                foreach($results as $item){
-                    if($item['MatchesPlayer']['result'] == 'Won'){
-                        $wins++;
-                    }else{
-                        $losses++;
-                    }
-                    $total_points += $item['MatchesPlayer']['score'];
-                }
-            }
-
-            return array('wins'=>$wins, 'losses'=>$losses, 'total_score'=>$total_points);
-        }
-
-/**
  * Get the match details
+ * 
  * @param int $id
  * @return array A cake data array of the match details with the players
  */
@@ -108,6 +86,7 @@ class MatchesPlayer extends AppModel {
 
 /**
  * Find the last 'Won' or 'Lost' match for a player
+ *
  * @param int $id Player id
  * @param string $type Either 'Won' or 'Lost'
  * @return array Cake data array
@@ -124,5 +103,36 @@ class MatchesPlayer extends AppModel {
                 'order'=>'MatchesPlayer.created DESC'
             ));
             return $result;
+        }
+
+/**
+ * Get a set of aggregated statistics for all the departments
+ *
+ * @param int $id The department id
+ * @return array
+ */
+        public function getDepartmentRankings($id = null){
+
+            if(isset($id)){
+                $conditions = array('Department.id'=>$id);
+            }else{
+                $conditions = array();
+            }
+
+            $stats = $this->find('all', array(
+                'link'=>array(
+                    'Player'=>array(
+                        'fields'=>array('department_id'),
+                        'Department'=>array(
+                            'fields'=>array('id','name')
+                        )
+                    )
+                ),
+                'conditions'=>$conditions,
+                'fields'=>$this->Player->stats_fields,
+                'group'=>'Department.id',
+                'order'=>'rank DESC'
+            ));
+            return $stats;
         }
 }

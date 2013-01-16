@@ -70,7 +70,7 @@
     </dl>
 
     <div class="charts">
-        <div id="wins_by_time" style="width:600px;height:300px;"></div>
+        <div id="wins_by_time"></div>
         <?php $this->Blocks->append('script');?>
             <script type="text/javascript" src="https://www.google.com/jsapi"></script>
             <script type="text/javascript">
@@ -92,7 +92,9 @@
                     var data = google.visualization.arrayToDataTable(items);
 
                     var options = {
-                        title: 'Matches by day'
+                        title: 'Matches by day',
+                        width: 600,
+                        height: 300
                     };
 
                     var chart = new google.visualization.AreaChart(document.getElementById('wins_by_time'));

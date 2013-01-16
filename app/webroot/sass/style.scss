@@ -49,6 +49,13 @@ a.logo{
 legend{
     color: $contentText;
 }
+div.content{
+    padding: 5px;
+    background-color: $contentBg;
+    color: $contentText;
+    border: 1px solid darken($contentBg, 30%);
+    border-radius: 4px;
+}
 .buttons{
     a{
         float: left;
@@ -62,13 +69,6 @@ legend{
     font-size: 24px;
     font-weight: bold;
 }
-div.content{
-    padding: 5px;
-    background-color: $contentBg;
-    color: $contentText;
-    border: 1px solid darken($contentBg, 30%);
-    border-radius: 4px;
-}
 #loading{
     position: fixed;
     top: 50%;
@@ -78,15 +78,19 @@ div.content{
     border-radius: 5px;
 }
 
-/** Scorecard **/
+/** Score card **/
+div.content{
+    padding: 5px;
+    background-color: $contentBg;
+    color: $contentText;
+    border: 1px solid darken($contentBg, 30%);
+    border-radius: 4px;
+}
 .scores{
     clear: both;
     .input{
         float: left;
     }
-}
-#score0, #score1{
-    width: 30px;
 }
 #scorecard{
     /*width: 520px;*/
@@ -109,7 +113,7 @@ div.content{
     }
 }
 
-/** Forms and Add match **/
+/** Form styles and Add match **/
 div.input{
     &.required label:after{
         content: "*";
@@ -148,9 +152,8 @@ label[for='MatchesPlayer2Score'],
     color: $teamBlue;
 }
 
-
 /** Tables **/
-#rankings{
+#rankings, #department-ranks{
     th{
         cursor: pointer;
         &.sorting-asc, &.sorting-desc{

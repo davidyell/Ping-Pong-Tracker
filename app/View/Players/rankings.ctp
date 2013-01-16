@@ -1,6 +1,6 @@
 <div class="players rankings">
     <h2><?php echo __('Rankings'); ?></h2>
-    <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover table-striped" id="rankings">
+    <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped" id="rankings">
         <thead>
             <tr>
                 <th data-sort="int">Rank</th>
@@ -22,7 +22,7 @@
                 ?>
                 <tr>
                     <td><?php echo $i;?></td>
-                    <td><?php echo number_format($player[0]['rank'], 1);?></td>
+                    <td><?php echo $this->Number->precision($player[0]['rank'], 1);?></td>
                     <td><?php
                         echo "<span class='gravatar'>".$this->Gravatar->image($player['Player']['email'], array('s'=>24,'d'=>'wavatar'))."</span>";
                         
@@ -36,7 +36,7 @@
                     ?></td>
                     <td><?php echo $player[0]['wins'];?></td>
                     <td><?php echo $player[0]['losses'];?></td>
-                    <td><?php echo number_format($player[0]['win_percent'], 0);?>%</td>
+                    <td><?php echo $this->Number->precision($player[0]['win_percent'], 0);?>%</td>
                     <td class="hidden-phone"><?php echo $player[0]['win_points'];?></td>
                     <td class="hidden-phone"><?php echo $player[0]['total_score'];?></td>
                     <td><?php echo $player[0]['diff'];?></td>
@@ -47,14 +47,3 @@
         </tbody>
     </table>
 </div>
-
-<?php
-$this->Blocks->append('script');
-    echo $this->Html->script('stupidtable.min');
-    ?>
-    <script type="text/javascript">
-        $(function(){
-            $('#rankings').stupidtable();
-        })
-    </script>
-<?php $this->Blocks->end();?>

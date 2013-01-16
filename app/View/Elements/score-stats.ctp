@@ -22,8 +22,8 @@ if($percent > 0 && $percent < 20){
 }
 ?>
 
-<p><b>Win%: </b><span class="badge <?php echo $class; ?>"><?php echo number_format($percent) ?></span></p>
+<p><b>Win%: </b><span class="badge <?php echo $class; ?>"><?php echo $this->Number->precision($percent, 2) ?></span></p>
 <p><b>Total points: </b><span class="badge"><?php echo $stats['total_score']; ?></span></p>
 <p><b>Winning points: </b><span class="badge"><?php echo $stats['win_points']; ?></span></p>
 <p><b>Points difference: </b><span class="badge"><?php echo $stats['diff']; ?></span></p>
-<p><b>Rating: </b><span class="badge"><?php echo number_format($stats['rank'],2); ?></span></p>
+<p><b>Rating: </b><span class="badge"><?php echo $this->Number->precision($stats['rank'],2); ?></span></p>
