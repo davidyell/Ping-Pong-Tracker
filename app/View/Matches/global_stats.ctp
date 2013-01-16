@@ -42,13 +42,37 @@
     <div class="charts">
         <h3>Matches by day</h3>
         <div id="matches_by_day"></div>
+
+        <h3>Match types</h3>
+        <div id="match_types"></div>
+
         <?php $this->Blocks->append('script');?>
             <script type="text/javascript" src="https://www.google.com/jsapi"></script>
             <script type="text/javascript">
                 google.load("visualization", "1", {packages:["corechart"]});
-                google.setOnLoadCallback(drawChart);
-                function drawChart() {
 
+                function drawChart_matchTypes() {
+                    items = [
+                            ['Type','Matches'],
+                        <?php
+                        foreach($stats['match_types'][0][0] as $type => $count){
+                            ?>
+                            ['<?php echo ucfirst($type);?>', <?php echo $count ?>],
+                            <?php
+                        }
+                        ?>
+                    ];
+
+                    var data = google.visualization.arrayToDataTable(items);
+                    var options = {
+                        width: 600,
+                        height: 300
+                    };
+                    var chart = new google.visualization.PieChart(document.getElementById('match_types'));
+                    chart.draw(data, options);
+                }
+
+                function drawChart_matchDays() {
                     items = [
                             ['Day','Matches'],
                         <?php
@@ -61,18 +85,26 @@
                     ];
 
                     var data = google.visualization.arrayToDataTable(items);
-
                     var options = {
                         legend: {position:'none'},
                         width: 600,
                         height: 300
                     };
-
                     var chart = new google.visualization.ColumnChart(document.getElementById('matches_by_day'));
                     chart.draw(data, options);
                 }
+
+                google.setOnLoadCallback(function() {
+                    $(function(){
+
+                       drawChart_matchTypes();
+                       drawChart_matchDays();
+
+                    });
+                });
             </script>
         <?php $this->Blocks->end();?>
+
     </div>
 
 </div>

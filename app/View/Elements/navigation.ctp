@@ -12,7 +12,7 @@
         <?php echo $this->Html->link('Department rankings', array('controller'=>'departments','action'=>'index'));?>
     </li>
     <li <?php echo ($this->request->controller == 'players' && $this->request->action == 'compare')? 'class="active"' : '';?>>
-        <?php echo $this->Html->link('Head to head', array('controller'=>'players','action'=>'compare'));?>
+        <?php echo $this->Html->link('Player comparison', array('controller'=>'players','action'=>'compare'));?>
     </li>
     <li <?php echo ($this->request->controller == 'matches' && $this->request->action == 'global_stats')? 'class="active"' : '';?>>
         <?php echo $this->Html->link('Global stats', array('controller'=>'matches','action'=>'global_stats'));?>
