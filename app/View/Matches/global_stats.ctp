@@ -46,8 +46,8 @@
             <script type="text/javascript" src="https://www.google.com/jsapi"></script>
             <script type="text/javascript">
                 google.load("visualization", "1", {packages:["corechart"]});
-                google.setOnLoadCallback(drawChart);
-                function drawChart() {
+                google.setOnLoadCallback(drawChart_matchDays);
+                function drawChart_matchDays() {
 
                     items = [
                             ['Day','Matches'],
@@ -73,6 +73,39 @@
                 }
             </script>
         <?php $this->Blocks->end();?>
+
+        <h3>Match types</h3>
+        <div id="match_types"></div>
+        <?php $this->Blocks->append('script');?>
+            <script type="text/javascript">
+                google.load("visualization", "1", {packages:["corechart"]});
+                google.setOnLoadCallback(drawChart_matchTypes);
+                function drawChart_matchTypes() {
+
+                    items = [
+                            ['Type','Matches'],
+                        <?php
+                        foreach($stats['match_types'][0][0] as $type => $count){
+                            ?>
+                            ['<?php echo ucfirst($type);?>', <?php echo $count ?>],
+                            <?php
+                        }
+                        ?>
+                    ];
+
+                    var data = google.visualization.arrayToDataTable(items);
+
+                    var options = {
+                        width: 600,
+                        height: 300
+                    };
+
+                    var chart = new google.visualization.PieChart(document.getElementById('match_types'));
+                    chart.draw(data, options);
+                }
+            </script>
+        <?php $this->Blocks->end();?>
+
     </div>
 
 </div>
