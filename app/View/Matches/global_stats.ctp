@@ -42,46 +42,16 @@
     <div class="charts">
         <h3>Matches by day</h3>
         <div id="matches_by_day"></div>
+
+        <h3>Match types</h3>
+        <div id="match_types"></div>
+
         <?php $this->Blocks->append('script');?>
             <script type="text/javascript" src="https://www.google.com/jsapi"></script>
             <script type="text/javascript">
                 google.load("visualization", "1", {packages:["corechart"]});
-                google.setOnLoadCallback(drawChart_matchDays);
-                function drawChart_matchDays() {
 
-                    items = [
-                            ['Day','Matches'],
-                        <?php
-                        foreach($stats['matches_by_day'] as $item){
-                            ?>
-                            ['<?php echo $item[0]['day'];?>', <?php echo $item[0]['matches'] ?>],
-                            <?php
-                        }
-                        ?>
-                    ];
-
-                    var data = google.visualization.arrayToDataTable(items);
-
-                    var options = {
-                        legend: {position:'none'},
-                        width: 600,
-                        height: 300
-                    };
-
-                    var chart = new google.visualization.ColumnChart(document.getElementById('matches_by_day'));
-                    chart.draw(data, options);
-                }
-            </script>
-        <?php $this->Blocks->end();?>
-
-        <h3>Match types</h3>
-        <div id="match_types"></div>
-        <?php $this->Blocks->append('script');?>
-            <script type="text/javascript">
-                google.load("visualization", "1", {packages:["corechart"]});
-                google.setOnLoadCallback(drawChart_matchTypes);
                 function drawChart_matchTypes() {
-
                     items = [
                             ['Type','Matches'],
                         <?php
@@ -94,15 +64,44 @@
                     ];
 
                     var data = google.visualization.arrayToDataTable(items);
-
                     var options = {
                         width: 600,
                         height: 300
                     };
-
                     var chart = new google.visualization.PieChart(document.getElementById('match_types'));
                     chart.draw(data, options);
                 }
+
+                function drawChart_matchDays() {
+                    items = [
+                            ['Day','Matches'],
+                        <?php
+                        foreach($stats['matches_by_day'] as $item){
+                            ?>
+                            ['<?php echo $item[0]['day'];?>', <?php echo $item[0]['matches'] ?>],
+                            <?php
+                        }
+                        ?>
+                    ];
+
+                    var data = google.visualization.arrayToDataTable(items);
+                    var options = {
+                        legend: {position:'none'},
+                        width: 600,
+                        height: 300
+                    };
+                    var chart = new google.visualization.ColumnChart(document.getElementById('matches_by_day'));
+                    chart.draw(data, options);
+                }
+
+                google.setOnLoadCallback(function() {
+                    $(function(){
+
+                       drawChart_matchTypes();
+                       drawChart_matchDays();
+
+                    });
+                });
             </script>
         <?php $this->Blocks->end();?>
 
