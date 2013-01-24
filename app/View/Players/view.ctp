@@ -63,6 +63,10 @@
             }
             ?>
         </dd>
+        <dt>Singles performance rating</dt>
+        <dd>
+            <?php echo $player['Player']['performance_rating'];?>
+        </dd>
         <dt>Win:Loss</dt>
         <dd>
             <?php echo $this->element('score-stats', array('stats'=>$results[0]['MatchesPlayer'][0]['MatchesPlayer'][0])); ?>
