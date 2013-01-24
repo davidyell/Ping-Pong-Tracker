@@ -5,6 +5,7 @@
             <tr>
                 <th data-sort="int">Rank</th>
                 <th data-sort="float">Rating</th>
+                <th data-sort="float">Singles PR</th>
                 <th data-sort="string">Player</th>
                 <th data-sort="int">Won</th>
                 <th data-sort="int">Lost</th>
@@ -23,6 +24,7 @@
                 <tr>
                     <td><?php echo $i;?></td>
                     <td><?php echo $this->Number->precision($player[0]['rank'], 1);?></td>
+                    <td><?php echo $this->Number->precision($player['Player']['performance_rating'],0);?></td>
                     <td><?php
                         echo "<span class='gravatar'>".$this->Gravatar->image($player['Player']['email'], array('s'=>24,'d'=>'wavatar'))."</span>";
                         
