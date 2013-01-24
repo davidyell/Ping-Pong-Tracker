@@ -48,6 +48,42 @@ class Match extends AppModel {
                 $this->assignScores();
             }
         }
+        
+/**
+ * afterSave callback method
+ * 
+ * @param type $created
+ */
+        public function afterSave($created) {
+            parent::afterSave($created);
+            
+            // Are we adding a new match and only singles matches
+            if(isset($this->method) && $this->method == 'add' && $this->data['Match']['match_type_id'] == 1) {
+                $this->doEloRating();
+            }
+        }
+        
+/**
+ * Will calculate the new performance rating for two players for a single match.
+ * 
+ * @return void
+ */
+        public function doEloRating(){
+            $vendor = App::path('Vendor');
+            require_once($vendor[0].'EloRating'.DS.'EloRating.php');
+            
+            $this->MatchesPlayer->Player->recursive = -1;
+            $ratingA = $this->MatchesPlayer->Player->read(array('id','performance_rating'), $this->data['MatchesPlayer'][1]['MatchesPlayer']['player_id']);
+            $ratingB = $this->MatchesPlayer->Player->read(array('id','performance_rating'), $this->data['MatchesPlayer'][2]['MatchesPlayer']['player_id']);
+            $scoreA = $this->data['MatchesPlayer'][1]['MatchesPlayer']['score'];
+            $scoreB = $this->data['MatchesPlayer'][2]['MatchesPlayer']['score'];
+            
+            $rating = new Rating($ratingA['Player']['performance_rating'], $ratingB['Player']['performance_rating'], $scoreA, $scoreB);
+            $newRatings = $rating->getNewRatings();
+            
+            $this->MatchesPlayer->Player->updatePerformanceRating($ratingA['Player']['id'], $newRatings['a']);
+            $this->MatchesPlayer->Player->updatePerformanceRating($ratingB['Player']['id'], $newRatings['b']);
+        }
 
 /**
  * Process the current data and remove any players which have an id of 0. Which will remove the spare doubles players

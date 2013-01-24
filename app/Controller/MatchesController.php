@@ -63,6 +63,8 @@ class MatchesController extends AppController {
  * @return void
  */
     public function add() {
+        $this->Match->method = 'add';
+        
         if ($this->request->is('post')) {
 
             // Do we need to remember the details for the user to add again?

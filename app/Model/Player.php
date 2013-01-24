@@ -164,4 +164,20 @@ class Player extends AppModel {
             return $player;
         }
 
+/**
+ * Updates a players record with the newly calculated singles performance rating
+ * 
+ * @param int $player_id
+ * @param int $rating
+ */
+        public function updatePerformanceRating($player_id, $rating){
+            $this->id = $player_id;
+            if(!$this->exists()){
+                throw new NotFoundException('Not a valid player');
+            }
+            $this->recursive = -1;
+            $this->data = $this->read(null, $player_id);
+            $this->data['Player']['performance_rating'] = $rating;
+            $this->save();
+        }
 }
