@@ -4,6 +4,3 @@
 [submodule "app/Plugin/Linkable"]
 	path = app/Plugin/Linkable
 	url = https://github.com/ProLoser/linkable.git
-[submodule "app/Vendor/EloRanking"]
-	path = app/Vendor/EloRanking
-	url = https://github.com/grossvogel/elo-rankings-php.git
