@@ -9,40 +9,40 @@ App::uses('AppController', 'Controller');
  */
 class MatchesController extends AppController {
     
-    public function updateRatings(){
-        $matches = $this->Match->find('all', array(
-            'contain'=>array(
-                'MatchesPlayer'
-            ),
-            'conditions'=>array(
-                'Match.match_type_id'=>1
-            )
-        ));
-        
-        $i = 1;
-        foreach($matches as $match){
-            
-            $vendor = App::path('Vendor');
-            require_once($vendor[0].'EloRating'.DS.'EloRating.php');
-            
-            $this->Match->MatchesPlayer->Player->recursive = -1;
-            $ratingA = $this->Match->MatchesPlayer->Player->read(array('id','performance_rating'), $match['MatchesPlayer'][0]['player_id']);
-            $ratingB = $this->Match->MatchesPlayer->Player->read(array('id','performance_rating'), $match['MatchesPlayer'][1]['player_id']);
-            $scoreA = $match['MatchesPlayer'][0]['score'];
-            $scoreB = $match['MatchesPlayer'][0]['score'];
-            
-            $rating = new Rating($ratingA['Player']['performance_rating'], $ratingB['Player']['performance_rating'], $scoreA, $scoreB);
-            $newRatings = $rating->getNewRatings();
-            
-            $this->Match->MatchesPlayer->Player->updatePerformanceRating($ratingA['Player']['id'], $newRatings['a']);
-            $this->Match->MatchesPlayer->Player->updatePerformanceRating($ratingB['Player']['id'], $newRatings['b']);
-            
-            $i++;
-        }
-        
-        var_dump('Done!. Processed '.$i.' matches.');
-        $this->render(false);
-    }
+//    public function updateRatings(){
+//        $matches = $this->Match->find('all', array(
+//            'contain'=>array(
+//                'MatchesPlayer'
+//            ),
+//            'conditions'=>array(
+//                'Match.match_type_id'=>1
+//            )
+//        ));
+//        
+//        $i = 1;
+//        foreach($matches as $match){
+//            
+//            $vendor = App::path('Vendor');
+//            require_once($vendor[0].'EloRating'.DS.'EloRating.php');
+//            
+//            $this->Match->MatchesPlayer->Player->recursive = -1;
+//            $ratingA = $this->Match->MatchesPlayer->Player->read(array('id','performance_rating'), $match['MatchesPlayer'][0]['player_id']);
+//            $ratingB = $this->Match->MatchesPlayer->Player->read(array('id','performance_rating'), $match['MatchesPlayer'][1]['player_id']);
+//            $scoreA = $match['MatchesPlayer'][0]['score'];
+//            $scoreB = $match['MatchesPlayer'][0]['score'];
+//            
+//            $rating = new Rating($ratingA['Player']['performance_rating'], $ratingB['Player']['performance_rating'], $scoreA, $scoreB);
+//            $newRatings = $rating->getNewRatings();
+//            
+//            $this->Match->MatchesPlayer->Player->updatePerformanceRating($ratingA['Player']['id'], $newRatings['a']);
+//            $this->Match->MatchesPlayer->Player->updatePerformanceRating($ratingB['Player']['id'], $newRatings['b']);
+//            
+//            $i++;
+//        }
+//        
+//        var_dump('Done!. Processed '.$i.' matches.');
+//        $this->render(false);
+//    }
 
 /**
  * index method
