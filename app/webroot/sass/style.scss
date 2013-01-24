@@ -156,14 +156,17 @@ label[for='MatchesPlayer2Score'],
 #rankings, #department-ranks{
     th{
         cursor: pointer;
+        i{
+            display: none;
+        }
         &.sorting-asc, &.sorting-desc{
             background-color: #ccc;
         }
-        &.sorting-asc:after{
-            content: ' v';
+        &.sorting-asc i.icon-arrow-up{
+            display: inline-block;
         }
-        &.sorting-desc:after{
-            content: ' ^';
+        &.sorting-desc i.icon-arrow-down{
+            display: inline-block
         }
     }
 }
