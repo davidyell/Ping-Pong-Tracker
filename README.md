@@ -27,5 +27,9 @@ The system does not include any admin interface, login or cms. If you want to ad
 ##Branch strategy
 Development and issues should be developed in the `dev` branch before being merged into `master`. `master` should remain clean, stable and bug free.
 
+##Versioning
+Tags should exist in the system for the version numbers.  
+It will follow a pattern of `<release>.0.<feature>.<bugfix>`
+
 ##License
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Ping-Pong Tracker</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://paperninja.co.uk/" property="cc:attributionName" rel="cc:attributionURL">David Yell</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://bitbucket.org/davidyell/ping-pong-tracker" rel="dct:source">https://bitbucket.org/davidyell/ping-pong-tracker</a>.
