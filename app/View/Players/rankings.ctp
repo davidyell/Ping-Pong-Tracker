@@ -3,16 +3,16 @@
     <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped" id="rankings">
         <thead>
             <tr>
-                <th data-sort="int">Rank</th>
-                <th data-sort="float">Rating</th>
-                <th data-sort="float">Singles PR</th>
-                <th data-sort="string">Player</th>
-                <th data-sort="int">Won</th>
-                <th data-sort="int">Lost</th>
-                <th data-sort="flaot">Win %</th>
-                <th data-sort="int" class="hidden-phone">Winning points</th>
-                <th data-sort="int" class="hidden-phone">Total points</th>
-                <th data-sort="int"><acronym title="Points difference">PD</acronym></th>
+                <th data-sort="int">Rank <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
+                <th data-sort="float">Rating <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
+                <th data-sort="float">Singles <abbr class="initialism" title="Performance rating">PR</abbr> <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
+                <th data-sort="string">Player <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
+                <th data-sort="int">Won <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
+                <th data-sort="int">Lost <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
+                <th data-sort="flaot">Win % <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
+                <th data-sort="int" class="hidden-phone">Winning points <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
+                <th data-sort="int" class="hidden-phone">Total points <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
+                <th data-sort="int"><abbr class="initialism" title="Points difference">PD</abbr> <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
             </tr>
         </thead>
         <tbody>
