@@ -79,9 +79,41 @@ class PlayersController extends AppController {
         public function compare(){
 
             if($this->request->is('post')){
-                $player1 = $this->Player->getPlayerStats($this->request->data['Player']['player1']);
-                $player2 = $this->Player->getPlayerStats($this->request->data['Player']['player2']);
+                $this->redirect(array('action'=>'compare',$this->request->data['Player']['player1'],$this->request->data['Player']['player2']));
+            }
+            
+            if(!empty($this->request->params['pass'][0]) && !empty($this->request->params['pass'][1])){
+                $player1 = $this->Player->getPlayerStats($this->request->params['pass'][0]);
+                $player2 = $this->Player->getPlayerStats($this->request->params['pass'][1]);
                 $this->set(compact('player1','player2'));
+                
+                $this->request->data['Player']['player1'] = $this->request->params['pass'][0];
+                $this->request->data['Player']['player2'] = $this->request->params['pass'][1];
+            }else{
+                $this->request->data['Player']['player1'] = 0;
+                $this->request->data['Player']['player2'] = 0;
+            }
+
+            $this->set('player_list', $this->Player->getPlayers());
+        }
+        
+/**
+ * Compare the played games of two players
+ *
+ * @return void
+ */
+        public function head_to_head(){
+
+            if($this->request->is('post')){
+                $this->redirect(array('action'=>'head_to_head',$this->request->data['Player']['player1'],$this->request->data['Player']['player2']));
+            }
+            
+            if(!empty($this->request->params['pass'][0]) && !empty($this->request->params['pass'][1])){
+                $players = $this->Player->getHeadToHead(array($this->request->params['pass'][0],$this->request->params['pass'][1]));
+                $this->set(compact('players'));
+                
+                $this->request->data['Player']['player1'] = $this->request->params['pass'][0];
+                $this->request->data['Player']['player2'] = $this->request->params['pass'][1];
             }else{
                 $this->request->data['Player']['player1'] = 0;
                 $this->request->data['Player']['player2'] = 0;

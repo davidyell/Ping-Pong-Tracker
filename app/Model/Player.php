@@ -163,6 +163,54 @@ class Player extends AppModel {
             ));
             return $player;
         }
+        
+/**
+ * Calculates the head to head statistics for all matches between players.
+ * 
+ * @param array $players EG, array(id1, id2)
+ * @return array
+ */
+        public function getHeadToHead($players = array()){
+            $matches = $this->MatchesPlayer->find('all', array(
+                'contain'=>array(
+                    'Match'
+                ),
+                'conditions'=>array(
+                    'player_id'=>$players,
+                    'match_type_id'=>1
+                ),
+                'fields'=>array(
+                    'match_id',
+                    'COUNT(match_id) AS players'
+                ),
+                'group'=>'match_id HAVING players = '.count($players), // Allows us to load doubles and singles
+            ));
+            
+            foreach($matches as $match){
+                $match_ids[] = $match['MatchesPlayer']['match_id'];
+            }
+            
+            $stats = $this->MatchesPlayer->find('all', array(
+                'contain'=>array(
+                    'Player'=>array(
+                        'fields'=>array(
+                            'id',
+                            'first_name',
+                            'nickname',
+                            'last_name',
+                            'email'
+                        )
+                    ),
+                ),
+                'conditions'=>array(
+                    'match_id'=>$match_ids
+                ),
+                'fields'=>$this->stats_fields,
+                'group'=>'player_id'
+            ));
+            
+            return $stats;
+        }
 
 /**
  * Updates a players record with the newly calculated singles performance rating
