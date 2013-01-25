@@ -78,13 +78,20 @@ class PlayersController extends AppController {
  */
         public function compare(){
 
-            if($this->request->is('get') && !empty($this->request->query)){
-                $player1 = $this->Player->getPlayerStats($this->request->query['player1']);
-                $player2 = $this->Player->getPlayerStats($this->request->query['player2']);
+            if($this->request->is('post')){
+                $this->redirect(array('action'=>'compare',$this->request->data['Player']['player1'],$this->request->data['Player']['player2']));
+            }
+            
+            if(!empty($this->request->params['pass'][0]) && !empty($this->request->params['pass'][1])){
+                $player1 = $this->Player->getPlayerStats($this->request->params['pass'][0]);
+                $player2 = $this->Player->getPlayerStats($this->request->params['pass'][1]);
                 $this->set(compact('player1','player2'));
+                
+                $this->request->data['Player']['player1'] = $this->request->params['pass'][0];
+                $this->request->data['Player']['player2'] = $this->request->params['pass'][1];
             }else{
-                $this->request->query['player1'] = 0;
-                $this->request->query['player2'] = 0;
+                $this->request->data['Player']['player1'] = 0;
+                $this->request->data['Player']['player2'] = 0;
             }
 
             $this->set('player_list', $this->Player->getPlayers());

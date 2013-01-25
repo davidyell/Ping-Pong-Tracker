@@ -2,14 +2,14 @@
     <h2>Compare players</h2>
 
     <?php
-    echo $this->Form->create('Player', array('type'=>'get'));
-        echo $this->Form->input('player1', array('type'=>'select', 'options'=>$player_list, 'selected'=>$this->request->query['player1'], 'div'=>array('class'=>'input select player1'), 'after'=>'&nbsp;vs&nbsp;'));
-        echo $this->Form->input('player2', array('type'=>'select', 'options'=>$player_list, 'selected'=>$this->request->query['player2'], 'div'=>array('class'=>'input select player2')));
+    echo $this->Form->create();
+        echo $this->Form->input('player1', array('type'=>'select', 'options'=>$player_list, 'div'=>array('class'=>'input select player1'), 'after'=>'&nbsp;vs&nbsp;'));
+        echo $this->Form->input('player2', array('type'=>'select', 'options'=>$player_list, 'div'=>array('class'=>'input select player2')));
         ?><div class="clearfix"><!-- blank --></div><?php
     echo $this->Form->end('Compare');
     ?>
 
-    <?php if($this->request->query['player1'] > 0 && $this->request->query['player2'] > 0):?>
+    <?php if(isset($player1) && isset($player2)):?>
         <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped comparison">
             <tr>
                 <th scope="col">&nbsp;</th>
