@@ -44,7 +44,7 @@
                     e.preventDefault();
                     $(this).toggleClass('btn-info');
 
-                    timer = window.setInterval(reloadPage, 10000);
+                    timer = window.setInterval(reloadPage, 5000);
                 }, function(e){
                     e.preventDefault();
                     $(this).toggleClass('btn-info');
