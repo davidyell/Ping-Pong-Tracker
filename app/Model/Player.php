@@ -98,10 +98,9 @@ class Player extends AppModel {
                 'order'=>'rank DESC'
             ));
 
-            // Move anyone with a NULL rating to the top, as that's the best you can get (undefeated)
             foreach($rankings as $k => $player){
                 if($player[0]['rank'] == null){
-                    $rankings[$k][0]['rank'] = 9001; // over 9000!
+                    $rankings[$k][0]['rank'] = 100; // No change, reset to default rating
                 }
             }
 

@@ -1,8 +1,12 @@
 $(function(){
 
 // Ajax globals
-    $('#loading').ajaxStart().show();
-    $('#loading').ajaxStop().hide();
+    $(document).ajaxStart(function() {
+        $('#loading').show();
+    });
+    $(document).ajaxStop(function() {
+        $('#loading').hide();
+    });
 
 // Defaults
     $('#MatchesPlayer3PlayerId').parents('div.input.select').hide();
