@@ -9,6 +9,9 @@ App::uses('AppController', 'Controller');
  */
 class MatchesController extends AppController {
     
+/**
+ * Method to aggregate Performance Ratings from all historic matches
+ */
 //    public function updateRatings(){
 //        $matches = $this->Match->find('all', array(
 //            'contain'=>array(
@@ -133,8 +136,56 @@ class MatchesController extends AppController {
         $this->set(compact('players', 'matchTypes'));
     }
 
+/**
+ * Get a set of global statistics
+ * 
+ * @return void
+ */
     public function global_stats() {
         $this->set('stats', $this->Match->getGlobalStats());
+    }
+    
+/**
+ * Get a list of recent matches for a player
+ * 
+ * @param int $playerId
+ * @throws NotFoundException
+ */
+    public function match_history($playerId){
+        if(!$this->Match->MatchesPlayer->Player->exists($playerId)){
+            throw new NotFoundException('Player not found');
+        }
+        
+        $this->Match->MatchesPlayer->Player->recursive = -1;
+        $this->set('player', $this->Match->MatchesPlayer->Player->read(array('id','first_name','nickname','last_name'), $playerId));
+        
+        $matchIds = $this->Match->MatchesPlayer->find('list', array(
+            'contain' => false,
+            'conditions' => array(
+                'MatchesPlayer.player_id'=>$playerId
+            ),
+            'fields' => array('match_id')
+        ));
+        
+        $this->paginate = array(
+            'contain' => array(
+                'MatchesPlayer' => array(
+                    'Player' => array(
+                        'fields' => array('id','first_name','last_name'),
+                    )
+                ),
+                'MatchType' => array(
+                    'fields' => array('id','name')
+                )
+            ),
+            'conditions' => array(
+                'Match.id' => $matchIds
+            ),
+            'order' => 'Match.created DESC',
+            'limit' => 10
+        );
+        $this->set('matches', $this->paginate());
+        
     }
 
 /**

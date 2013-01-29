@@ -1,5 +1,7 @@
 <?php
+
 App::uses('AppController', 'Controller');
+
 /**
  * Players Controller
  *
@@ -12,24 +14,24 @@ class PlayersController extends AppController {
  *
  * @return void
  */
-	public function index() {
-		$this->paginate = array(
-            'contain'=>array(
+    public function index() {
+        $this->paginate = array(
+            'contain' => array(
                 'Department'
             ),
-            'order'=>'first_name'
+            'order' => 'first_name'
         );
-		$this->set('players', $this->paginate());
-	}
+        $this->set('players', $this->paginate());
+    }
 
 /**
  * Rankings method
  *
  * @return void
  */
-        public function rankings(){
-            $this->set('rankings', $this->Player->getRankings());
-        }
+    public function rankings() {
+        $this->set('rankings', $this->Player->getRankings());
+    }
 
 /**
  * view method
@@ -38,99 +40,98 @@ class PlayersController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
-		$this->Player->id = $id;
-		if (!$this->Player->exists()) {
-			throw new NotFoundException(__('Invalid player'));
-		}
+    public function view($id = null) {
+        $this->Player->id = $id;
+        if (!$this->Player->exists()) {
+            throw new NotFoundException(__('Invalid player'));
+        }
 
-                $player = $this->Player->find('first', array(
-                    'contain'=>array(
-                        'Department'
-                    ),
-                    'conditions'=>array(
-                        'Player.id'=>$id
-                    )
+        $player = $this->Player->find('first', array(
+            'contain' => array(
+                'Department'
+            ),
+            'conditions' => array(
+                'Player.id' => $id
+            )
                 ));
-                $this->set('player',$player);
+        $this->set('player', $player);
 
-                $last_win_id = $this->Player->MatchesPlayer->getLastResult($id, 'Won');
-                if($last_win_id){
-                    $this->set('last_win', $this->Player->MatchesPlayer->getMatch($last_win_id['Match']['id']));
-                }
+        $last_win_id = $this->Player->MatchesPlayer->getLastResult($id, 'Won');
+        if ($last_win_id) {
+            $this->set('last_win', $this->Player->MatchesPlayer->getMatch($last_win_id['Match']['id']));
+        }
 
-                $last_loss_id = $this->Player->MatchesPlayer->getLastResult($id, 'Lost');
-                if($last_loss_id){
-                    $this->set('last_loss', $this->Player->MatchesPlayer->getMatch($last_loss_id['Match']['id']));
-                }
+        $last_loss_id = $this->Player->MatchesPlayer->getLastResult($id, 'Lost');
+        if ($last_loss_id) {
+            $this->set('last_loss', $this->Player->MatchesPlayer->getMatch($last_loss_id['Match']['id']));
+        }
 
-                $results = $this->Player->getPlayerStats($id);
-                $this->set('results', $results);
+        $results = $this->Player->getPlayerStats($id);
+        $this->set('results', $results);
 
-                $this->set('winsbytime', $this->Player->winsOverTime($id));
-
-	}
+        $this->set('winsbytime', $this->Player->winsOverTime($id));
+    }
 
 /**
  * Compare the stats of two players
  *
  * @return void
  */
-        public function compare(){
+    public function compare() {
 
-            if($this->request->is('post')){
-                $this->redirect(array('action'=>'compare',$this->request->data['Player']['player1'],$this->request->data['Player']['player2']));
-            }
-            
-            if(!empty($this->request->params['pass'][0]) && !empty($this->request->params['pass'][1])){
-                $player1 = $this->Player->getPlayerStats($this->request->params['pass'][0]);
-                $player2 = $this->Player->getPlayerStats($this->request->params['pass'][1]);
-                $this->set(compact('player1','player2'));
-                
-                $this->request->data['Player']['player1'] = $this->request->params['pass'][0];
-                $this->request->data['Player']['player2'] = $this->request->params['pass'][1];
-            }else{
-                $this->request->data['Player']['player1'] = 0;
-                $this->request->data['Player']['player2'] = 0;
-            }
-
-            $this->set('player_list', $this->Player->getPlayers());
+        if ($this->request->is('post')) {
+            $this->redirect(array('action' => 'compare', $this->request->data['Player']['player1'], $this->request->data['Player']['player2']));
         }
-        
+
+        if (!empty($this->request->params['pass'][0]) && !empty($this->request->params['pass'][1])) {
+            $player1 = $this->Player->getPlayerStats($this->request->params['pass'][0]);
+            $player2 = $this->Player->getPlayerStats($this->request->params['pass'][1]);
+            $this->set(compact('player1', 'player2'));
+
+            $this->request->data['Player']['player1'] = $this->request->params['pass'][0];
+            $this->request->data['Player']['player2'] = $this->request->params['pass'][1];
+        } else {
+            $this->request->data['Player']['player1'] = 0;
+            $this->request->data['Player']['player2'] = 0;
+        }
+
+        $this->set('player_list', $this->Player->getPlayers());
+    }
+
 /**
  * Compare the played games of two players
  *
  * @return void
  */
-        public function head_to_head(){
+    public function head_to_head() {
 
-            if($this->request->is('post')){
-                $this->redirect(array('action'=>'head_to_head',$this->request->data['Player']['player1'],$this->request->data['Player']['player2']));
-            }
-            
-            if(!empty($this->request->params['pass'][0]) && !empty($this->request->params['pass'][1])){
-                $players = $this->Player->getHeadToHead(array($this->request->params['pass'][0],$this->request->params['pass'][1]));
-                $this->set(compact('players'));
-                
-                $this->request->data['Player']['player1'] = $this->request->params['pass'][0];
-                $this->request->data['Player']['player2'] = $this->request->params['pass'][1];
-            }else{
-                $this->request->data['Player']['player1'] = 0;
-                $this->request->data['Player']['player2'] = 0;
-            }
-
-            $this->set('player_list', $this->Player->getPlayers());
+        if ($this->request->is('post')) {
+            $this->redirect(array('action' => 'head_to_head', $this->request->data['Player']['player1'], $this->request->data['Player']['player2']));
         }
+
+        if (!empty($this->request->params['pass'][0]) && !empty($this->request->params['pass'][1])) {
+            $players = $this->Player->getHeadToHead(array($this->request->params['pass'][0], $this->request->params['pass'][1]));
+            $this->set(compact('players'));
+
+            $this->request->data['Player']['player1'] = $this->request->params['pass'][0];
+            $this->request->data['Player']['player2'] = $this->request->params['pass'][1];
+        } else {
+            $this->request->data['Player']['player1'] = 0;
+            $this->request->data['Player']['player2'] = 0;
+        }
+
+        $this->set('player_list', $this->Player->getPlayers());
+    }
 
 /**
  * admin_index method
  *
  * @return void
  */
-	public function admin_index() {
-		$this->Player->recursive = 0;
-		$this->set('players', $this->paginate());
-	}
+    public function admin_index() {
+        $this->Player->recursive = 0;
+        $this->set('players', $this->paginate());
+    }
 
 /**
  * admin_view method
@@ -139,32 +140,32 @@ class PlayersController extends AppController {
  * @param string $id
  * @return void
  */
-	public function admin_view($id = null) {
-		$this->Player->id = $id;
-		if (!$this->Player->exists()) {
-			throw new NotFoundException(__('Invalid player'));
-		}
-		$this->set('player', $this->Player->read(null, $id));
-	}
+    public function admin_view($id = null) {
+        $this->Player->id = $id;
+        if (!$this->Player->exists()) {
+            throw new NotFoundException(__('Invalid player'));
+        }
+        $this->set('player', $this->Player->read(null, $id));
+    }
 
 /**
  * admin_add method
  *
  * @return void
  */
-	public function admin_add() {
-		if ($this->request->is('post')) {
-			$this->Player->create();
-			if ($this->Player->save($this->request->data)) {
-				$this->Session->setFlash(__('The player has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The player could not be saved. Please, try again.'));
-			}
-		}
-		$departments = $this->Player->Department->find('list');
-		$this->set(compact('departments'));
-	}
+    public function admin_add() {
+        if ($this->request->is('post')) {
+            $this->Player->create();
+            if ($this->Player->save($this->request->data)) {
+                $this->Session->setFlash(__('The player has been saved'));
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash(__('The player could not be saved. Please, try again.'));
+            }
+        }
+        $departments = $this->Player->Department->find('list');
+        $this->set(compact('departments'));
+    }
 
 /**
  * admin_edit method
@@ -173,24 +174,24 @@ class PlayersController extends AppController {
  * @param string $id
  * @return void
  */
-	public function admin_edit($id = null) {
-		$this->Player->id = $id;
-		if (!$this->Player->exists()) {
-			throw new NotFoundException(__('Invalid player'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Player->save($this->request->data)) {
-				$this->Session->setFlash(__('The player has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The player could not be saved. Please, try again.'));
-			}
-		} else {
-			$this->request->data = $this->Player->read(null, $id);
-		}
-		$departments = $this->Player->Department->find('list');
-		$this->set(compact('departments'));
-	}
+    public function admin_edit($id = null) {
+        $this->Player->id = $id;
+        if (!$this->Player->exists()) {
+            throw new NotFoundException(__('Invalid player'));
+        }
+        if ($this->request->is('post') || $this->request->is('put')) {
+            if ($this->Player->save($this->request->data)) {
+                $this->Session->setFlash(__('The player has been saved'));
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash(__('The player could not be saved. Please, try again.'));
+            }
+        } else {
+            $this->request->data = $this->Player->read(null, $id);
+        }
+        $departments = $this->Player->Department->find('list');
+        $this->set(compact('departments'));
+    }
 
 /**
  * admin_delete method
@@ -200,19 +201,20 @@ class PlayersController extends AppController {
  * @param string $id
  * @return void
  */
-	public function admin_delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->Player->id = $id;
-		if (!$this->Player->exists()) {
-			throw new NotFoundException(__('Invalid player'));
-		}
-		if ($this->Player->delete()) {
-			$this->Session->setFlash(__('Player deleted'));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Session->setFlash(__('Player was not deleted'));
-		$this->redirect(array('action' => 'index'));
-	}
+    public function admin_delete($id = null) {
+        if (!$this->request->is('post')) {
+            throw new MethodNotAllowedException();
+        }
+        $this->Player->id = $id;
+        if (!$this->Player->exists()) {
+            throw new NotFoundException(__('Invalid player'));
+        }
+        if ($this->Player->delete()) {
+            $this->Session->setFlash(__('Player deleted'));
+            $this->redirect(array('action' => 'index'));
+        }
+        $this->Session->setFlash(__('Player was not deleted'));
+        $this->redirect(array('action' => 'index'));
+    }
+
 }

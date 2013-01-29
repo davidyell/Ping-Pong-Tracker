@@ -107,6 +107,10 @@
             </script>
         <?php $this->Blocks->end();?>
     </div>
+    
+    <div id="match_history">
+        <?php echo $this->element('match-history');?>
+    </div>
 
 </div>
 
