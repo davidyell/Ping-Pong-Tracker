@@ -63,6 +63,8 @@
             }
             ?>
         </dd>
+        <dt>Match history</dt>
+        <dd><?php echo $this->Html->link('View match history', array('controller'=>'matches','action'=>'match_history',$player['Player']['id']));?></dd>
         <dt>Singles performance rating</dt>
         <dd>
             <?php echo $player['Player']['performance_rating'];?>
