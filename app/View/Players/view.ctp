@@ -111,7 +111,22 @@
     </div>
     
     <div id="match_history">
-        <?php echo $this->element('match-history');?>
+        <h3>Last 10 matches</h3>
+        <?php $this->set('matches', $this->requestAction(array('controller'=>'matches','action'=>'match_history',$player['Player']['id'])));?>
+        <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Match type</th>
+                    <th>Players</th>
+                    <th>Played</th>
+                    <th class="hidden-phone">Notes</th>
+                    <th class="actions"><?php echo __('Actions'); ?></th>
+                </tr>
+            </thead>
+            <tbody id="matches-tbody">
+                <?php echo $this->element('matches-index-table');?>
+            </tbody>
+        </table>
     </div>
 
 </div>

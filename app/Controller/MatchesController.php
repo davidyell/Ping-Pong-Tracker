@@ -150,6 +150,7 @@ class MatchesController extends AppController {
  * 
  * @param int $playerId
  * @throws NotFoundException
+ * @return array Paginated Cake data array - only when requested
  */
     public function match_history($playerId){
         if(!$this->Match->MatchesPlayer->Player->exists($playerId)){
@@ -184,7 +185,12 @@ class MatchesController extends AppController {
             'order' => 'Match.created DESC',
             'limit' => 10
         );
-        $this->set('matches', $this->paginate());
+        
+        if($this->request->is('requested')){
+            return $this->paginate();
+        }else{
+            $this->set('matches', $this->paginate());
+        }
         
     }
 
