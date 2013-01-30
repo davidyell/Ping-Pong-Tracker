@@ -118,7 +118,17 @@ class MatchesController extends AppController {
 
             $this->Match->create();
             if ($this->Match->saveAll($this->request->data)) {
-                $this->Session->setFlash(__('The match has been saved'), 'alert-box', array('class' => 'alert-success'));
+                
+                if($this->request->data['Match']['match_type_id'] == 1){
+                    // Display the PR difference
+                    $message = $this->Match->ratings['a']['name'].' '.sprintf("%+d", number_format($this->Match->ratings['a']['newRating'] - $this->Match->ratings['a']['oldRating'], 0));
+                    $message .= '&nbsp;|&nbsp;';
+                    $message .= $this->Match->ratings['b']['name'].' '.sprintf("%+d", number_format($this->Match->ratings['b']['newRating'] - $this->Match->ratings['b']['oldRating'], 0));
+
+                    $this->Session->setFlash('Match saved. [ '.$message.' ]', 'alert-box', array('class' => 'alert-success'));
+                }else{
+                    $this->Session->setFlash('The match has been saved successfully.', 'alert-box', array('class' => 'alert-success'));
+                }
                 $this->redirect(array('action' => 'add'));
             } else {
                 $this->Session->setFlash(__('The match could not be saved. Please, try again.'), 'alert-box', array('class' => 'alert-error'));
