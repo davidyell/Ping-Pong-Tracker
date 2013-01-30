@@ -31,6 +31,22 @@ class Match extends AppModel {
         public $belongsTo = array(
             'MatchType'
         );
+        
+/**
+ * Variable for storing the Elo Ratings once they've been calculated
+ * 
+ * @var array 
+ */
+        public $ratings = array();
+        
+/**
+ * Model validation rules
+ * 
+ * @var array 
+ */
+        public $validate = array(
+            
+        );
 
 /**
  * beforeValidate callback method
