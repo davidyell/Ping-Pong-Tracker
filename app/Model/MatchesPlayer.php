@@ -86,20 +86,27 @@ class MatchesPlayer extends AppModel {
         if ($this->matchScores[0] == $this->matchScores[1]) {
             return false;
         }
+        
         // Must score 11 or more
         if ($this->matchScores[0] < 11 && $this->matchScores[1] < 11) {
             return false;
         }
+        
         // If more than 11, ensure 2 point difference
-        if($this->matchScores[0] > 11 || $this->matchScores[1] > 11){
-            
-            if($this->matchScores[0] > $this->matchScores[1]){
-                return $this->matchScores[0] < $this->matchScores[1] - 2;
+        if ($this->matchScores[0] > 11 || $this->matchScores[1] > 11) {
+            // Player 1 wins
+            if ($this->matchScores[0] > $this->matchScores[1]) {
+                // Player 2 score must be two less than Player 1s
+                if($this->matchScores[0] - 2 != $this->matchScores[1]){
+                    return false;
+                }
+            // Player 2 wins
+            } elseif ($this->matchScores[1] > $this->matchScores[0]) {
+                // Player 1 score must be two less than Player 2s
+                if($this->matchScores[1] - 2 != $this->matchScores[0]){
+                    return false;
+                }
             }
-            if($this->matchScores[0] < $this->matchScores[1]){
-                return $this->matchScores[0] > $this->matchScores[1] - 2;
-            }            
-            
         }
         
         return true;
