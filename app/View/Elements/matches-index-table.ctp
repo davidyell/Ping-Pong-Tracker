@@ -22,7 +22,7 @@
                 <td><?php echo $this->Time->niceShort($match['Match']['created']); ?>&nbsp;</td>
                 <td class="hidden-phone"><?php echo h($match['Match']['notes']); ?>&nbsp;</td>
                 <td class="actions">
-                    <?php echo $this->Actions->actions($match['Match']['id'], array('v'));?>
+                    <?php echo $this->Actions->actions($match['Match']['id'], array('v'), 'matches');?>
                 </td>
             </tr>
         <?php endforeach; ?>

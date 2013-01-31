@@ -79,13 +79,6 @@ div.content{
 }
 
 /** Score card **/
-div.content{
-    padding: 5px;
-    background-color: $contentBg;
-    color: $contentText;
-    border: 1px solid darken($contentBg, 30%);
-    border-radius: 4px;
-}
 .scores{
     clear: both;
     .input{
@@ -127,7 +120,12 @@ div.input{
     }
 }
 
-.one, .two, .three, .four, .team1, .team2{
+.one, 
+.two, 
+.three, 
+.four, 
+.team1, 
+.team2{
     float: left;
     padding: 5px;
     border-radius: 4px;
@@ -136,30 +134,38 @@ div.input{
     clear: left;
 }
 
-div.input.one, div.input.three, div.input.team1{
+div.input.one, 
+div.input.three, 
+div.input.team1{
     background-color: lighten($teamRed,35%);
     margin-bottom: 5px;
 }
-label[for='MatchesPlayer1Score'],
-.one label, .three label{
+label[for='MatchesPlayer1Score'], 
+.one label, 
+.three label{
     color: $teamRed;
 }
-div.input.two, div.input.four, div.input.team2{
+div.input.two, 
+div.input.four, 
+div.input.team2{
     background-color: lighten($teamBlue,35%);
 }
-label[for='MatchesPlayer2Score'],
-.two label, .four label{
+label[for='MatchesPlayer2Score'], 
+.two label, 
+.four label{
     color: $teamBlue;
 }
 
 /** Tables **/
-#rankings, #department-ranks{
+#rankings, 
+#department-ranks{
     th{
         cursor: pointer;
         i{
             display: none;
         }
-        &.sorting-asc, &.sorting-desc{
+        &.sorting-asc, 
+        &.sorting-desc{
             background-color: #ccc;
         }
         &.sorting-asc i.icon-arrow-up{
@@ -177,7 +183,8 @@ td.result{
 }
 
 /** Players::compare() **/
-div.player1, div.player2{
+div.player1, 
+div.player2{
     float: left;
 }
 table.comparison{

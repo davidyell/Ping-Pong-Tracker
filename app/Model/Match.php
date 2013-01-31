@@ -38,15 +38,6 @@ class Match extends AppModel {
  * @var array 
  */
         public $ratings = array();
-        
-/**
- * Model validation rules
- * 
- * @var array 
- */
-        public $validate = array(
-            
-        );
 
 /**
  * beforeValidate callback method
@@ -89,13 +80,29 @@ class Match extends AppModel {
             require_once($vendor[0].'EloRating'.DS.'EloRating.php');
             
             $this->MatchesPlayer->Player->recursive = -1;
-            $ratingA = $this->MatchesPlayer->Player->read(array('id','performance_rating'), $this->data['MatchesPlayer'][1]['MatchesPlayer']['player_id']);
-            $ratingB = $this->MatchesPlayer->Player->read(array('id','performance_rating'), $this->data['MatchesPlayer'][2]['MatchesPlayer']['player_id']);
+            $ratingA = $this->MatchesPlayer->Player->read(array('id','performance_rating','first_name','last_name'), $this->data['MatchesPlayer'][1]['MatchesPlayer']['player_id']);
+            $ratingB = $this->MatchesPlayer->Player->read(array('id','performance_rating','first_name','last_name'), $this->data['MatchesPlayer'][2]['MatchesPlayer']['player_id']);
             $scoreA = $this->data['MatchesPlayer'][1]['MatchesPlayer']['score'];
             $scoreB = $this->data['MatchesPlayer'][2]['MatchesPlayer']['score'];
             
             $rating = new Rating($ratingA['Player']['performance_rating'], $ratingB['Player']['performance_rating'], $scoreA, $scoreB);
             $newRatings = $rating->getNewRatings();
+            
+            // Store the ratings in the model so we can display them
+            $this->ratings = array(
+                'a' => array(
+                    'id' => $ratingA['Player']['id'],
+                    'name' => $ratingA['Player']['first_name'].' '.substr($ratingA['Player']['last_name'], 0, 1),
+                    'oldRating' => $ratingA['Player']['performance_rating'],
+                    'newRating' => $newRatings['a']
+                ),
+                'b' => array(
+                    'id' => $ratingB['Player']['id'],
+                    'name' => $ratingB['Player']['first_name'].' '.substr($ratingB['Player']['last_name'], 0, 1),
+                    'oldRating' => $ratingB['Player']['performance_rating'],
+                    'newRating' => $newRatings['b']
+                )
+            );
             
             $this->MatchesPlayer->Player->updatePerformanceRating($ratingA['Player']['id'], $newRatings['a']);
             $this->MatchesPlayer->Player->updatePerformanceRating($ratingB['Player']['id'], $newRatings['b']);
