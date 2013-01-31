@@ -31,6 +31,10 @@ class MatchesPlayer extends AppModel {
             'two' => array(
                 'rule' => 'numeric',
                 'message' => 'Please enter a number'
+            ),
+            'three' => array(
+                'rule' => 'scores',
+                'message' => 'Scores must be valid'
             )
         ),
         'player_id' => array(
@@ -63,6 +67,50 @@ class MatchesPlayer extends AppModel {
             'order' => ''
         )
     );
+    
+/**
+ * A variable to store the scores for validation
+ * 
+ * @var array 
+ */
+    public $matchScores = array();
+    
+/**
+ * Validates a pingpong score using score values saved in the model 
+ * 
+ * @param array $check Consists of 'field'=>'value'
+ * @return boolean
+ */
+    public function scores($check) {
+        // Scores cannot match
+        if ($this->matchScores[0] == $this->matchScores[1]) {
+            return false;
+        }
+        
+        // Must score 11 or more
+        if ($this->matchScores[0] < 11 && $this->matchScores[1] < 11) {
+            return false;
+        }
+        
+        // If more than 11, ensure 2 point difference
+        if ($this->matchScores[0] > 11 || $this->matchScores[1] > 11) {
+            // Player 1 wins
+            if ($this->matchScores[0] > $this->matchScores[1]) {
+                // Player 2 score must be two less than Player 1s
+                if($this->matchScores[0] - 2 != $this->matchScores[1]){
+                    return false;
+                }
+            // Player 2 wins
+            } elseif ($this->matchScores[1] > $this->matchScores[0]) {
+                // Player 1 score must be two less than Player 2s
+                if($this->matchScores[1] - 2 != $this->matchScores[0]){
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
 
 /**
  * Get the match details

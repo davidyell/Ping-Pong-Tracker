@@ -115,6 +115,9 @@ class MatchesController extends AppController {
             } elseif ($this->Session->check('match')) {
                 $this->Session->delete('match');
             }
+            
+            // Copy the scores to the model for validation
+            $this->Match->MatchesPlayer->matchScores = array($this->request->data['MatchesPlayer'][1]['score'], $this->request->data['MatchesPlayer'][2]['score']);
 
             $this->Match->create();
             if ($this->Match->saveAll($this->request->data)) {
