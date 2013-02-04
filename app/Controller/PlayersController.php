@@ -78,8 +78,13 @@ class PlayersController extends AppController {
  * @return void
  */
     public function compare() {
-
+        
         if ($this->request->is('post')) {
+            if($this->request->data['Player']['player1'] == $this->request->data['Player']['player2']){
+                $this->Session->setFlash('You can\'t compare youself to yourself.', 'alert-box', array('class' => 'alert-error'));
+                $this->redirect(array('action' => 'compare'));
+            }
+            
             $this->redirect(array('action' => 'compare', $this->request->data['Player']['player1'], $this->request->data['Player']['player2']));
         }
 
@@ -106,6 +111,11 @@ class PlayersController extends AppController {
     public function head_to_head() {
 
         if ($this->request->is('post')) {
+            if($this->request->data['Player']['player1'] == $this->request->data['Player']['player2']){
+                $this->Session->setFlash('You can\'t compare youself to yourself.', 'alert-box', array('class' => 'alert-error'));
+                $this->redirect(array('action' => 'head_to_head'));
+            }
+            
             $this->redirect(array('action' => 'head_to_head', $this->request->data['Player']['player1'], $this->request->data['Player']['player2']));
         }
 
