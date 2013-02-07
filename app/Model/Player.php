@@ -139,29 +139,6 @@ class Player extends AppModel {
             ));
             return $data;
         }
-
-/**
- * Returns a set of stats for a single player
- * 
- * @param int $player_id
- * @return array
- */
-        public function getPlayerStats($player_id){
-            $player = $this->find('all', array(
-                'contain'=>array(
-                    'MatchesPlayer'=>array(
-                        'fields'=>$this->stats_fields // TODO: Figure out why this is generating an extra dimension - $player['MatchesPlayer'][0]['MatchesPlayer'][0]['wins']
-                    ),
-                    'Department'=>array(
-                        'fields'=>array('id','name')
-                    )
-                ),
-                'conditions'=>array(
-                    'Player.id'=>$player_id
-                )
-            ));
-            return $player;
-        }
         
 /**
  * Calculates the head to head statistics for all matches between players.

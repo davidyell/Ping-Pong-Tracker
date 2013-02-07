@@ -73,37 +73,6 @@ class PlayersController extends AppController {
     }
 
 /**
- * Compare the stats of two players
- *
- * @return void
- */
-    public function compare() {
-        
-        if ($this->request->is('post')) {
-            if($this->request->data['Player']['player1'] == $this->request->data['Player']['player2']){
-                $this->Session->setFlash('You can\'t compare youself to yourself.', 'alert-box', array('class' => 'alert-error'));
-                $this->redirect(array('action' => 'compare'));
-            }
-            
-            $this->redirect(array('action' => 'compare', $this->request->data['Player']['player1'], $this->request->data['Player']['player2']));
-        }
-
-        if (!empty($this->request->params['pass'][0]) && !empty($this->request->params['pass'][1])) {
-            $player1 = $this->Player->getPlayerStats($this->request->params['pass'][0]);
-            $player2 = $this->Player->getPlayerStats($this->request->params['pass'][1]);
-            $this->set(compact('player1', 'player2'));
-
-            $this->request->data['Player']['player1'] = $this->request->params['pass'][0];
-            $this->request->data['Player']['player2'] = $this->request->params['pass'][1];
-        } else {
-            $this->request->data['Player']['player1'] = 0;
-            $this->request->data['Player']['player2'] = 0;
-        }
-
-        $this->set('player_list', $this->Player->getPlayers());
-    }
-
-/**
  * Compare the played games of two players
  *
  * @return void

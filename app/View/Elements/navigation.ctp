@@ -14,9 +14,6 @@
     <li <?php echo ($this->request->controller == 'players' && $this->request->action == 'head_to_head')? 'class="active"' : '';?>>
         <?php echo $this->Html->link('Head to head', array('controller'=>'players','action'=>'head_to_head'));?>
     </li>
-    <li <?php echo ($this->request->controller == 'players' && $this->request->action == 'compare')? 'class="active"' : '';?>>
-        <?php echo $this->Html->link('Player comparison', array('controller'=>'players','action'=>'compare'));?>
-    </li>
     <li <?php echo ($this->request->controller == 'matches' && $this->request->action == 'global_stats')? 'class="active"' : '';?>>
         <?php echo $this->Html->link('Global stats', array('controller'=>'matches','action'=>'global_stats'));?>
     </li>
