@@ -1,7 +1,7 @@
 <div class="players view">
     <h2>
         <?php
-        echo $this->element('player-avatar', array('player'=>$player));
+        echo $this->element('player-avatar', array('player'=>$player, 'size'=>100), array('cache'=>array('config'=>'twoweeks','key'=>'player_'.$player['Player']['id'].'_100')));
         
         echo h($player['Player']['first_name']);
         if(!empty($player['Player']['nickname'])){

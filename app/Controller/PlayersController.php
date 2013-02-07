@@ -15,8 +15,6 @@ class PlayersController extends AppController {
  * @return void
  */
     public function index() {
-        $this->Player->avatarSize = 24;
-        
         $this->paginate = array(
             'contain' => array(
                 'Department'
@@ -32,7 +30,6 @@ class PlayersController extends AppController {
  * @return void
  */
     public function rankings() {
-        $this->Player->avatarSize = 24;
         $this->set('rankings', $this->Player->getRankings());
     }
 
