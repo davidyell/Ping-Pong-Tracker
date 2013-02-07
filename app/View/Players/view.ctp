@@ -27,20 +27,20 @@
         <dd>
             <?php
             // Has won a match
-            if(!empty($last_win)){
+            if (!empty($last_win)) {
                 $against = '';
                 $losing_team = Set::extract("/MatchesPlayer[result=Lost]", $last_win);
-                foreach($losing_team as $p){
+                foreach ($losing_team as $p) {
                     $against .= $p['MatchesPlayer']['Player']['first_name'].' '.substr($p['MatchesPlayer']['Player']['last_name'], 0, 1).' &amp; ';
                 }
                 $against = rtrim($against, "&amp; ");
-                echo $this->Html->link("Won a <b>{$last_win['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_win['Match']['created']), array('controller'=>'matches', 'action'=>'view', $last_win['Match']['id']), array('escape'=>false));
-            } elseif($results['total_score'] == 0){
+                echo $this->Html->link("Won a <b>{$last_win['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_win['Match']['created']), array('controller' => 'matches', 'action' => 'view', $last_win['Match']['id']), array('escape' => false));
+            } elseif ($results[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['total_score'] == 0) {
                 // Hasn't scored any points
                 echo "<p>Not played yet</p>";
-            } else{
+            } else {
                 // Has played, but not won any
-                echo "<p class='winless'>Loser!</p>";
+                echo "<p class='winless'>Winless!</p>";
             }
             ?>
         </dd>
@@ -48,18 +48,18 @@
         <dd>
             <?php
             // Has played, but not lost any matches
-            if(!empty($last_loss)){
+            if (!empty($last_loss)) {
                 $against = '';
                 $winning_team = Set::extract("/MatchesPlayer[result=Won]", $last_loss);
-                foreach($winning_team as $p){
+                foreach ($winning_team as $p) {
                     $against .= $p['MatchesPlayer']['Player']['first_name'].' '.substr($p['MatchesPlayer']['Player']['last_name'], 0, 1).' &amp; ';
                 }
                 $against = rtrim($against, "&amp; ");
-                echo $this->Html->link("Lost a <b>{$last_loss['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_loss['Match']['created']), array('controller'=>'matches', 'action'=>'view', $last_loss['Match']['id']), array('escape'=>false));
-            } elseif($results['total_score'] == 0){
+                echo $this->Html->link("Lost a <b>{$last_loss['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_loss['Match']['created']), array('controller' => 'matches', 'action' => 'view', $last_loss['Match']['id']), array('escape' => false));
+            } elseif ($results[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['total_score'] == 0) {
                 // Hasn't scored any points
                 echo "<p>Not played yet</p>";
-            } else{
+            } else {
                 echo "<p class='undefeated'>Undefeated!</p>";
             }
             ?>
