@@ -68,6 +68,9 @@ class PlayersController extends AppController {
 
         $results = $this->Player->getPlayerStats($id);
         $this->set('results', $results);
+        
+        // Get ranking history
+        $this->set('ratingbytime', $this->Player->PerformanceRating->getRatingsHistory($id));
 
         $this->set('winsbytime', $this->Player->winsOverTime($id));
     }

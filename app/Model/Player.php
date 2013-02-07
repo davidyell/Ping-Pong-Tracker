@@ -37,7 +37,8 @@ class Player extends AppModel {
  * @var array
  */
         public $hasMany = array(
-            'MatchesPlayer'
+            'MatchesPlayer',
+            'PerformanceRating'
         );
 
 /**

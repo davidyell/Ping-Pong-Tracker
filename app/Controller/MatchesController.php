@@ -13,6 +13,10 @@ class MatchesController extends AppController {
  * Method to aggregate Performance Ratings from all historic matches
  */
     public function updateRatings(){
+        if (Configure::read('debug') != 2) {
+            throw new ForbiddenException('Cannot update match PR history');
+        }
+        
         $matches = $this->Match->find('all', array(
             'contain'=>array(
                 'MatchesPlayer'
@@ -44,6 +48,22 @@ class MatchesController extends AppController {
             
             $this->Match->MatchesPlayer->Player->updatePerformanceRating($ratingA['Player']['id'], $rating->newRatingA);
             $this->Match->MatchesPlayer->Player->updatePerformanceRating($ratingB['Player']['id'], $rating->newRatingB);
+            
+            $ratings = array(
+                array(
+                    'player_id' => $ratingA['Player']['id'],
+                    'rating' => $rating->newRatingA,
+                    'created' => $match['Match']['created'],
+                    'modified' => $match['Match']['modified'],
+                ),
+                array(
+                    'player_id' => $ratingB['Player']['id'],
+                    'rating' => $rating->newRatingB,
+                    'created' => $match['Match']['created'],
+                    'modified' => $match['Match']['modified'],
+                ),
+            );
+            $this->Match->MatchesPlayer->Player->PerformanceRating->saveAll($ratings);
             
             $i++;
         }
@@ -128,6 +148,19 @@ class MatchesController extends AppController {
             if ($this->Match->saveAll($this->request->data)) {
                 
                 if($this->request->data['Match']['match_type_id'] == 1){
+                    // Save the players PR for historic comparison
+                    $ratings = array(
+                        array(
+                            'player_id' => $this->Match->ratings['a']['id'],
+                            'rating' => $this->Match->ratings['a']['newRating'],
+                        ),
+                        array(
+                            'player_id' => $this->Match->ratings['b']['id'],
+                            'rating' => $this->Match->ratings['b']['newRating'],
+                        ),
+                    );
+                    $this->Match->MatchesPlayer->Player->PerformanceRating->saveAll($ratings);
+                    
                     // Display the PR difference
                     $message = $this->Match->ratings['a']['name'].' '.sprintf("%+d", number_format($this->Match->ratings['a']['newRating'] - $this->Match->ratings['a']['oldRating'], 0));
                     $message .= '&nbsp;|&nbsp;';

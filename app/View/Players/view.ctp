@@ -78,15 +78,17 @@
 
     <div class="charts">
         <div id="wins_by_time"></div>
+        <div id="rating_by_time"></div>
+        
         <?php $this->Blocks->append('script');?>
             <script type="text/javascript" src="https://www.google.com/jsapi"></script>
             <script type="text/javascript">
                 google.load("visualization", "1", {packages:["corechart"]});
-                google.setOnLoadCallback(drawChart);
-                function drawChart() {
+                
+                function drawWinsChart() {
 
                     items = [
-                            ['Date','Wins','Losses'],
+                        ['Date','Wins','Losses'],
                         <?php
                         foreach($winsbytime as $item){
                             ?>
@@ -99,7 +101,7 @@
                     var data = google.visualization.arrayToDataTable(items);
 
                     var options = {
-                        title: 'Matches by day',
+                        title: 'Matches by day (30 days)',
                         width: 600,
                         height: 300
                     };
@@ -107,6 +109,40 @@
                     var chart = new google.visualization.AreaChart(document.getElementById('wins_by_time'));
                     chart.draw(data, options);
                 }
+                
+                function drawRatingChart() {
+                    items = [
+                        ['Date', 'Rating'],
+                        <?php
+                        foreach($ratingbytime as $item){
+                            ?>
+                            ['<?php echo $this->Time->format('D j M', $item[0]['day']);?>', <?php echo $item[0]['average'];?>],
+                            <?php
+                        }
+                        ?>
+                    ];
+                    
+                    var data = google.visualization.arrayToDataTable(items);
+                    
+                    var options = {
+                        legend: {position:'none'},
+                        title: 'Average single PR by day (30 days)',
+                        width: 600,
+                        height: 300
+                    };
+                    
+                    var chart = new google.visualization.AreaChart(document.getElementById('rating_by_time'));
+                    chart.draw(data, options);
+                }
+                
+                google.setOnLoadCallback(function() {
+                    $(function(){
+
+                       drawWinsChart();
+                       drawRatingChart();
+
+                    });
+                });
             </script>
         <?php $this->Blocks->end();?>
     </div>
