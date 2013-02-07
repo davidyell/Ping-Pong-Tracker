@@ -20,7 +20,8 @@ class Match extends AppModel {
  * @var array
  */
         public $hasMany = array(
-            'MatchesPlayer'
+            'MatchesPlayer',
+            'PerformanceRating'
         );
 
 /**

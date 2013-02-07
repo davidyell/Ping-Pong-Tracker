@@ -53,11 +53,13 @@ class MatchesController extends AppController {
                 array(
                     'player_id' => $ratingA['Player']['id'],
                     'rating' => $rating->newRatingA,
+                    'match_id' => $match['Match']['id'],
                     'created' => $match['Match']['created'],
                     'modified' => $match['Match']['modified'],
                 ),
                 array(
                     'player_id' => $ratingB['Player']['id'],
+                    'match_id' => $match['Match']['id'],
                     'rating' => $rating->newRatingB,
                     'created' => $match['Match']['created'],
                     'modified' => $match['Match']['modified'],
@@ -154,10 +156,12 @@ class MatchesController extends AppController {
                         array(
                             'player_id' => $this->Match->ratings['a']['id'],
                             'rating' => $this->Match->ratings['a']['newRating'],
+                            'match_id' => $this->Match->getInsertID()
                         ),
                         array(
                             'player_id' => $this->Match->ratings['b']['id'],
                             'rating' => $this->Match->ratings['b']['newRating'],
+                            'match_id' => $this->Match->getInsertID()
                         ),
                     );
                     $this->Match->MatchesPlayer->Player->PerformanceRating->saveAll($ratings);

@@ -35,7 +35,8 @@ class PerformanceRating extends AppModel {
             'conditions' => '',
             'fields' => '',
             'order' => ''
-        )
+        ),
+        'Match'
     );
     
 /**
