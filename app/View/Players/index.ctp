@@ -2,6 +2,7 @@
     <h2><?php echo __('Players'); ?></h2>
     <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped">
         <tr>
+            <th>Avatar</th>
             <th><?php echo $this->Paginator->sort('first_name'); ?></th>
             <th class="hidden-phone"><?php echo $this->Paginator->sort('nickname'); ?></th>
             <th><?php echo $this->Paginator->sort('last_name'); ?></th>
@@ -10,6 +11,7 @@
         </tr>
         <?php foreach($players as $player): ?>
             <tr>
+                <td><?php echo $this->element('player-avatar', array('player'=>$player, 'size'=>24), array('cache'=>array('config'=>'twoweeks','key'=>'player_'.$player['Player']['id'].'_24')));?></td>
                 <td><?php echo h($player['Player']['first_name']); ?>&nbsp;</td>
                 <td class="hidden-phone"><?php echo h($player['Player']['nickname']); ?>&nbsp;</td>
                 <td><?php echo h($player['Player']['last_name']); ?>&nbsp;</td>

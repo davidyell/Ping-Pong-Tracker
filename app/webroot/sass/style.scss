@@ -195,9 +195,14 @@ table.comparison{
         margin: 0;
     }
 }
-.gravatar{
+.gravatar, .facebookavatar{
     margin-right: 10px;
 }
 td .gravatar{
     margin-right: 5px;
+}
+
+/** Graphs **/
+#rating_by_time{
+    margin-top: 10px;
 }

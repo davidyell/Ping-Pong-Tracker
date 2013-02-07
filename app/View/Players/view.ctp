@@ -1,7 +1,8 @@
 <div class="players view">
     <h2>
         <?php
-        echo "<span class='gravatar'>".$this->Gravatar->image($player['Player']['email'], array('s'=>72,'d'=>'wavatar'))."</span>";
+        echo $this->element('player-avatar', array('player'=>$player, 'size'=>100), array('cache'=>array('config'=>'twoweeks','key'=>'player_'.$player['Player']['id'].'_100')));
+        
         echo h($player['Player']['first_name']);
         if(!empty($player['Player']['nickname'])){
             echo ' "'.$player['Player']['nickname'].'"';
@@ -26,20 +27,20 @@
         <dd>
             <?php
             // Has won a match
-            if(!empty($last_win)){
+            if (!empty($last_win)) {
                 $against = '';
                 $losing_team = Set::extract("/MatchesPlayer[result=Lost]", $last_win);
-                foreach($losing_team as $p){
+                foreach ($losing_team as $p) {
                     $against .= $p['MatchesPlayer']['Player']['first_name'].' '.substr($p['MatchesPlayer']['Player']['last_name'], 0, 1).' &amp; ';
                 }
                 $against = rtrim($against, "&amp; ");
-                echo $this->Html->link("Won a <b>{$last_win['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_win['Match']['created']), array('controller'=>'matches', 'action'=>'view', $last_win['Match']['id']), array('escape'=>false));
-            } elseif($results['total_score'] == 0){
+                echo $this->Html->link("Won a <b>{$last_win['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_win['Match']['created']), array('controller' => 'matches', 'action' => 'view', $last_win['Match']['id']), array('escape' => false));
+            } elseif ($results[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['total_score'] == 0) {
                 // Hasn't scored any points
                 echo "<p>Not played yet</p>";
-            } else{
+            } else {
                 // Has played, but not won any
-                echo "<p class='winless'>Loser!</p>";
+                echo "<p class='winless'>Winless!</p>";
             }
             ?>
         </dd>
@@ -47,18 +48,18 @@
         <dd>
             <?php
             // Has played, but not lost any matches
-            if(!empty($last_loss)){
+            if (!empty($last_loss)) {
                 $against = '';
                 $winning_team = Set::extract("/MatchesPlayer[result=Won]", $last_loss);
-                foreach($winning_team as $p){
+                foreach ($winning_team as $p) {
                     $against .= $p['MatchesPlayer']['Player']['first_name'].' '.substr($p['MatchesPlayer']['Player']['last_name'], 0, 1).' &amp; ';
                 }
                 $against = rtrim($against, "&amp; ");
-                echo $this->Html->link("Lost a <b>{$last_loss['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_loss['Match']['created']), array('controller'=>'matches', 'action'=>'view', $last_loss['Match']['id']), array('escape'=>false));
-            } elseif($results['total_score'] == 0){
+                echo $this->Html->link("Lost a <b>{$last_loss['MatchType']['name']}</b> match against <b>$against</b> ".$this->Time->niceShort($last_loss['Match']['created']), array('controller' => 'matches', 'action' => 'view', $last_loss['Match']['id']), array('escape' => false));
+            } elseif ($results[0]['MatchesPlayer'][0]['MatchesPlayer'][0]['total_score'] == 0) {
                 // Hasn't scored any points
                 echo "<p>Not played yet</p>";
-            } else{
+            } else {
                 echo "<p class='undefeated'>Undefeated!</p>";
             }
             ?>
@@ -77,15 +78,17 @@
 
     <div class="charts">
         <div id="wins_by_time"></div>
+        <div id="rating_by_time"></div>
+        
         <?php $this->Blocks->append('script');?>
             <script type="text/javascript" src="https://www.google.com/jsapi"></script>
             <script type="text/javascript">
                 google.load("visualization", "1", {packages:["corechart"]});
-                google.setOnLoadCallback(drawChart);
-                function drawChart() {
+                
+                function drawWinsChart() {
 
                     items = [
-                            ['Date','Wins','Losses'],
+                        ['Date','Wins','Losses'],
                         <?php
                         foreach($winsbytime as $item){
                             ?>
@@ -98,7 +101,7 @@
                     var data = google.visualization.arrayToDataTable(items);
 
                     var options = {
-                        title: 'Matches by day',
+                        title: 'Matches by day (30 days)',
                         width: 600,
                         height: 300
                     };
@@ -106,6 +109,40 @@
                     var chart = new google.visualization.AreaChart(document.getElementById('wins_by_time'));
                     chart.draw(data, options);
                 }
+                
+                function drawRatingChart() {
+                    items = [
+                        ['Date', 'Rating'],
+                        <?php
+                        foreach($ratingbytime as $item){
+                            ?>
+                            ['<?php echo $this->Time->format('D j M', $item[0]['day']);?>', <?php echo $item[0]['average'];?>],
+                            <?php
+                        }
+                        ?>
+                    ];
+                    
+                    var data = google.visualization.arrayToDataTable(items);
+                    
+                    var options = {
+                        legend: {position:'none'},
+                        title: 'Average single PR by day (30 days)',
+                        width: 600,
+                        height: 300
+                    };
+                    
+                    var chart = new google.visualization.AreaChart(document.getElementById('rating_by_time'));
+                    chart.draw(data, options);
+                }
+                
+                google.setOnLoadCallback(function() {
+                    $(function(){
+
+                       drawWinsChart();
+                       drawRatingChart();
+
+                    });
+                });
             </script>
         <?php $this->Blocks->end();?>
     </div>

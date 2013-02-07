@@ -12,45 +12,65 @@ class MatchesController extends AppController {
 /**
  * Method to aggregate Performance Ratings from all historic matches
  */
-//    public function updateRatings(){
-//        $matches = $this->Match->find('all', array(
-//            'contain'=>array(
-//                'MatchesPlayer'
-//            ),
-//            'conditions'=>array(
-//                'Match.match_type_id'=>1
-//            )
-//        ));
-//        
-//        $i = 1;
-//        foreach($matches as $match){
-//            
-//            $vendor = App::path('Vendor');
-//            require_once($vendor[0].'EloRating'.DS.'EloRating.php');
-//            
-//            $this->Match->MatchesPlayer->Player->recursive = -1;
-//            $ratingA = $this->Match->MatchesPlayer->Player->read(array('id','performance_rating'), $match['MatchesPlayer'][0]['player_id']);
-//            $ratingB = $this->Match->MatchesPlayer->Player->read(array('id','performance_rating'), $match['MatchesPlayer'][1]['player_id']);
-//            
-//            if ($match['MatchesPlayer'][0]['score'] > $match['MatchesPlayer'][1]['score']) {
-//                $scores['a'] = 1;
-//                $scores['b'] = 0;
-//            } elseif ($match['MatchesPlayer'][0]['score'] < $match['MatchesPlayer'][1]['score']) {
-//                $scores['a'] = 0;
-//                $scores['b'] = 1;
-//            }
-//            
-//            $rating = new Rating($ratingA['Player']['performance_rating'], $ratingB['Player']['performance_rating'], $scores['a'], $scores['b']);
-//            
-//            $this->Match->MatchesPlayer->Player->updatePerformanceRating($ratingA['Player']['id'], $rating->newRatingA);
-//            $this->Match->MatchesPlayer->Player->updatePerformanceRating($ratingB['Player']['id'], $rating->newRatingB);
-//            
-//            $i++;
-//        }
-//        
-//        var_dump('Done!. Processed '.$i.' matches.');
-//        $this->render(false);
-//    }
+    public function updateRatings(){
+        if (Configure::read('debug') != 2) {
+            throw new ForbiddenException('Cannot update match PR history');
+        }
+        
+        $matches = $this->Match->find('all', array(
+            'contain'=>array(
+                'MatchesPlayer'
+            ),
+            'conditions'=>array(
+                'Match.match_type_id'=>1
+            )
+        ));
+        
+        $i = 1;
+        foreach($matches as $match){
+            
+            $vendor = App::path('Vendor');
+            require_once($vendor[0].'EloRating'.DS.'EloRating.php');
+            
+            $this->Match->MatchesPlayer->Player->recursive = -1;
+            $ratingA = $this->Match->MatchesPlayer->Player->read(array('id','performance_rating'), $match['MatchesPlayer'][0]['player_id']);
+            $ratingB = $this->Match->MatchesPlayer->Player->read(array('id','performance_rating'), $match['MatchesPlayer'][1]['player_id']);
+            
+            if ($match['MatchesPlayer'][0]['score'] > $match['MatchesPlayer'][1]['score']) {
+                $scores['a'] = 1;
+                $scores['b'] = 0;
+            } elseif ($match['MatchesPlayer'][0]['score'] < $match['MatchesPlayer'][1]['score']) {
+                $scores['a'] = 0;
+                $scores['b'] = 1;
+            }
+            
+            $rating = new Rating($ratingA['Player']['performance_rating'], $ratingB['Player']['performance_rating'], $scores['a'], $scores['b']);
+            
+            $this->Match->MatchesPlayer->Player->updatePerformanceRating($ratingA['Player']['id'], $rating->newRatingA);
+            $this->Match->MatchesPlayer->Player->updatePerformanceRating($ratingB['Player']['id'], $rating->newRatingB);
+            
+            $ratings = array(
+                array(
+                    'player_id' => $ratingA['Player']['id'],
+                    'rating' => $rating->newRatingA,
+                    'created' => $match['Match']['created'],
+                    'modified' => $match['Match']['modified'],
+                ),
+                array(
+                    'player_id' => $ratingB['Player']['id'],
+                    'rating' => $rating->newRatingB,
+                    'created' => $match['Match']['created'],
+                    'modified' => $match['Match']['modified'],
+                ),
+            );
+            $this->Match->MatchesPlayer->Player->PerformanceRating->saveAll($ratings);
+            
+            $i++;
+        }
+        
+        var_dump('Done!. Processed '.$i.' matches.');
+        $this->render(false);
+    }
 
 /**
  * index method
@@ -113,6 +133,7 @@ class MatchesController extends AppController {
             // Do we need to remember the details for the user to add again?
             if (isset($this->request->data['Match']['remember'])) {
                 $this->Session->write('match', $this->request->data);
+                $this->Session->delete('match.Match.notes');
 
                 // Remove the scores
                 $this->Session->delete('match.MatchesPlayer.1.score');
@@ -128,6 +149,19 @@ class MatchesController extends AppController {
             if ($this->Match->saveAll($this->request->data)) {
                 
                 if($this->request->data['Match']['match_type_id'] == 1){
+                    // Save the players PR for historic comparison
+                    $ratings = array(
+                        array(
+                            'player_id' => $this->Match->ratings['a']['id'],
+                            'rating' => $this->Match->ratings['a']['newRating'],
+                        ),
+                        array(
+                            'player_id' => $this->Match->ratings['b']['id'],
+                            'rating' => $this->Match->ratings['b']['newRating'],
+                        ),
+                    );
+                    $this->Match->MatchesPlayer->Player->PerformanceRating->saveAll($ratings);
+                    
                     // Display the PR difference
                     $message = $this->Match->ratings['a']['name'].' '.sprintf("%+d", number_format($this->Match->ratings['a']['newRating'] - $this->Match->ratings['a']['oldRating'], 0));
                     $message .= '&nbsp;|&nbsp;';

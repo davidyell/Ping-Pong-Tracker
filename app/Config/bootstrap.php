@@ -98,6 +98,14 @@
  */
 Cache::config('default', array('engine' => 'File'));
 
+Cache::config('twoweeks', array(
+       'engine' => 'File', //[required]
+       'duration'=> '+2 weeks', //[optional]
+       'probability'=> 100, //[optional]
+       'path' => CACHE, //[optional] use system tmp directory - remember to use absolute path
+       'prefix' => 'pingpong_', //[optional]  prefix every cache file with this string
+));
+
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
  *
