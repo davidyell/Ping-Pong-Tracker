@@ -133,6 +133,7 @@ class MatchesController extends AppController {
             // Do we need to remember the details for the user to add again?
             if (isset($this->request->data['Match']['remember'])) {
                 $this->Session->write('match', $this->request->data);
+                $this->Session->delete('match.Match.notes');
 
                 // Remove the scores
                 $this->Session->delete('match.MatchesPlayer.1.score');
