@@ -10,8 +10,8 @@
                 <th data-sort="int">Won <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
                 <th data-sort="int">Lost <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
                 <th data-sort="flaot">Win % <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
-                <th data-sort="int" class="hidden-phone">Winning points <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
                 <th data-sort="int" class="hidden-phone">Total points <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
+                <th data-sort="int" class="hidden-phone">Winning points <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
                 <th data-sort="int"><abbr class="initialism" title="Points difference">PD</abbr> <i class="icon-arrow-up"></i><i class="icon-arrow-down"></i></th>
             </tr>
         </thead>
@@ -40,8 +40,8 @@
                     <td><?php echo $player[0]['wins'];?></td>
                     <td><?php echo $player[0]['losses'];?></td>
                     <td><?php echo $this->Number->precision($player[0]['win_percent'], 0);?>%</td>
-                    <td class="hidden-phone"><?php echo $player[0]['win_points'];?></td>
                     <td class="hidden-phone"><?php echo $player[0]['total_score'];?></td>
+                    <td class="hidden-phone"><?php echo $player[0]['win_points'];?></td>
                     <td><?php echo $player[0]['diff'];?></td>
                 </tr>
                 <?php
