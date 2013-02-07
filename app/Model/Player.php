@@ -56,6 +56,35 @@ class Player extends AppModel {
             'SUM(if(result = "Won", 1, 0)) / ( SUM(if(result = "Won", 1, 0)) + SUM(if(result = "Lost", 1, 0)) ) * 100 as win_percent',
             '(SUM(if(result = "Won", score, 0)) * SUM(if(result = "Won", 1, 0))) / SUM(if(result = "Lost", 1, 0)) as rank', /* (won_points * wins) / losses */
         );
+        
+/**
+ * What size of avatar should we load from Facebook?
+ * 
+ * @var int 
+ */
+        public $avatarSize = 100;
+        
+/**
+ * Model afterFind, run after each set of results is found across the whole model
+ * 
+ * @param mixed $results The results of the find operation
+ * @param boolean $primary Whether this model is being queried directly (vs. being queried as an association)
+ * @return mixed Result of the find operation
+ */
+        public function afterFind($results, $primary = false) {
+            parent::afterFind($results, $primary);
+
+            // Process players to add a Facebook avatar if one exists.
+            foreach ($results as &$result) {
+                if (!empty($result['Player']['facebook_id'])) {
+                    $response = file_get_contents("https://graph.facebook.com/{$result['Player']['facebook_id']}?fields=id,name,picture.width({$this->avatarSize})");
+                    $data = json_decode($response);
+                    $result['Player']['facebook_avatar'] = $data->picture->data->url;
+                }
+            }
+
+            return $results;
+        }
 
 /**
  * Gets list of players as an array for a select in the format David Y
@@ -87,7 +116,7 @@ class Player extends AppModel {
             $rankings = $this->MatchesPlayer->find('all', array(
                 'contain'=>array(
                     'Player'=>array(
-                        'fields'=>array('id','first_name','nickname','last_name','email','performance_rating')
+                        'fields'=>array('id','first_name','nickname','last_name','email','facebook_id','performance_rating')
                     )
                 ),
                 'conditions'=>array(

@@ -26,13 +26,14 @@
                     <td><?php echo $this->Number->precision($player[0]['rank'], 1);?></td>
                     <td><?php echo $this->Number->precision($player['Player']['performance_rating'],0);?></td>
                     <td><?php
-                        echo "<span class='gravatar'>".$this->Gravatar->image($player['Player']['email'], array('s'=>24,'d'=>'wavatar'))."</span>";
+                        echo $this->element('player-avatar', array('player'=>$player));
                         
-                            $name = $player['Player']['first_name'];
-                            if(!empty($player['Player']['nickname'])){
-                                $name .= " '{$player['Player']['nickname']}'";
-                            }
-                            $name .= ' '.$player['Player']['last_name'];
+                        $name = $player['Player']['first_name'];
+                        if(!empty($player['Player']['nickname'])){
+                            $name .= " '{$player['Player']['nickname']}'";
+                        }
+                        $name .= ' '.$player['Player']['last_name'];
+                        
                         echo $this->Html->link($name, array('controller'=>'players','action'=>'view',$player['Player']['id']));
 
                     ?></td>
