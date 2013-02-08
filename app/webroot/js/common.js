@@ -42,5 +42,32 @@ $(function(){
 
     $('#department-ranks').stupidtable();
     $('#rankings').stupidtable();
+    
+// Deal with Tournament draws and matches
+    $('#TournamentAddForm .buttons button').click(function(e) {
+        e.preventDefault();
+        
+        if ($(this).hasClass('add')) {
+            $('#TournamentPlayers option:selected').each(function(i, e) {
+                $('#TournamentSelectedPlayers').append(e);
+            });
+        } else {
+            $('#TournamentSelectedPlayers option:selected').each(function(i, e) {
+                $('#TournamentPlayers').append(e);
+            });
+        }
+    });
+    
+    $('#dodraw').click(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'post',
+            url: '/tournaments/draw',
+            data: $('#TournamentAddForm').serialize(),
+            success: function(data, textStatus) {
+                $('#draw').html('<img src="/img/tournament.png" alt="Tournament draw">');
+            }
+        });
+    });
 
 });

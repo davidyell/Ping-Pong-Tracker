@@ -61,9 +61,10 @@ class Player extends AppModel {
 /**
  * Gets list of players as an array for a select in the format David Y
  *
+ * @param bool $choose If the choose a player should be included or not
  * @return array An array of players by FirstName and Surname initial
  */
-        public function getPlayers(){
+        public function getPlayers($choose = true){
             $players = $this->find('all', array(
                 'contain'=>false,
                 'fields'=>array('id','first_name','last_name'),
@@ -73,8 +74,10 @@ class Player extends AppModel {
             foreach($players as $p){
                 $return[$p['Player']['id']] = $p['Player']['first_name'].' '.substr($p['Player']['last_name'], 0, 1);
             }
-
-            $return[0] = 'Choose player';
+            
+            if($choose){
+                $return[0] = 'Choose player';
+            }
 
             return $return;
         }

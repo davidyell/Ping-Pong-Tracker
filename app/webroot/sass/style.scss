@@ -206,3 +206,17 @@ td .gravatar{
 #rating_by_time{
     margin-top: 10px;
 }
+
+/** Tournaments **/
+div.tournament{
+    select{
+        height: 200px;
+    }
+    .select.players{
+        float: left;
+    }
+    .buttons{
+        float: left;
+        margin: 100px 10px 0;
+    }
+}
