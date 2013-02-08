@@ -14,11 +14,17 @@
     
     echo $this->Form->input('selected_players', array('type'=>'select','multiple'=>true, 'div'=>array('class'=>'input select selected_players')));
     
-    echo $this->Html->link('Do bracket draw', '#bracketdraw', array('class'=>'btn','id'=>'dodraw'));
+    echo "<div class='clearfix'><!--blank--></div>";
     
-    echo $this->Form->end();
+    echo $this->Html->link('Do bracket draw', '#bracketdraw', array('class'=>'btn','id'=>'dodraw'));
     ?>
     
     <div id="draw"></div>
+    
+    <?php
+    echo $this->Form->button('Save tournament & start playing!', array('class'=>'btn btn-large btn-primary', 'style'=>'display:none'));
+    
+    echo $this->Form->end();
+    ?>
     
 </div>

@@ -108,6 +108,7 @@ div.content{
 
 /** Form styles and Add match **/
 div.input{
+    margin: 10px 0;
     &.required label:after{
         content: "*";
     }
@@ -209,10 +210,13 @@ td .gravatar{
 
 /** Tournaments **/
 div.tournament{
+    .input.select{
+        width: 220px;
+    }
     select{
         height: 200px;
     }
-    .select.players{
+    .select.players, .select.selected_players{
         float: left;
     }
     .buttons{

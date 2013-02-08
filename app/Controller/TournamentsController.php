@@ -42,10 +42,13 @@ class TournamentsController extends AppController {
                 'contain' => false,
                 'conditions' => array(
                     'id' => $this->request->data['Tournament']['selected_players']
-                )
+                ),
+                'order' => 'RAND()'
             ));
 
             $tournament = new KnockoutGD($competitors);
+            
+            $rounds = $tournament->getBracket();
 
             $im = $tournament->getImage($this->request->data['Tournament']['name']);
             $source = imagepng($im, APP.WEBROOT_DIR.DS.'img'.DS.'tournament.png');

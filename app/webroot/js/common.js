@@ -60,14 +60,48 @@ $(function(){
     
     $('#dodraw').click(function(e) {
         e.preventDefault();
-        $.ajax({
-            type: 'post',
-            url: '/tournaments/draw',
-            data: $('#TournamentAddForm').serialize(),
-            success: function(data, textStatus) {
-                $('#draw').html('<img src="/img/tournament.png" alt="Tournament draw">');
+        
+        var error = false;
+        
+        // Bit of rudimentary validation
+        if ($('#TournamentSelectedPlayers option').length == 0) {
+            $('div.selected_players').addClass('error');
+            if ($('div.selected_players div.error-message').length == 0) {
+                $('div.selected_players').append('<div class="error-message">Please select some players</div>');
             }
-        });
+            error = true;
+        } else {
+            if ($('div.selected_players').hasClass('error')) {
+                $('div.selected_players').removeClass('error');
+                $('div.selected_players div.error-message').remove();
+            }
+        }
+        
+        if ($('#TournamentName').val() == '') {
+            $('#TournamentName').parents('div.input').addClass('error');
+            if ($('#TournamentName').parents('div.input').find('div.error-message').length == 0) {
+                $('#TournamentName').parents('div.input').append('<div class="error-message">Please enter a name</div>');
+            }
+            error = true;
+        } else {
+            if ($('#TournamentName').parents('div.input').hasClass('error')) {
+                $('#TournamentName').parents('div.input').removeClass('error');
+                $('#TournamentName').parents('div.input').find('div.error-message').remove();
+            }
+        }
+        
+        if (error === false) {
+            $.ajax({
+                type: 'post',
+                url: '/tournaments/draw',
+                data: $('#TournamentAddForm').serialize(),
+                success: function(data, textStatus) {
+                    if (textStatus == 'success') {
+                        $('#draw').html('<img src="/img/tournament.png" alt="Tournament draw">');
+                    }
+                }
+            });
+        }
     });
 
 });
