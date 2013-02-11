@@ -53,11 +53,15 @@ class MatchesController extends AppController {
                 array(
                     'player_id' => $ratingA['Player']['id'],
                     'rating' => $rating->newRatingA,
+                    'match_id' => $match['Match']['id'],
+                    'change' => $rating->newRatingA - $ratingA['Player']['performance_rating'],
                     'created' => $match['Match']['created'],
                     'modified' => $match['Match']['modified'],
                 ),
                 array(
                     'player_id' => $ratingB['Player']['id'],
+                    'match_id' => $match['Match']['id'],
+                    'change' => $rating->newRatingB - $ratingB['Player']['performance_rating'],
                     'rating' => $rating->newRatingB,
                     'created' => $match['Match']['created'],
                     'modified' => $match['Match']['modified'],
@@ -154,10 +158,14 @@ class MatchesController extends AppController {
                         array(
                             'player_id' => $this->Match->ratings['a']['id'],
                             'rating' => $this->Match->ratings['a']['newRating'],
+                            'match_id' => $this->Match->getInsertID(),
+                            'change' => $this->Match->ratings['a']['newRating'] - $this->Match->ratings['a']['oldRating']
                         ),
                         array(
                             'player_id' => $this->Match->ratings['b']['id'],
                             'rating' => $this->Match->ratings['b']['newRating'],
+                            'match_id' => $this->Match->getInsertID(),
+                            'change' => $this->Match->ratings['b']['newRating'] - $this->Match->ratings['b']['oldRating']
                         ),
                     );
                     $this->Match->MatchesPlayer->Player->PerformanceRating->saveAll($ratings);

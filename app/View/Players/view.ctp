@@ -116,7 +116,7 @@
                         <?php
                         foreach($ratingbytime as $item){
                             ?>
-                            ['<?php echo $this->Time->format('D j M', $item[0]['day']);?>', <?php echo $item[0]['average'];?>],
+                            ['<?php echo $this->Time->format('D jS M', $item[0]['day']);?>', <?php echo $item[0]['average'];?>],
                             <?php
                         }
                         ?>

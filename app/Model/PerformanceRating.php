@@ -35,7 +35,8 @@ class PerformanceRating extends AppModel {
             'conditions' => '',
             'fields' => '',
             'order' => ''
-        )
+        ),
+        'Match'
     );
     
 /**
@@ -55,7 +56,7 @@ class PerformanceRating extends AppModel {
                 'DATE_FORMAT(created, "%Y-%m-%d") as `day`'
             ),
             'group' => '`day`',
-            'order' => 'created DESC',
+            'order' => 'created ASC',
             'limit' => $limit
         ));
         return $history;
