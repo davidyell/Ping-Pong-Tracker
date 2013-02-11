@@ -93,11 +93,14 @@ $(function(){
         if (error === false) {
             $.ajax({
                 type: 'post',
-                url: '/tournaments/draw',
+                url: '/tournaments/draw.json',
                 data: $('#TournamentAddForm').serialize(),
                 success: function(data, textStatus) {
                     if (textStatus == 'success') {
-                        $('#draw').html('<img src="/img/tournament.png" alt="Tournament draw">');
+                        $('#draw').html('<img src="../files/tournament.png" alt="Tournament draw">');
+                        $('#draw').append('<input type="hidden" name="data[Tournament][rounds]" id="TournamentRounds" value=\'' + JSON.stringify(data) + '\'>');
+                        console.log(data);
+                        $('#save_tournament').show();
                     }
                 }
             });

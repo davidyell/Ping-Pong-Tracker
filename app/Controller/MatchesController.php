@@ -126,7 +126,7 @@ class MatchesController extends AppController {
  * @return void
  */
     public function add() {
-        $this->Match->method = 'add';
+        $this->Match->method = 'add'; // Controls the calculation of the Elo Rating
         
         if ($this->request->is('post')) {
 

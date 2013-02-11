@@ -22,7 +22,7 @@
     <div id="draw"></div>
     
     <?php
-    echo $this->Form->button('Save tournament & start playing!', array('class'=>'btn btn-large btn-primary', 'style'=>'display:none'));
+    echo $this->Form->button('Save tournament & start playing!', array('class'=>'btn btn-large btn-primary', 'id'=>'save_tournament', 'style'=>'display:none'));
     
     echo $this->Form->end();
     ?>

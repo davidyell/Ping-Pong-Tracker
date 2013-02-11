@@ -118,7 +118,7 @@ class MatchesPlayer extends AppModel {
  * @param int $id
  * @return array A cake data array of the match details with the players
  */
-    public function getMatch($id) {
+    public function getMatch($matchId) {
         $match = $this->Match->find('first', array(
             'contain' => array(
                 'MatchType',
@@ -127,7 +127,7 @@ class MatchesPlayer extends AppModel {
                 )
             ),
             'conditions' => array(
-                'Match.id' => $id
+                'Match.id' => $matchId
             )
                 ));
         return $match;
@@ -140,13 +140,13 @@ class MatchesPlayer extends AppModel {
  * @param string $type Either 'Won' or 'Lost'
  * @return array Cake data array
  */
-    public function getLastResult($id, $type) {
+    public function getLastResult($playerId, $type) {
         $result = $this->find('first', array(
             'contain' => array(
                 'Match'
             ),
             'conditions' => array(
-                'player_id' => $id,
+                'player_id' => $playerId,
                 'result' => $type
             ),
             'order' => 'MatchesPlayer.created DESC'
@@ -160,10 +160,10 @@ class MatchesPlayer extends AppModel {
  * @param int $id The department id
  * @return array
  */
-    public function getDepartmentRankings($id = null) {
+    public function getDepartmentRankings($departmentId = null) {
 
-        if (isset($id)) {
-            $conditions = array('Department.id' => $id);
+        if (isset($departmentId)) {
+            $conditions = array('Department.id' => $departmentId);
         } else {
             $conditions = array();
         }
