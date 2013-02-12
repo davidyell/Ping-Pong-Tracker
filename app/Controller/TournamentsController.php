@@ -48,9 +48,8 @@ class TournamentsController extends AppController {
                 rename(APP.WEBROOT_DIR.DS.'files'.DS.'tournament.png', APP.WEBROOT_DIR.DS.'files'.DS.'tournaments'.DS.$tournamentId.DS.'tournament_'.$tournamentId.'.png');
             }
             
-            // Save the matches - this is in a loop because saveAll on the 
-            // parent model didn't save associated model data
-            $matches = $this->Tournament->jsonRoundsToArray($this->request->data['Tournament']['rounds'], $tournamentId);
+            $matches = $this->Tournament->jsonRoundsToArray($matches, $tournamentId);
+
             foreach ($matches as $match) {
                 $this->Tournament->Match->create();
                 if ($this->Tournament->Match->saveAll($match, array('validate'=>false))) {
@@ -58,7 +57,7 @@ class TournamentsController extends AppController {
                 }
             }
             
-            if ($error === false) {
+            if ($error) {
                 $this->Session->setFlash(__('The tournament could not be saved. Please, try again.'), 'alert-box', array('class' => 'alert-error'));
             } else {
                 $this->redirect(array('action' => 'play', $tournamentId));
@@ -122,6 +121,9 @@ class TournamentsController extends AppController {
             'contain' => array(
                 'Match' => array(
                     'MatchesPlayer' => array(
+                        'conditions' => array(
+                            'result' => ''
+                        ),
                         'Player' => array(
                             'fields' => array('id','first_name','nickname','last_name','email','facebook_id','performance_rating')
                         )
@@ -129,9 +131,10 @@ class TournamentsController extends AppController {
                 )
             ),
             'conditions' => array(
-                'Tournament.id' => $tournamentId
+                'Tournament.id' => $tournamentId,
             )
         ));
+        var_dump($tournament);
         $this->set(compact('tournament'));
     }
     
@@ -140,7 +143,7 @@ class TournamentsController extends AppController {
  * 
  * @param int $tournamentId
  */
-    public function update_draw_image($tournamentId) {
+    public function update_draw($tournamentId) {
         $tourney = $this->Tournament->find('first', array(
             'contain' => array(
                 'Match' => array(
@@ -158,7 +161,7 @@ class TournamentsController extends AppController {
         // Mark matches as played
         foreach ($tourney['Match'] as $matchNum => $match) {
             if (!empty($match['MatchesPlayer'])) {
-                
+
                 // Set the scores if they happen to be zero
                 if (!isset($match['MatchesPlayer'][0]['score'])) {
                     $score1 = 0;
@@ -170,13 +173,67 @@ class TournamentsController extends AppController {
                 } else {
                     $score2 = $match['MatchesPlayer'][1]['score'];
                 }
-                $tournament->setResByMatch($matchNum, $match['tournament_round'], (int)$score1, (int)$score2);
+                $tournament->setResByMatch($matchNum, $match['tournament_round'], (int) $score1, (int) $score2);
             }
         }
 
+        // Generate the new draw image with played results
         $image = $tournament->getImage($tourney['Tournament']['name']);
         imagepng($image, APP.WEBROOT_DIR.DS.'files'.DS.'tournaments'.DS.$tournamentId.DS.'tournament_'.$tournamentId.'.png');
+
+        // Gather up the brackets and results we have so far
+        $rounds = $tournament->getBracket();
+
+        // Have we completed a bracket? With all matches having been played?
+        $complete = array();
+        foreach ($rounds as $round => $matches) {
+            foreach ($matches as $matchNum => $match) {
+                if ($tournament->isMatchPlayed($matchNum, $round)) {
+                    $complete[$round] = true;
+                } else {
+                    $complete[$round] = false;
+                }
+            }
+        }
         
+        // Generate matches for the next round
+        if (!empty($complete)) {
+            $error = false;
+            
+            foreach ($complete as $round => $played) {
+                if (!$played) {
+                    
+                    // Look to see if the matches have already been generated
+                    $nextRoundMatches = $this->Tournament->Match->find('first', array(
+                        'contain' => false,
+                        'conditions' => array(
+                            'tournament_id' => $tournamentId,
+                            'tournament_round' => $round
+                        )
+                    ));
+                    
+                    if (!$nextRoundMatches) {
+                        $fixtures = $this->Tournament->knockoutRoundsToArray($rounds[$round], $round, $tournamentId);
+
+                        foreach ($fixtures as $match) {
+                            $this->Tournament->Match->create();
+                            if ($this->Tournament->Match->saveAll($match, array('validate'=>false))) {
+                                $error = true;
+                            }
+                        }
+
+                        if ($error) {
+                            $this->Session->setFlash(__('The tournament could not be saved. Please, try again.'), 'alert-box', array('class' => 'alert-error'));
+                        } else {
+                            $this->redirect(array('action' => 'play', $tournamentId));
+                        }
+                    }
+                    
+                    break;
+                }
+            }
+            
+        }
     }
         
 }

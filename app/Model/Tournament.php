@@ -80,5 +80,33 @@ class Tournament extends AppModel {
 
         return $return;
     }
+    
+/**
+ * Converts an array from the Knockout class into a set of matches as a Cake
+ * array which can then be saved 
+ * 
+ * @param array $rounds
+ * @param int $roundNum
+ * @param int $tournamentId
+ * @return array
+ */
+    public function knockoutRoundsToArray($rounds, $roundNum, $tournamentId){
+        $return = array();
+        
+        foreach ($rounds as $num => $matches) {
+            $return[$num]['Match']['match_type_id'] = 1;
+            $return[$num]['Match']['tournament_round'] = $roundNum;
+            $return[$num]['Match']['tournament_id'] = (int)$tournamentId;
+
+            preg_match('/\(([0-9]+)\)/i', $matches['c1'], $ids);
+            $return[$num]['MatchesPlayer'][1]['player_id'] = (int)$ids[1];
+            $return[$num]['MatchesPlayer'][1]['score'] = 0;
+
+            preg_match('/\(([0-9]+)\)/i', $matches['c2'], $ids);
+            $return[$num]['MatchesPlayer'][2]['player_id'] = (int)$ids[1];
+            $return[$num]['MatchesPlayer'][2]['score'] = 0;
+        }
+        return $return;
+    }
 
 }

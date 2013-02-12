@@ -279,10 +279,8 @@ class MatchesController extends AppController {
             $this->Match->MatchesPlayer->matchScores = array((int)$this->request->data['MatchesPlayer'][1]['score'], (int)$this->request->data['MatchesPlayer'][2]['score']);
             
             if ($this->Match->saveAll($this->request->data)) {
-                $this->requestAction(array('controller'=>'tournaments', 'action'=>'update_draw_image', $this->request->data['Tournament']['id']));
-                
+                $this->requestAction(array('controller'=>'tournaments', 'action'=>'update_draw', $this->request->data['Tournament']['id']));
                 $outcome = 'Success';
-                
             } else {
                 $outcome = 'Failed';
                 $validation = $this->Match->validationErrors;
