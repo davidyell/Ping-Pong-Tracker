@@ -16,6 +16,11 @@ class TournamentsController extends AppController {
  */
     public $components = array('RequestHandler');
     
+/**
+ * Find and paginate a list of tournaments
+ * 
+ * @return void
+ */
     public function index() {
         $this->Tournament->recursive = -1;
         $this->set('tournaments', $this->paginate());
@@ -31,7 +36,7 @@ class TournamentsController extends AppController {
             $error = false;
             
             // Save the tournament
-            $this->request->data['Tournament']['competitors'] = serialize($this->request->data['Tournament']['selected_players']);
+            $this->request->data['Tournament']['competitors'] = serialize($this->Session->read('Tournament.competitors'));
             if (!$this->Tournament->save($this->request->data['Tournament'])) {
                 $error = true;
             }
@@ -83,6 +88,7 @@ class TournamentsController extends AppController {
                 'order' => 'RAND()'
             ));
             
+            $data = array();
             foreach($competitors as $player){
                 $data[$player['Player']['id']] = "(".$player['Player']['id'].") ".$player['Player']['first_name']." ".substr($player['Player']['last_name'], 0, 1);
             }
@@ -105,6 +111,12 @@ class TournamentsController extends AppController {
         }
     }
     
+/**
+ * Resolves the matches for a tournament round
+ * Single matches are posted to Matches::edit() via Ajax
+ * 
+ * @param int $tournamentId
+ */
     public function play($tournamentId){
         $tournament = $this->Tournament->find('first', array(
             'contain' => array(
@@ -121,6 +133,50 @@ class TournamentsController extends AppController {
             )
         ));
         $this->set(compact('tournament'));
+    }
+    
+/**
+ * Update the draw image for a tournament using played matches
+ * 
+ * @param int $tournamentId
+ */
+    public function update_draw_image($tournamentId) {
+        $tourney = $this->Tournament->find('first', array(
+            'contain' => array(
+                'Match' => array(
+                    'MatchesPlayer' => array(
+                        'conditions' => array(
+                            'score >' => 0
+                        )
+                    )
+                )
+            ),
+                ));
+
+        $tournament = new KnockoutGD(unserialize($tourney['Tournament']['competitors']));
+
+        // Mark matches as played
+        foreach ($tourney['Match'] as $matchNum => $match) {
+            if (!empty($match['MatchesPlayer'])) {
+                
+                // Set the scores if they happen to be zero
+                if (!isset($match['MatchesPlayer'][0]['score'])) {
+                    $score1 = 0;
+                } else {
+                    $score1 = $match['MatchesPlayer'][0]['score'];
+                }
+                if (!isset($match['MatchesPlayer'][1]['score'])) {
+                    $score1 = 0;
+                } else {
+                    $score2 = $match['MatchesPlayer'][1]['score'];
+                }
+                $tournament->setResByMatch($matchNum, $match['tournament_round'], (int)$score1, (int)$score2);
+            }
+        }
+
+        $image = $tournament->getImage($tourney['Tournament']['name']);
+        imagepng($image, APP.WEBROOT_DIR.DS.'files'.DS.'tournaments'.DS.$tournamentId.DS.'tournament_'.$tournamentId.'.png');
+        
     }
         
 }

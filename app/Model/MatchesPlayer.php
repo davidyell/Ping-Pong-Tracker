@@ -82,6 +82,10 @@ class MatchesPlayer extends AppModel {
  * @return boolean
  */
     public function scores($check) {
+        if (empty($this->matchScores)) {
+            return false;
+        }
+            
         // Scores cannot match
         if ($this->matchScores[0] == $this->matchScores[1]) {
             return false;

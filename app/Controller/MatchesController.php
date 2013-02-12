@@ -2,12 +2,21 @@
 
 App::uses('AppController', 'Controller');
 
+App::import('Vendor','knockout-tournament-scheduler/class_knockout');
+
 /**
  * Matches Controller
  *
  * @property Match $Match
  */
 class MatchesController extends AppController {
+    
+/**
+ * Load the components we need for this controller
+ * 
+ * @var array An array of components
+ */
+    public $components = array('RequestHandler');
     
 /**
  * Method to aggregate Performance Ratings from all historic matches
@@ -255,97 +264,33 @@ class MatchesController extends AppController {
     }
 
 /**
- * admin_index method
- *
- * @return void
- */
-    public function admin_index() {
-        $this->Match->recursive = 0;
-        $this->set('matches', $this->paginate());
-    }
-
-/**
- * admin_view method
+ * Edit method
+ * Called when saving tournament matches through ajax
  *
  * @throws NotFoundException
  * @param string $id
  * @return void
  */
-    public function admin_view($id = null) {
-        $this->Match->id = $id;
-        if (!$this->Match->exists()) {
-            throw new NotFoundException(__('Invalid match'));
-        }
-        $this->set('match', $this->Match->read(null, $id));
-    }
-
-/**
- * admin_add method
- *
- * @return void
- */
-    public function admin_add() {
-        if ($this->request->is('post')) {
-            $this->Match->create();
-            if ($this->Match->save($this->request->data)) {
-                $this->Session->setFlash(__('The match has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The match could not be saved. Please, try again.'));
-            }
-        }
-        $players = $this->Match->Player->find('list');
-        $this->set(compact('players'));
-    }
-
-/**
- * admin_edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-    public function admin_edit($id = null) {
-        $this->Match->id = $id;
-        if (!$this->Match->exists()) {
-            throw new NotFoundException(__('Invalid match'));
-        }
+    public function ajax_edit() {        
         if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Match->save($this->request->data)) {
-                $this->Session->setFlash(__('The match has been saved'));
-                $this->redirect(array('action' => 'index'));
+            $validation = array();
+            
+            // We need to set the scores to the model to allow validation
+            $this->Match->MatchesPlayer->matchScores = array((int)$this->request->data['MatchesPlayer'][1]['score'], (int)$this->request->data['MatchesPlayer'][2]['score']);
+            
+            if ($this->Match->saveAll($this->request->data)) {
+                $this->requestAction(array('controller'=>'tournaments', 'action'=>'update_draw_image', $this->request->data['Tournament']['id']));
+                
+                $outcome = 'Success';
+                
             } else {
-                $this->Session->setFlash(__('The match could not be saved. Please, try again.'));
+                $outcome = 'Failed';
+                $validation = $this->Match->validationErrors;
             }
-        } else {
-            $this->request->data = $this->Match->read(null, $id);
-        }
-        $players = $this->Match->Player->find('list');
-        $this->set(compact('players'));
-    }
-
-/**
- * admin_delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-    public function admin_delete($id = null) {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Match->id = $id;
-        if (!$this->Match->exists()) {
-            throw new NotFoundException(__('Invalid match'));
-        }
-        if ($this->Match->delete()) {
-            $this->Session->setFlash(__('Match deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Match was not deleted'));
-        $this->redirect(array('action' => 'index'));
+            
+            $this->set(compact('outcome','validation'));
+            $this->set('_serialize', array('outcome','validation'));
+        }        
     }
 
 }

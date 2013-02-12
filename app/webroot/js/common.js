@@ -106,5 +106,44 @@ $(function(){
             });
         }
     });
+    
+    $('.tournament .match form').submit(function(e) {
+        e.preventDefault();
+        var url = $(this).attr('action');
+        var form = $(this);
+        var match = form.parents('div.match');
+        
+        // Clear out old validation
+        if ($(form).find('div.error-message')) {
+            $(form).find('div.error-message').remove();
+        }
+        
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: $(this).serialize(),
+            success: function(data, textStatus) {
+                if (data.outcome == 'Failed') {
+                    
+                    // Output some feedback to the user
+                    if (Object.keys(data.validation.MatchesPlayer).length > 0) {
+                        if (data.validation.MatchesPlayer[1].score != 'undefined') {
+                            $(form).find('div.scores').append('<div class="error-message">' + data.validation.MatchesPlayer[1].score + '</div>');
+                        }
+                        if (data.validation.MatchesPlayer[2].score != 'undefined') {
+                            $(form).find('div.scores').append('<div class="error-message">' + data.validation.MatchesPlayer[2].score + '</div>');
+                        }                        
+                    }
+                    
+                    $(match).effect('shake');
+                } else if (data.outcome == 'Success') {
+                    $(match).fadeOut();
+                    var draw = $('#tournament-draw').attr('src');
+                    var d = new Date();
+                    $('#tournament-draw').attr('src', draw + '?' + d.getTime());
+                }
+            }
+        });
+    });
 
 });

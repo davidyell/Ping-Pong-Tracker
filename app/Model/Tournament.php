@@ -50,7 +50,7 @@ class Tournament extends AppModel {
         $decodedData = json_decode($data);
 
         $return = array();
-        $round = 0;
+        $round = 1;
         
         foreach ($decodedData->rounds as $matches) {
             
