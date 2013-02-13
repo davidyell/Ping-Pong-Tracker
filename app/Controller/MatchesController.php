@@ -271,23 +271,24 @@ class MatchesController extends AppController {
  * @param string $id
  * @return void
  */
-    public function ajax_edit() {        
+    public function ajax_edit() {
         if ($this->request->is('post') || $this->request->is('put')) {
             $validation = array();
+            $updateDraw = '';
             
             // We need to set the scores to the model to allow validation
             $this->Match->MatchesPlayer->matchScores = array((int)$this->request->data['MatchesPlayer'][1]['score'], (int)$this->request->data['MatchesPlayer'][2]['score']);
             
             if ($this->Match->saveAll($this->request->data)) {
-                $this->requestAction(array('controller'=>'tournaments', 'action'=>'update_draw', $this->request->data['Tournament']['id']));
+                $updateDraw = $this->requestAction(array('controller'=>'tournaments', 'action'=>'update_draw', $this->request->data['Tournament']['id']));
                 $outcome = 'Success';
             } else {
                 $outcome = 'Failed';
                 $validation = $this->Match->validationErrors;
             }
             
-            $this->set(compact('outcome','validation'));
-            $this->set('_serialize', array('outcome','validation'));
+            $this->set(compact('outcome','validation','updateDraw'));
+            $this->set('_serialize', array('outcome','validation','updateDraw'));
         }        
     }
 

@@ -235,9 +235,9 @@ div.tournament{
         border-radius: 4px;
         form{
             margin-bottom: 0;
-        }
-        & div.input:first-child{
-            margin-right: 10px;
+            .scores div.input{
+                margin-right: 20px;
+            }
         }
         & input{
             width: 100px;

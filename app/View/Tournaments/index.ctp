@@ -1,12 +1,13 @@
 <div class="tournament index">
     <h2>Tournaments</h2>
+    <?php echo $this->Html->link('Start new tournament', array('controller'=>'tournaments','action'=>'add'), array('class'=>'btn btn-primary'));?><p></p>
     
     <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped" id="tournaments">
         <thead>
             <tr>
                 <th data-sort="int">Id</th>
                 <th data-sort="string">Name</th>
-                <th data-sort="string">Competitors</th>
+                <th>Competitors</th>
                 <th data-sort="string">Champion</th>
                 <th data-sort="date">Played</th>
             </tr>
@@ -17,9 +18,7 @@
             <tr>
                 <td><?php echo $tournament['Tournament']['id'];?></td>
                 <td><?php echo $this->Html->link($tournament['Tournament']['name'], array('controller'=>'tournaments','action'=>'play', $tournament['Tournament']['id']));?></td>
-                <td><?php
-                    var_dump(unserialize($tournament['Tournament']['competitors']));
-                ?></td>
+                <td><?php echo $this->Html->link('View draw', "/files/tournaments/{$tournament['Tournament']['id']}/tournament_{$tournament['Tournament']['id']}.png") ?></td>
                 <td><?php echo "CHAMP";?></td>
                 <td><?php echo $this->Time->niceShort($tournament['Tournament']['created']);?></td>
             </tr>

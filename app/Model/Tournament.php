@@ -61,6 +61,7 @@ class Tournament extends AppModel {
                     
                     $return[$matchNum]['Match']['match_type_id'] = 1;
                     $return[$matchNum]['Match']['tournament_round'] = $round;
+                    $return[$matchNum]['Match']['tournament_match_num'] = $matchNum;
 
                     $return[$matchNum]['Match']['tournament_id'] = (int)$tournamentId;
                     
@@ -96,6 +97,7 @@ class Tournament extends AppModel {
         foreach ($rounds as $num => $matches) {
             $return[$num]['Match']['match_type_id'] = 1;
             $return[$num]['Match']['tournament_round'] = $roundNum;
+            $return[$num]['Match']['tournament_match_num'] = $num;
             $return[$num]['Match']['tournament_id'] = (int)$tournamentId;
 
             preg_match('/\(([0-9]+)\)/i', $matches['c1'], $ids);

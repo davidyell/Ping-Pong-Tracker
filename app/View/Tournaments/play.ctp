@@ -15,12 +15,10 @@
                     echo $this->Form->input('Tournament.id', array('type'=>'hidden', 'value'=>$tournament['Tournament']['id']));
                     echo $this->Form->input('Tournament.name', array('type'=>'hidden', 'value'=>$tournament['Tournament']['name']));
                     echo $this->Form->input('Tournament.round', array('type'=>'hidden', 'value'=>$match['tournament_round']));
-                    echo $this->Form->input('Tournament.match', array('type'=>'hidden', 'value'=>$matchNum));
+                    echo $this->Form->input('Tournament.match', array('type'=>'hidden', 'value'=>$match['tournament_match_num']));
                     ?>
                     <div class="scores"><?php
-                        $person = $this->element('player-avatar', array('player'=>$match['MatchesPlayer'][0]['Player'], 'size'=>24), array('cache'=>array('config'=>'twoweeks','key'=>'player_'.$match['MatchesPlayer'][0]['Player']['id'].'_24')));
-
-                        $person .= h($match['MatchesPlayer'][0]['Player']['first_name']);
+                        $person = h($match['MatchesPlayer'][0]['Player']['first_name']);
                         if(!empty($match['MatchesPlayer'][0]['Player']['nickname'])){
                             $person .= ' "'.$match['MatchesPlayer'][0]['Player']['nickname'].'"';
                         }
@@ -31,9 +29,7 @@
                         echo $this->Form->input('MatchesPlayer.1.player_id', array('type'=>'hidden', 'value'=>$match['MatchesPlayer'][0]['Player']['id']));
 
 
-                        $person = $this->element('player-avatar', array('player'=>$match['MatchesPlayer'][1]['Player'], 'size'=>24), array('cache'=>array('config'=>'twoweeks','key'=>'player_'.$match['MatchesPlayer'][1]['Player']['id'].'_24')));
-
-                        $person .= h($match['MatchesPlayer'][1]['Player']['first_name']);
+                        $person = h($match['MatchesPlayer'][1]['Player']['first_name']);
                         if(!empty($match['MatchesPlayer'][1]['Player']['nickname'])){
                             $person .= ' "'.$match['MatchesPlayer'][1]['Player']['nickname'].'"';
                         }

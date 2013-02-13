@@ -141,6 +141,10 @@ $(function(){
                     var draw = $('#tournament-draw').attr('src');
                     var d = new Date();
                     $('#tournament-draw').attr('src', draw + '?' + d.getTime());
+                    
+                    if (data.updateDraw) {
+                        window.location.reload();
+                    }
                 }
             }
         });

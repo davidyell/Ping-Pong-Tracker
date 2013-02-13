@@ -48,11 +48,11 @@ class TournamentsController extends AppController {
                 rename(APP.WEBROOT_DIR.DS.'files'.DS.'tournament.png', APP.WEBROOT_DIR.DS.'files'.DS.'tournaments'.DS.$tournamentId.DS.'tournament_'.$tournamentId.'.png');
             }
             
-            $matches = $this->Tournament->jsonRoundsToArray($matches, $tournamentId);
+            $matches = $this->Tournament->jsonRoundsToArray($this->request->data['Tournament']['rounds'], $tournamentId);
 
             foreach ($matches as $match) {
                 $this->Tournament->Match->create();
-                if ($this->Tournament->Match->saveAll($match, array('validate'=>false))) {
+                if (!$this->Tournament->Match->saveAll($match, array('validate'=>false))) {
                     $error = true;
                 }
             }
@@ -134,7 +134,16 @@ class TournamentsController extends AppController {
                 'Tournament.id' => $tournamentId,
             )
         ));
-        var_dump($tournament);
+        
+        // Bit of a hack to reorder the data from the above query. It will remove
+        // and played matches and reindex the matches
+        foreach ($tournament['Match'] as $num => $match) {
+            if (empty($match['MatchesPlayer'])) {
+                unset($tournament['Match'][$num]);
+            }
+        }
+        $tournament['Match'] = array_values($tournament['Match']);
+        
         $this->set(compact('tournament'));
     }
     
@@ -142,6 +151,7 @@ class TournamentsController extends AppController {
  * Update the draw image for a tournament using played matches
  * 
  * @param int $tournamentId
+ * @return bool
  */
     public function update_draw($tournamentId) {
         $tourney = $this->Tournament->find('first', array(
@@ -154,12 +164,16 @@ class TournamentsController extends AppController {
                     )
                 )
             ),
-                ));
+            'conditions' => array(
+                'Tournament.id' => $tournamentId
+            )
+        ));
 
         $tournament = new KnockoutGD(unserialize($tourney['Tournament']['competitors']));
 
         // Mark matches as played
-        foreach ($tourney['Match'] as $matchNum => $match) {
+        foreach ($tourney['Match'] as $match) {
+            
             if (!empty($match['MatchesPlayer'])) {
 
                 // Set the scores if they happen to be zero
@@ -169,11 +183,12 @@ class TournamentsController extends AppController {
                     $score1 = $match['MatchesPlayer'][0]['score'];
                 }
                 if (!isset($match['MatchesPlayer'][1]['score'])) {
-                    $score1 = 0;
+                    $score2 = 0;
                 } else {
                     $score2 = $match['MatchesPlayer'][1]['score'];
                 }
-                $tournament->setResByMatch($matchNum, $match['tournament_round'], (int) $score1, (int) $score2);
+                
+                $tournament->setResByMatch((int)$match['tournament_match_num'], (int)$match['tournament_round'], (int) $score1, (int) $score2);
             }
         }
 
@@ -217,15 +232,15 @@ class TournamentsController extends AppController {
 
                         foreach ($fixtures as $match) {
                             $this->Tournament->Match->create();
-                            if ($this->Tournament->Match->saveAll($match, array('validate'=>false))) {
+                            if (!$this->Tournament->Match->saveAll($match, array('validate'=>false))) {
                                 $error = true;
                             }
                         }
 
                         if ($error) {
-                            $this->Session->setFlash(__('The tournament could not be saved. Please, try again.'), 'alert-box', array('class' => 'alert-error'));
+                            return false;
                         } else {
-                            $this->redirect(array('action' => 'play', $tournamentId));
+                            return true;
                         }
                     }
                     
