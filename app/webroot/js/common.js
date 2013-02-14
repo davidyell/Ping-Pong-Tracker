@@ -99,7 +99,7 @@ $(function(){
                     if (textStatus == 'success') {
                         $('#draw').html('<img src="../files/tournament.png" alt="Tournament draw">');
                         $('#draw').append('<input type="hidden" name="data[Tournament][rounds]" id="TournamentRounds" value=\'' + JSON.stringify(data) + '\'>');
-                        console.log(data);
+//                        console.log(data);
                         $('#save_tournament').show();
                     }
                 }

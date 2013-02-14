@@ -17,6 +17,9 @@
     <li <?php echo ($this->request->controller == 'matches' && $this->request->action == 'global_stats')? 'class="active"' : '';?>>
         <?php echo $this->Html->link('Global stats', array('controller'=>'matches','action'=>'global_stats'));?>
     </li>
+    <li <?php echo ($this->request->controller == 'tournaments')? 'class="active"' : '';?>>
+        <?php echo $this->Html->link('Tournaments', array('controller'=>'tournaments','action'=>'index'));?>
+    </li>
     <li <?php echo ($this->request->controller == 'matches' && ($this->request->action == 'index' || $this->request->action == 'view'))? 'class="active"' : '';?>>
         <?php echo $this->Html->link('Match list', array('controller'=>'matches','action'=>'index'));?>
     </li>

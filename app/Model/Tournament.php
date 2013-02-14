@@ -48,37 +48,40 @@ class Tournament extends AppModel {
  */
     public function jsonRoundsToArray($data, $tournamentId) {
         $decodedData = json_decode($data);
-
-        $return = array();
-        $round = 1;
         
-        foreach ($decodedData->rounds as $matches) {
-            
-            $matchNum = 0;
-            foreach ($matches as $match) {
-                
+        $return = array();
+        
+        $matchNumber = 0;
+        foreach ($decodedData->rounds as $round => $matches) {
+            foreach ($matches as $matchNum => $match) {
                 if(!empty($match->c1) && !empty($match->c2)){
                     
-                    $return[$matchNum]['Match']['match_type_id'] = 1;
-                    $return[$matchNum]['Match']['tournament_round'] = $round;
-                    $return[$matchNum]['Match']['tournament_match_num'] = $matchNum;
+                    $return[$matchNumber]['Match']['match_type_id'] = 1;
+                    $return[$matchNumber]['Match']['tournament_round'] = $round;
+                    $return[$matchNumber]['Match']['tournament_match_num'] = $matchNum;
 
-                    $return[$matchNum]['Match']['tournament_id'] = (int)$tournamentId;
+                    $return[$matchNumber]['Match']['tournament_id'] = (int)$tournamentId;
                     
                     preg_match('/\(([0-9]+)\)/i', $match->c1, $ids);
-                    $return[$matchNum]['MatchesPlayer'][1]['player_id'] = (int)$ids[1];
-                    $return[$matchNum]['MatchesPlayer'][1]['score'] = 0;
+                    $return[$matchNumber]['MatchesPlayer'][1]['player_id'] = (int)$ids[1];
+                    $return[$matchNumber]['MatchesPlayer'][1]['score'] = 0;
                     
                     preg_match('/\(([0-9]+)\)/i', $match->c2, $ids);
-                    $return[$matchNum]['MatchesPlayer'][2]['player_id'] = (int)$ids[1];
-                    $return[$matchNum]['MatchesPlayer'][2]['score'] = 0;
+                    $return[$matchNumber]['MatchesPlayer'][2]['player_id'] = (int)$ids[1];
+                    $return[$matchNumber]['MatchesPlayer'][2]['score'] = 0;
 
-                    $matchNum++;
                 }
+                $matchNumber++;
             }
-            $round++;
+            
+            // Find out if there is a play-in round as we want to ignore other rounds
+            // untill this first preliminary round has been played as we
+            // generate matches on a round by round basis
+            if (isset($decodedData->rounds[0])) {
+                break;
+            }
+        
         }
-
         return $return;
     }
     
