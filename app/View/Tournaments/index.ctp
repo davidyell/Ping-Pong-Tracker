@@ -19,7 +19,17 @@
                 <td><?php echo $tournament['Tournament']['id'];?></td>
                 <td><?php echo $this->Html->link($tournament['Tournament']['name'], array('controller'=>'tournaments','action'=>'play', $tournament['Tournament']['id']));?></td>
                 <td><?php echo $this->Html->link('View draw', "/files/tournaments/{$tournament['Tournament']['id']}/tournament_{$tournament['Tournament']['id']}.png") ?></td>
-                <td><?php echo "CHAMP";?></td>
+                <td><?php
+                    if (isset($tournament['Match'][0]['MatchesPlayer'][0]['Player'])) {
+                        echo $tournament['Match'][0]['MatchesPlayer'][0]['Player']['first_name'];
+                        if (!empty($tournament['Match'][0]['MatchesPlayer'][0]['Player']['nickname'])) {
+                            echo " '".$tournament['Match'][0]['MatchesPlayer'][0]['Player']['nickname']."'";
+                        }
+                        echo " ".$tournament['Match'][0]['MatchesPlayer'][0]['Player']['last_name'];
+                    } else {
+                        echo "Unfinished!";
+                    }
+                ?></td>
                 <td><?php echo $this->Time->niceShort($tournament['Tournament']['created']);?></td>
             </tr>
         <?php 

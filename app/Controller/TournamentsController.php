@@ -22,7 +22,27 @@ class TournamentsController extends AppController {
  * @return void
  */
     public function index() {
-        $this->Tournament->recursive = -1;
+        $this->paginate = array(
+            'contain' => array(
+                'Match' => array(
+                    'order' => 'tournament_round DESC',
+                    'limit' => 1,
+                    'MatchesPlayer' => array(
+                        'fields' => array('id','result','player_id'),
+                        'conditions' => array(
+                            'result' => 'Won'
+                        ),
+                        'Player' => array(
+                            'fields' => array('id','first_name','nickname','last_name')
+                        )
+                    )
+                )
+            ),
+            'conditions' => array(
+                
+            ),
+            'order' => 'created DESC'
+        );
         $this->set('tournaments', $this->paginate());
     }
     
@@ -137,6 +157,7 @@ class TournamentsController extends AppController {
         
         // Bit of a hack to reorder the data from the above query. It will remove
         // and played matches and reindex the matches
+        // TODO: Refactor into model.
         foreach ($tournament['Match'] as $num => $match) {
             if (empty($match['MatchesPlayer'])) {
                 unset($tournament['Match'][$num]);
@@ -159,7 +180,7 @@ class TournamentsController extends AppController {
                 'Match' => array(
                     'MatchesPlayer' => array(
                         'conditions' => array(
-                            'score >' => 0
+                            'score >' => -1
                         )
                     )
                 )
@@ -172,23 +193,19 @@ class TournamentsController extends AppController {
         $tournament = new KnockoutGD(unserialize($tourney['Tournament']['competitors']));
 
         // Mark matches as played
-        foreach ($tourney['Match'] as $match) {
+        foreach ($tourney['Match'] as &$match) {
             
             if (!empty($match['MatchesPlayer'])) {
 
                 // Set the scores if they happen to be zero
                 if (!isset($match['MatchesPlayer'][0]['score'])) {
-                    $score1 = 0;
-                } else {
-                    $score1 = $match['MatchesPlayer'][0]['score'];
+                    $match['MatchesPlayer'][0]['score'] = 0;
                 }
                 if (!isset($match['MatchesPlayer'][1]['score'])) {
-                    $score2 = 0;
-                } else {
-                    $score2 = $match['MatchesPlayer'][1]['score'];
+                    $match['MatchesPlayer'][1]['score'] = 0;
                 }
                 
-                $tournament->setResByMatch((int)$match['tournament_match_num'], (int)$match['tournament_round'], (int) $score1, (int) $score2);
+                $tournament->setResByMatch((int)$match['tournament_match_num'], (int)$match['tournament_round'], (int) $match['MatchesPlayer'][0]['score'], (int) $match['MatchesPlayer'][1]['score']);
             }
         }
 
