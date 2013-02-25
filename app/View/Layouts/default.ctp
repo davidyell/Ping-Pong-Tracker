@@ -44,7 +44,7 @@
         </div>
 
         <?php
-        echo $this->Html->script(array('//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js', 'stupidtable.min', 'common'));
+        echo $this->Html->script(array('//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js', '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js', 'stupidtable.min', 'common'));
         echo $this->fetch('script');
         ?>
     </body>

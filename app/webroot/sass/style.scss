@@ -108,6 +108,7 @@ div.content{
 
 /** Form styles and Add match **/
 div.input{
+    margin: 10px 0;
     &.required label:after{
         content: "*";
     }
@@ -205,4 +206,41 @@ td .gravatar{
 /** Graphs **/
 #rating_by_time{
     margin-top: 10px;
+}
+
+/** Tournaments **/
+#draw{
+    margin: 10px 0;
+}
+div.tournament{
+    .input.select{
+        width: 220px;
+    }
+    select{
+        height: 200px;
+    }
+    .select.players, .select.selected_players{
+        float: left;
+    }
+    .buttons{
+        float: left;
+        margin: 100px 10px 0;
+    }
+    .match{
+        width: 340px;
+        margin: 10px;
+        padding: 10px;
+        float: left;
+        background-color: darken($contentBg, 15%);
+        border-radius: 4px;
+        form{
+            margin-bottom: 0;
+            .scores div.input{
+                margin-right: 20px;
+            }
+        }
+        & input{
+            width: 100px;
+        }
+    }
 }

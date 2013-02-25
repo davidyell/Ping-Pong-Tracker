@@ -30,7 +30,8 @@ class Match extends AppModel {
  * @var array
  */
         public $belongsTo = array(
-            'MatchType'
+            'MatchType',
+            'Tournament'
         );
         
 /**
@@ -39,6 +40,13 @@ class Match extends AppModel {
  * @var array 
  */
         public $ratings = array();
+        
+/**
+ * The name of the method that we are using in the controller
+ * 
+ * @var string 
+ */
+        public $method = '';
 
 /**
  * beforeValidate callback method
@@ -133,31 +141,35 @@ class Match extends AppModel {
  *
  * @return void
  */
-        private function unsetBlankPlayers() {
+    private function unsetBlankPlayers() {
+        if (isset($this->data['MatchesPlayer'])) {
             foreach ($this->data['MatchesPlayer'] as $i => $player) {
                 if ($i > 2 && $player['player_id'] == 0) {
                     unset($this->data['MatchesPlayer'][$i]);
                 }
             }
         }
+    }
 
 /**
  * Find out which person or pair won the match and make a note of it to save time on display later
  *
  * @return void
  */
-        private function findWinner() {
-            if($this->data['MatchesPlayer'][1]['score'] > $this->data['MatchesPlayer'][2]['score']){
+    private function findWinner() {
+        if (isset($this->data['MatchesPlayer'])) {
+            if ($this->data['MatchesPlayer'][1]['score'] > $this->data['MatchesPlayer'][2]['score']) {
                 $this->data['MatchesPlayer'][1]['result'] = 'Won';
                 $this->data['MatchesPlayer'][2]['result'] = 'Lost';
-            }elseif($this->data['MatchesPlayer'][1]['score'] < $this->data['MatchesPlayer'][2]['score']){
+            } elseif ($this->data['MatchesPlayer'][1]['score'] < $this->data['MatchesPlayer'][2]['score']) {
                 $this->data['MatchesPlayer'][1]['result'] = 'Lost';
                 $this->data['MatchesPlayer'][2]['result'] = 'Won';
-            }else{
+            } else {
                 $this->data['MatchesPlayer'][1]['result'] = 'Drawn';
                 $this->data['MatchesPlayer'][2]['result'] = 'Drawn';
             }
         }
+    }
 
 /**
  * Copy the scores and results from the first pair of players to the doubles players
