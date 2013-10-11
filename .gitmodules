@@ -4,3 +4,6 @@
 [submodule "app/Plugin/Linkable"]
 	path = app/Plugin/Linkable
 	url = https://github.com/ProLoser/linkable.git
+[submodule "app/Plugin/DebugKit"]
+	path = app/Plugin/DebugKit
+	url = https://github.com/cakephp/debug_kit.git
