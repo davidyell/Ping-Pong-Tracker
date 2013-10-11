@@ -16,7 +16,7 @@
 
                 for($i = 1; $i <= 4; $i++){
 
-                    $options = array('type'=>'select', 'options'=>$players, 'div'=>array('class'=>'input select '.$nums[$i]));
+                    $options = array('type'=>'select', 'options'=>$players, 'div'=>array('class'=>'input select '.$nums[$i]), 'empty' => 'Choose player');
                     $label = array('label'=>'Player '.$nums[$i]);
                     
                     // Pre-select a player if remembered

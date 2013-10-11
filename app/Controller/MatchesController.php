@@ -198,7 +198,7 @@ class MatchesController extends AppController {
             $this->request->data = $this->Session->read('match');
         }
 
-        $players = $this->Match->MatchesPlayer->Player->getPlayers();
+        $players = $this->Match->MatchesPlayer->Player->getPlayers(false);
 
         $matchTypes = $this->Match->MatchType->find('list');
 
