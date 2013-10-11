@@ -49,7 +49,7 @@ class AppSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'match_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'player_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'score' => array('type' => 'integer', 'null' => true, 'default' => '0'),
+		'score' => array('type' => 'integer', 'null' => true, 'default' => '-1'),
 		'result' => array('type' => 'string', 'null' => true, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
