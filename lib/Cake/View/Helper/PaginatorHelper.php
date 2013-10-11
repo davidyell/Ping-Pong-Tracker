@@ -5,16 +5,17 @@
  * Generates pagination links
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.View.Helper
  * @since         CakePHP(tm) v 1.2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('AppHelper', 'View/Helper');
@@ -94,9 +95,9 @@ class PaginatorHelper extends AppHelper {
 		App::uses($ajaxProvider . 'Helper', 'View/Helper');
 		$classname = $ajaxProvider . 'Helper';
 		if (!class_exists($classname) || !method_exists($classname, 'link')) {
-			throw new CakeException(sprintf(
-				__d('cake_dev', '%s does not implement a link() method, it is incompatible with PaginatorHelper'), $classname
-			));
+			throw new CakeException(
+				__d('cake_dev', '%s does not implement a %s method, it is incompatible with %s', $classname, 'link()', 'PaginatorHelper')
+			);
 		}
 		parent::__construct($View, $settings);
 	}
@@ -130,6 +131,22 @@ class PaginatorHelper extends AppHelper {
 			return null;
 		}
 		return $this->request->params['paging'][$model];
+	}
+
+/**
+ * Convenience access to any of the paginator params.
+ *
+ * @param string $key Key of the paginator params array to retreive.
+ * @param string $model Optional model name. Uses the default if none is specified.
+ * @return mixed Content of the requested param.
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/paginator.html#PaginatorHelper::params
+ */
+	public function param($key, $model = null) {
+		$params = $this->params($model);
+		if (!isset($params[$key])) {
+			return null;
+		}
+		return $params[$key];
 	}
 
 /**
@@ -236,7 +253,7 @@ class PaginatorHelper extends AppHelper {
 			$dir = strtolower(current($params['order']));
 		}
 
-		if ($dir == 'desc') {
+		if ($dir === 'desc') {
 			return 'desc';
 		}
 		return 'asc';
@@ -410,7 +427,12 @@ class PaginatorHelper extends AppHelper {
 			$url = array_merge($url, compact('sort', 'direction'));
 		}
 		$url = $this->_convertUrlKeys($url, $paging['paramType']);
-
+		if (!empty($url['page']) && $url['page'] == 1) {
+			$url['page'] = null;
+		}
+		if (!empty($url['?']['page']) && $url['?']['page'] == 1) {
+			unset($url['?']['page']);
+		}
 		if ($asArray) {
 			return $url;
 		}
@@ -425,7 +447,7 @@ class PaginatorHelper extends AppHelper {
  * @return array converted url params.
  */
 	protected function _convertUrlKeys($url, $type) {
-		if ($type == 'named') {
+		if ($type === 'named') {
 			return $url;
 		}
 		if (!isset($url['?'])) {
@@ -478,7 +500,7 @@ class PaginatorHelper extends AppHelper {
 
 		if ($this->{$check}($model)) {
 			$url = array_merge(
-				array('page' => $paging['page'] + ($which == 'Prev' ? $step * -1 : $step)),
+				array('page' => $paging['page'] + ($which === 'Prev' ? $step * -1 : $step)),
 				$url
 			);
 			if ($tag === false) {
@@ -490,22 +512,21 @@ class PaginatorHelper extends AppHelper {
 			}
 			$link = $this->link($title, $url, compact('escape', 'model') + $options);
 			return $this->Html->tag($tag, $link, compact('class'));
-		} else {
-			unset($options['rel']);
-			if (!$tag) {
-				if ($disabledTag) {
-					$tag = $disabledTag;
-					$disabledTag = null;
-				} else {
-					$tag = $_defaults['tag'];
-				}
-			}
-			if ($disabledTag) {
-				$title = $this->Html->tag($disabledTag, $title, compact('escape') + $options);
-				return $this->Html->tag($tag, $title, compact('class'));
-			}
-			return $this->Html->tag($tag, $title, compact('escape', 'class') + $options);
 		}
+		unset($options['rel']);
+		if (!$tag) {
+			if ($disabledTag) {
+				$tag = $disabledTag;
+				$disabledTag = null;
+			} else {
+				$tag = $_defaults['tag'];
+			}
+		}
+		if ($disabledTag) {
+			$title = $this->Html->tag($disabledTag, $title, compact('escape') + $options);
+			return $this->Html->tag($tag, $title, compact('class'));
+		}
+		return $this->Html->tag($tag, $title, compact('escape', 'class') + $options);
 	}
 
 /**
@@ -627,10 +648,10 @@ class PaginatorHelper extends AppHelper {
 				}
 				$out = $start . $options['separator'][0] . $end . $options['separator'][1];
 				$out .= $paging['count'];
-			break;
+				break;
 			case 'pages':
 				$out = $paging['page'] . $options['separator'] . $paging['pageCount'];
-			break;
+				break;
 			default:
 				$map = array(
 					'%page%' => $paging['page'],
@@ -647,7 +668,6 @@ class PaginatorHelper extends AppHelper {
 					'{:page}', '{:pages}', '{:current}', '{:count}', '{:start}', '{:end}', '{:model}'
 				);
 				$out = str_replace($newKeys, array_values($map), $out);
-			break;
 		}
 		return $out;
 	}

@@ -5,16 +5,17 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Utility
  * @since         CakePHP(tm) v 0.2.9
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Folder', 'Utility');
@@ -129,7 +130,6 @@ class File {
 		if (!$force && is_resource($this->handle)) {
 			return true;
 		}
-		clearstatcache();
 		if ($this->exists() === false) {
 			if ($this->create() === false) {
 				return false;
@@ -211,7 +211,7 @@ class File {
  */
 	public static function prepare($data, $forceWindows = false) {
 		$lineBreak = "\n";
-		if (DIRECTORY_SEPARATOR == '\\' || $forceWindows === true) {
+		if (DIRECTORY_SEPARATOR === '\\' || $forceWindows === true) {
 			$lineBreak = "\r\n";
 		}
 		return strtr($data, array("\r\n" => $lineBreak, "\n" => $lineBreak, "\r" => $lineBreak));
@@ -277,7 +277,6 @@ class File {
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::delete
  */
 	public function delete() {
-		clearstatcache();
 		if (is_resource($this->handle)) {
 			fclose($this->handle);
 			$this->handle = null;
@@ -396,7 +395,7 @@ class File {
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::pwd
  */
 	public function pwd() {
-		if (is_null($this->path)) {
+		if ($this->path === null) {
 			$this->path = $this->Folder->slashTerm($this->Folder->pwd()) . $this->name;
 		}
 		return $this->path;
@@ -409,6 +408,7 @@ class File {
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::exists
  */
 	public function exists() {
+		$this->clearStatCache();
 		return (file_exists($this->path) && is_file($this->path));
 	}
 
@@ -526,7 +526,7 @@ class File {
  * @return Folder Current folder
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::Folder
  */
-	public function &folder() {
+	public function folder() {
 		return $this->Folder;
 	}
 
@@ -557,12 +557,34 @@ class File {
 		}
 		if (function_exists('finfo_open')) {
 			$finfo = finfo_open(FILEINFO_MIME);
-			list($type, $charset) = explode(';', finfo_file($finfo, $this->pwd()));
+			$finfo = finfo_file($finfo, $this->pwd());
+			if (!$finfo) {
+				return false;
+			}
+			list($type, $charset) = explode(';', $finfo);
 			return $type;
-		} elseif (function_exists('mime_content_type')) {
+		}
+		if (function_exists('mime_content_type')) {
 			return mime_content_type($this->pwd());
 		}
 		return false;
+	}
+
+/**
+ * Clear PHP's internal stat cache
+ *
+ * For 5.3 onwards its possible to clear cache for just a single file. Passing true
+ * will clear all the stat cache.
+ *
+ * @param boolean $all Clear all cache or not
+ * @return void
+ */
+	public function clearStatCache($all = false) {
+		if ($all === false && version_compare(PHP_VERSION, '5.3.0') >= 0) {
+			return clearstatcache(true, $this->path);
+		}
+
+		return clearstatcache();
 	}
 
 }

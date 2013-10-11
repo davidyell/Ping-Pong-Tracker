@@ -8,16 +8,17 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Error
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Sanitize', 'Utility');
@@ -29,7 +30,7 @@ App::uses('Controller', 'Controller');
  * Exception Renderer.
  *
  * Captures and handles all unhandled exceptions. Displays helpful framework errors when debug > 1.
- * When debug < 1 a CakeException will render 404 or  500 errors. If an uncaught exception is thrown
+ * When debug < 1 a CakeException will render 404 or 500 errors. If an uncaught exception is thrown
  * and it is a type that ExceptionHandler does not know about it will be treated as a 500 error.
  *
  * ### Implementing application specific exception rendering
@@ -103,7 +104,7 @@ class ExceptionRenderer {
 
 		if ($exception instanceof CakeException && !$methodExists) {
 			$method = '_cakeError';
-			if (empty($template) || $template == 'internalError') {
+			if (empty($template) || $template === 'internalError') {
 				$template = 'error500';
 			}
 		} elseif ($exception instanceof PDOException) {
@@ -118,7 +119,7 @@ class ExceptionRenderer {
 		}
 
 		$isNotDebug = !Configure::read('debug');
-		if ($isNotDebug && $method == '_cakeError') {
+		if ($isNotDebug && $method === '_cakeError') {
 			$method = 'error400';
 		}
 		if ($isNotDebug && $code == 500) {
@@ -150,12 +151,14 @@ class ExceptionRenderer {
 			$response->header($exception->responseHeader());
 		}
 
-		try {
-			$controller = new CakeErrorController($request, $response);
-			$controller->startupProcess();
-		} catch (Exception $e) {
-			if (!empty($controller) && $controller->Components->enabled('RequestHandler')) {
-				$controller->RequestHandler->startup($controller);
+		if (class_exists('AppController')) {
+			try {
+				$controller = new CakeErrorController($request, $response);
+				$controller->startupProcess();
+			} catch (Exception $e) {
+				if (!empty($controller) && $controller->Components->enabled('RequestHandler')) {
+					$controller->RequestHandler->startup($controller);
+				}
 			}
 		}
 		if (empty($controller)) {
