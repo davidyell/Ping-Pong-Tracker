@@ -70,7 +70,7 @@ class Match extends AppModel {
  * 
  * @param type $created
  */
-        public function afterSave($created) {
+        public function afterSave($created, $options = array()) {
             parent::afterSave($created);
             
             // Are we adding a new match and only singles matches
