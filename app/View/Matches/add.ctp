@@ -35,7 +35,7 @@
                         $options = array_merge($options, $vs);
                     }
                     if($i == 3 || $i == 4){
-                        $options = array_merge($options, array('label'=>'Player '.$nums[$i-2].' partner'));
+                        $options = array_merge($options, array('label'=>'Player '.$nums[$i-2].' partner', 'required' => false));
                     }else{
                         $options = array_merge($options, $label);
                     }
