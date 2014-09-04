@@ -393,7 +393,8 @@ class KnockoutGD extends Knockout {
         }
 
         // Add final branch/line for the tournament winner
-        $fr = end(array_keys($this->roundsInfo)); // Final round.
+		$keys = array_keys($this->roundsInfo);
+        $fr = end($keys); // Final round.
         $s1 = $this->bracket[$fr][0]['s1'];
         $s2 = $this->bracket[$fr][0]['s2'];
         $winner = (!array_key_exists(0, $this->bracket[$fr]) || $s1 == -1 || $s2 == -1 || $s1 === $s2) 

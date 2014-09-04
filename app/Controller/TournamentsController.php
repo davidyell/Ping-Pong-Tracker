@@ -122,7 +122,7 @@ class TournamentsController extends AppController {
 			$tournament = new KnockoutGD($data);
 
 			$image = $tournament->getImage($this->request->data['Tournament']['name']);
-			$source = imagepng($image, APP.WEBROOT_DIR.DS.'files'.DS.'tournament.png');
+			$source = imagepng($image, ROOT . DS .WEBROOT_DIR . DS . 'files' . DS . 'tournament.png');
 
 			$rounds = $tournament->getBracket();
 			$this->set('rounds', $rounds);
