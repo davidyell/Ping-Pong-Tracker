@@ -14,6 +14,8 @@
 		"lorenzo/linkable": "1.1.1"
     },
 	"require-dev": {
+		"squizlabs/php_codesniffer": "1.5.4",
+		"cakephp/cakephp-codesniffer": "0.1.27"
 	},
 	"minimum-stability": "dev",
 	"config": {

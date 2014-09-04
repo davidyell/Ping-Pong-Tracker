@@ -15,127 +15,127 @@ class MatchesPlayer extends AppModel {
  *
  * @var array
  */
-    public $actsAs = array('Linkable.Linkable');
+	public $actsAs = ['Linkable.Linkable'];
 
 /**
  * Configure validation rules
  * @var array
  */
-    public $validate = array(
-        'score' => array(
-            'one' => array(
-                'rule' => 'notEmpty',
-                'message' => 'Please enter a score',
-                'required' => true
-            ),
-            'two' => array(
-                'rule' => 'numeric',
-                'message' => 'Please enter a number'
-            ),
-            'three' => array(
-                'rule' => 'scores',
-                'message' => 'Scores must be valid'
-            )
-        ),
-        'player_id' => array(
-            'one' => array(
-                'rule' => array('comparison', '>', 0),
-                'message' => 'Please pick a player',
-                'required' => true
-            )
-        )
-    );
+	public $validate = [
+		'score' => [
+			'one' => [
+				'rule' => 'notEmpty',
+				'message' => 'Please enter a score',
+				'required' => true
+			],
+			'two' => [
+				'rule' => 'numeric',
+				'message' => 'Please enter a number'
+			],
+			'three' => [
+				'rule' => 'scores',
+				'message' => 'Scores must be valid'
+			]
+		],
+		'player_id' => [
+			'one' => [
+				'rule' => ['comparison', '>', 0],
+				'message' => 'Please pick a player',
+				'required' => true
+			]
+		]
+	];
 
 /**
  * belongsTo associations
  *
  * @var array
  */
-    public $belongsTo = array(
-        'Match' => array(
-            'className' => 'Match',
-            'foreignKey' => 'match_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
-        ),
-        'Player' => array(
-            'className' => 'Player',
-            'foreignKey' => 'player_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
-        )
-    );
-    
+	public $belongsTo = [
+		'Match' => [
+			'className' => 'Match',
+			'foreignKey' => 'match_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		],
+		'Player' => [
+			'className' => 'Player',
+			'foreignKey' => 'player_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		]
+	];
+
 /**
  * A variable to store the scores for validation
- * 
- * @var array 
+ *
+ * @var array
  */
-    public $matchScores = array();
-    
+	public $matchScores = [];
+
 /**
- * Validates a pingpong score using score values saved in the model 
- * 
+ * Validates a pingpong score using score values saved in the model
+ *
  * @param array $check Consists of 'field'=>'value'
  * @return boolean
  */
-    public function scores($check) {
-        if (empty($this->matchScores)) {
-            return false;
-        }
-            
-        // Scores cannot match
-        if ($this->matchScores[0] == $this->matchScores[1]) {
-            return false;
-        }
-        
-        // Must score 11 or more
-        if ($this->matchScores[0] < 11 && $this->matchScores[1] < 11) {
-            return false;
-        }
-        
-        // If more than 11, ensure 2 point difference
-        if ($this->matchScores[0] > 11 || $this->matchScores[1] > 11) {
-            // Player 1 wins
-            if ($this->matchScores[0] > $this->matchScores[1]) {
-                // Player 2 score must be two less than Player 1s
-                if($this->matchScores[0] - 2 != $this->matchScores[1]){
-                    return false;
-                }
-            // Player 2 wins
-            } elseif ($this->matchScores[1] > $this->matchScores[0]) {
-                // Player 1 score must be two less than Player 2s
-                if($this->matchScores[1] - 2 != $this->matchScores[0]){
-                    return false;
-                }
-            }
-        }
-        
-        return true;
-    }
+	public function scores($check) {
+		if (empty($this->matchScores)) {
+			return false;
+		}
+
+		// Scores cannot match
+		if ($this->matchScores[0] == $this->matchScores[1]) {
+			return false;
+		}
+
+		// Must score 11 or more
+		if ($this->matchScores[0] < 11 && $this->matchScores[1] < 11) {
+			return false;
+		}
+
+		// If more than 11, ensure 2 point difference
+		if ($this->matchScores[0] > 11 || $this->matchScores[1] > 11) {
+			// Player 1 wins
+			if ($this->matchScores[0] > $this->matchScores[1]) {
+				// Player 2 score must be two less than Player 1s
+				if($this->matchScores[0] - 2 != $this->matchScores[1]){
+					return false;
+				}
+			// Player 2 wins
+			} elseif ($this->matchScores[1] > $this->matchScores[0]) {
+				// Player 1 score must be two less than Player 2s
+				if($this->matchScores[1] - 2 != $this->matchScores[0]){
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
 
 /**
  * Get the match details
- * 
+ *
  * @param int $id
  * @return array A cake data array of the match details with the players
  */
-    public function getMatch($matchId) {
-        $match = $this->Match->find('first', array(
-            'contain' => array(
-                'MatchType',
-                'MatchesPlayer' => array(
-                    'Player'
-                )
-            ),
-            'conditions' => array(
-                'Match.id' => $matchId
-            )
-                ));
-        return $match;
-    }
+	public function getMatch($matchId) {
+		$match = $this->Match->find('first', [
+			'contain' => [
+				'MatchType',
+				'MatchesPlayer' => [
+					'Player'
+				]
+			],
+			'conditions' => [
+				'Match.id' => $matchId
+			]
+				]);
+		return $match;
+	}
 
 /**
  * Find the last 'Won' or 'Lost' match for a player
@@ -144,19 +144,19 @@ class MatchesPlayer extends AppModel {
  * @param string $type Either 'Won' or 'Lost'
  * @return array Cake data array
  */
-    public function getLastResult($playerId, $type) {
-        $result = $this->find('first', array(
-            'contain' => array(
-                'Match'
-            ),
-            'conditions' => array(
-                'player_id' => $playerId,
-                'result' => $type
-            ),
-            'order' => 'MatchesPlayer.created DESC'
-                ));
-        return $result;
-    }
+	public function getLastResult($playerId, $type) {
+		$result = $this->find('first', [
+			'contain' => [
+				'Match'
+			],
+			'conditions' => [
+				'player_id' => $playerId,
+				'result' => $type
+			],
+			'order' => 'MatchesPlayer.created DESC'
+				]);
+		return $result;
+	}
 
 /**
  * Get a set of aggregated statistics for all the departments
@@ -164,29 +164,29 @@ class MatchesPlayer extends AppModel {
  * @param int $id The department id
  * @return array
  */
-    public function getDepartmentRankings($departmentId = null) {
+	public function getDepartmentRankings($departmentId = null) {
 
-        if (isset($departmentId)) {
-            $conditions = array('Department.id' => $departmentId);
-        } else {
-            $conditions = array();
-        }
+		if (isset($departmentId)) {
+			$conditions = ['Department.id' => $departmentId];
+		} else {
+			$conditions = [];
+		}
 
-        $stats = $this->find('all', array(
-            'link' => array(
-                'Player' => array(
-                    'fields' => array('department_id'),
-                    'Department' => array(
-                        'fields' => array('id', 'name')
-                    )
-                )
-            ),
-            'conditions' => $conditions,
-            'fields' => $this->Player->stats_fields,
-            'group' => 'Department.id',
-            'order' => 'rank DESC'
-                ));
-        return $stats;
-    }
+		$stats = $this->find('all', [
+			'link' => [
+				'Player' => [
+					'fields' => ['department_id'],
+					'Department' => [
+						'fields' => ['id', 'name']
+					]
+				]
+			],
+			'conditions' => $conditions,
+			'fields' => $this->Player->stats_fields,
+			'group' => 'Department.id',
+			'order' => 'rank DESC'
+				]);
+		return $stats;
+	}
 
 }

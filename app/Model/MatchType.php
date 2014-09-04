@@ -20,8 +20,8 @@ class MatchType extends AppModel {
  *
  * @var array
  */
-	public $hasMany = array(
-		'Match' => array(
+	public $hasMany = [
+		'Match' => [
 			'className' => 'Match',
 			'foreignKey' => 'match_type_id',
 			'dependent' => false,
@@ -33,7 +33,7 @@ class MatchType extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		)
-	);
+		]
+	];
 
 }

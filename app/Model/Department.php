@@ -22,8 +22,8 @@ class Department extends AppModel {
  *
  * @var array
  */
-	public $hasMany = array(
-		'Player' => array(
+	public $hasMany = [
+		'Player' => [
 			'className' => 'Player',
 			'foreignKey' => 'department_id',
 			'dependent' => false,
@@ -35,7 +35,7 @@ class Department extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		)
-	);
+		]
+	];
 
 }

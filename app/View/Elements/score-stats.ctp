@@ -4,21 +4,21 @@
 
 <?php
 if($stats['wins'] > 0 && $stats['losses'] > 0){
-    $percent = ($stats['wins'] / ($stats['wins'] + $stats['losses'])) * 100;
+	$percent = ($stats['wins'] / ($stats['wins'] + $stats['losses'])) * 100;
 }else{
-    $percent = 0;
+	$percent = 0;
 }
 
 if($percent > 0 && $percent < 20){
-    $class = "badge-important";
+	$class = "badge-important";
 } elseif($percent > 20 && $percent < 40){
-    $class = "badge-warning";
+	$class = "badge-warning";
 } elseif($percent > 40 && $percent < 60){
-    $class = "";
+	$class = "";
 } elseif($percent > 60 && $percent < 80){
-    $class = "badge-info";
+	$class = "badge-info";
 } else{
-    $class = "badge-success";
+	$class = "badge-success";
 }
 ?>
 

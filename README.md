@@ -7,8 +7,7 @@ Allows adding of a list of players and their relevant departments and will save 
 This is an ongoing project and is not supported. Feel free to contribute and I welcome code review if anything doesn't look right, please raise an issue or fork and send a pull request.
 
 ##Requirements
-* [CakePHP](http://cakephp.org/) 2.2.4+
-* [MySQL 5]()
+Needs Composer and a Database. Developed on MySQL 5.
 
 ##Installation
 ###Get the code
@@ -25,7 +24,7 @@ Inside your `/app` folder run, `Console/cake schema create`
 The system does not include any admin interface, login or cms. If you want to add this, then feel free to add it yourself. You can bake out basic admin, [using the Cake shell](http://book.cakephp.org/2.0/en/console-and-shells/code-generation-with-bake.html).
 
 ##Branch strategy
-Development and issues should be developed in the `dev` branch before being merged into `master`. `master` should remain clean, stable and bug free.
+Development and issues should be developed in the `develop` branch before being merged into `master`. `master` should remain clean, stable and bug free.
 
 ##Versioning
 Tags should exist in the system for the version numbers.  
