@@ -1,0 +1,23 @@
+{
+    "name": "davidyell/ping-pong-tracker",
+    "description": "Application for tracking Table Tennis games",
+    "authors": [
+        {
+            "name": "David Yell",
+            "email": "dyell@ukwebmedia.com"
+        }
+    ],
+    "require": {
+		"cakephp/cakephp": "2.5.3",
+		"davidyell/nice-admin": "0.1.0",
+		"cakephp/debug_kit": "2.2.*@dev",
+		"lorenzo/linkable": "1.1.1"
+    },
+	"require-dev": {
+	},
+	"minimum-stability": "dev",
+	"config": {
+		"vendor-dir": "Vendor",
+		"bin-dir": "Vendor/bin"
+	}
+}

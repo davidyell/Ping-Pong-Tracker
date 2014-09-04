@@ -23,6 +23,15 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
+App::build(
+	[
+		'Plugin' => [ROOT . '/Plugin/', ROOT . '/app/Plugin/'],
+		'Vendor' => [ROOT . '/Vendor/', ROOT . '/app/Vendor/']
+	],
+	App::RESET
+);
+
+
 /**
  * Cache Engine Configuration
  * Default settings provided below
