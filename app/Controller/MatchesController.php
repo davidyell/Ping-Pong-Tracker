@@ -2,7 +2,7 @@
 
 App::uses('AppController', 'Controller');
 
-App::import('Vendor','knockout-tournament-scheduler/class_knockout');
+App::import('Vendor', 'knockout-tournament-scheduler/class_knockout');
 
 /**
  * Matches Controller
@@ -20,30 +20,33 @@ class MatchesController extends AppController {
 
 /**
  * Method to aggregate Performance Ratings from all historic matches
+ *
+ * @throws ForbiddenException
+ * @return void
  */
-	public function updateRatings(){
+	public function updateRatings() {
 		if (Configure::read('debug') != 2) {
 			throw new ForbiddenException('Cannot update match PR history');
 		}
 
 		$matches = $this->Match->find('all', [
-			'contain'=>[
+			'contain' => [
 				'MatchesPlayer'
 			],
-			'conditions'=>[
-				'Match.match_type_id'=>1
+			'conditions' => [
+				'Match.match_type_id' => 1
 			]
 		]);
 
 		$i = 1;
-		foreach($matches as $match){
+		foreach ($matches as $match) {
 
 			$vendor = App::path('Vendor');
-			require_once($vendor[0].'EloRating'.DS.'EloRating.php');
+			require_once ($vendor[0] . 'EloRating' . DS . 'EloRating.php');
 
 			$this->Match->MatchesPlayer->Player->recursive = -1;
-			$ratingA = $this->Match->MatchesPlayer->Player->read(['id','performance_rating'], $match['MatchesPlayer'][0]['player_id']);
-			$ratingB = $this->Match->MatchesPlayer->Player->read(['id','performance_rating'], $match['MatchesPlayer'][1]['player_id']);
+			$ratingA = $this->Match->MatchesPlayer->Player->read(['id', 'performance_rating'], $match['MatchesPlayer'][0]['player_id']);
+			$ratingB = $this->Match->MatchesPlayer->Player->read(['id', 'performance_rating'], $match['MatchesPlayer'][1]['player_id']);
 
 			if ($match['MatchesPlayer'][0]['score'] > $match['MatchesPlayer'][1]['score']) {
 				$scores['a'] = 1;
@@ -81,7 +84,7 @@ class MatchesController extends AppController {
 			$i++;
 		}
 
-		var_dump('Done!. Processed '.$i.' matches.');
+		var_dump('Done!. Processed ' . $i . ' matches.');
 		$this->render(false);
 	}
 
@@ -110,8 +113,8 @@ class MatchesController extends AppController {
 /**
  * view method
  *
+ * @param string $id Id of the match to view
  * @throws NotFoundException
- * @param string $id
  * @return void
  */
 	public function view($id = null) {
@@ -161,7 +164,7 @@ class MatchesController extends AppController {
 			$this->Match->create();
 			if ($this->Match->saveAll($this->request->data)) {
 
-				if($this->request->data['Match']['match_type_id'] == 1){
+				if ($this->request->data['Match']['match_type_id'] == 1) {
 					// Save the players PR for historic comparison
 					$ratings = [
 						[
@@ -180,12 +183,12 @@ class MatchesController extends AppController {
 					$this->Match->MatchesPlayer->Player->PerformanceRating->saveAll($ratings);
 
 					// Display the PR difference
-					$message = $this->Match->ratings['a']['name'].' '.sprintf("%+d", number_format($this->Match->ratings['a']['newRating'] - $this->Match->ratings['a']['oldRating'], 0));
+					$message = $this->Match->ratings['a']['name'] . ' ' . sprintf("%+d", number_format($this->Match->ratings['a']['newRating'] - $this->Match->ratings['a']['oldRating'], 0));
 					$message .= '&nbsp;|&nbsp;';
-					$message .= $this->Match->ratings['b']['name'].' '.sprintf("%+d", number_format($this->Match->ratings['b']['newRating'] - $this->Match->ratings['b']['oldRating'], 0));
+					$message .= $this->Match->ratings['b']['name'] . ' ' . sprintf("%+d", number_format($this->Match->ratings['b']['newRating'] - $this->Match->ratings['b']['oldRating'], 0));
 
-					$this->Session->setFlash('Match saved. [ '.$message.' ]', 'alert-box', ['class' => 'alert-success']);
-				}else{
+					$this->Session->setFlash('Match saved. [ ' . $message . ' ]', 'alert-box', ['class' => 'alert-success']);
+				} else {
 					$this->Session->setFlash('The match has been saved successfully.', 'alert-box', ['class' => 'alert-success']);
 				}
 				$this->redirect(['action' => 'add']);
@@ -217,22 +220,22 @@ class MatchesController extends AppController {
 /**
  * Get a list of recent matches for a player
  *
- * @param int $playerId
+ * @param int $playerId The id of the player to view history
  * @throws NotFoundException
  * @return array Paginated Cake data array - only when requested
  */
-	public function match_history($playerId){
-		if(!$this->Match->MatchesPlayer->Player->exists($playerId)){
+	public function match_history($playerId) {
+		if (!$this->Match->MatchesPlayer->Player->exists($playerId)) {
 			throw new NotFoundException('Player not found');
 		}
 
 		$this->Match->MatchesPlayer->Player->recursive = -1;
-		$this->set('player', $this->Match->MatchesPlayer->Player->read(['id','first_name','nickname','last_name'], $playerId));
+		$this->set('player', $this->Match->MatchesPlayer->Player->read(['id', 'first_name', 'nickname', 'last_name'], $playerId));
 
 		$matchIds = $this->Match->MatchesPlayer->find('list', [
 			'contain' => false,
 			'conditions' => [
-				'MatchesPlayer.player_id'=>$playerId
+				'MatchesPlayer.player_id' => $playerId
 			],
 			'fields' => ['match_id']
 		]);
@@ -241,11 +244,11 @@ class MatchesController extends AppController {
 			'contain' => [
 				'MatchesPlayer' => [
 					'Player' => [
-						'fields' => ['id','first_name','last_name'],
+						'fields' => ['id', 'first_name', 'last_name'],
 					]
 				],
 				'MatchType' => [
-					'fields' => ['id','name']
+					'fields' => ['id', 'name']
 				]
 			],
 			'conditions' => [
@@ -255,20 +258,17 @@ class MatchesController extends AppController {
 			'limit' => 10
 		];
 
-		if($this->request->is('requested')){
+		if ($this->request->is('requested')) {
 			return $this->paginate();
-		}else{
+		} else {
 			$this->set('matches', $this->paginate());
 		}
-
 	}
 
 /**
  * Edit method
  * Called when saving tournament matches through ajax
  *
- * @throws NotFoundException
- * @param string $id
  * @return void
  */
 	public function ajax_edit() {
@@ -280,15 +280,15 @@ class MatchesController extends AppController {
 			$this->Match->MatchesPlayer->matchScores = [(int)$this->request->data['MatchesPlayer'][1]['score'], (int)$this->request->data['MatchesPlayer'][2]['score']];
 
 			if ($this->Match->saveAll($this->request->data)) {
-				$updateDraw = $this->requestAction(['controller'=>'tournaments', 'action'=>'update_draw', $this->request->data['Tournament']['id']]);
+				$updateDraw = $this->requestAction(['controller' => 'tournaments', 'action' => 'update_draw', $this->request->data['Tournament']['id']]);
 				$outcome = 'Success';
 			} else {
 				$outcome = 'Failed';
 				$validation = $this->Match->validationErrors;
 			}
 
-			$this->set(compact('outcome','validation','updateDraw'));
-			$this->set('_serialize', ['outcome','validation','updateDraw']);
+			$this->set(compact('outcome', 'validation', 'updateDraw'));
+			$this->set('_serialize', ['outcome', 'validation', 'updateDraw']);
 		}
 	}
 

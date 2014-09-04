@@ -34,6 +34,4 @@ class AppModel extends Model {
 
 	public $actsAs = ['Containable', 'Linkable.Linkable'];
 
-//    public $useDbConfig = 'development';
-
 }

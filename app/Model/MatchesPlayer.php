@@ -52,20 +52,8 @@ class MatchesPlayer extends AppModel {
  * @var array
  */
 	public $belongsTo = [
-		'Match' => [
-			'className' => 'Match',
-			'foreignKey' => 'match_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		],
-		'Player' => [
-			'className' => 'Player',
-			'foreignKey' => 'player_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		]
+		'Match',
+		'Player'
 	];
 
 /**
@@ -101,13 +89,13 @@ class MatchesPlayer extends AppModel {
 			// Player 1 wins
 			if ($this->matchScores[0] > $this->matchScores[1]) {
 				// Player 2 score must be two less than Player 1s
-				if($this->matchScores[0] - 2 != $this->matchScores[1]){
+				if ($this->matchScores[0] - 2 != $this->matchScores[1]) {
 					return false;
 				}
-			// Player 2 wins
+				// Player 2 wins
 			} elseif ($this->matchScores[1] > $this->matchScores[0]) {
 				// Player 1 score must be two less than Player 2s
-				if($this->matchScores[1] - 2 != $this->matchScores[0]){
+				if ($this->matchScores[1] - 2 != $this->matchScores[0]) {
 					return false;
 				}
 			}
@@ -119,7 +107,7 @@ class MatchesPlayer extends AppModel {
 /**
  * Get the match details
  *
- * @param int $id
+ * @param int $matchId The id of the match
  * @return array A cake data array of the match details with the players
  */
 	public function getMatch($matchId) {
@@ -140,7 +128,7 @@ class MatchesPlayer extends AppModel {
 /**
  * Find the last 'Won' or 'Lost' match for a player
  *
- * @param int $id Player id
+ * @param int $playerId The player id
  * @param string $type Either 'Won' or 'Lost'
  * @return array Cake data array
  */
@@ -161,11 +149,10 @@ class MatchesPlayer extends AppModel {
 /**
  * Get a set of aggregated statistics for all the departments
  *
- * @param int $id The department id
+ * @param int $departmentId The department id
  * @return array
  */
 	public function getDepartmentRankings($departmentId = null) {
-
 		if (isset($departmentId)) {
 			$conditions = ['Department.id' => $departmentId];
 		} else {
@@ -182,7 +169,7 @@ class MatchesPlayer extends AppModel {
 				]
 			],
 			'conditions' => $conditions,
-			'fields' => $this->Player->stats_fields,
+			'fields' => $this->Player->statsFields,
 			'group' => 'Department.id',
 			'order' => 'rank DESC'
 				]);

@@ -7,22 +7,22 @@
 		<p><b>Winning points: </b><span class="badge"><?php echo $stats['stats']['win_points']; ?></span></p>
 
 		<?php
-		if($stats['stats']['diff'] > 0){
+		if ($stats['stats']['diff'] > 0) {
 			$class = 'badge-success';
-		}elseif($stats['stats']['diff'] == 0){
+		} elseif ($stats['stats']['diff'] == 0) {
 			$class = 'badge-warning';
-		}else{
+		} else {
 			$class = 'badge-important';
 		}
 		?>
 		<p><b>Points difference: </b><span class="badge <?php echo $class;?>"><?php echo $stats['stats']['diff']; ?></span></p>
-		<p><b>Rating: </b><span class="badge"><?php echo $this->Number->precision($stats['stats']['rank'],2); ?></span></p>
+		<p><b>Rating: </b><span class="badge"><?php echo $this->Number->precision($stats['stats']['rank'], 2); ?></span></p>
 
 	</div>
 
 	<h3>Busiest Ping-Pong days so far</h3>
 	<ol>
-		<?php foreach($stats['most_played_days'] as $day):?>
+		<?php foreach ($stats['most_played_days'] as $day):?>
 			<li><?php echo $this->Time->format('l jS M Y', $day[0]['day']);?> - <?php echo $day[0]['matches'];?></li>
 		<?php endforeach;?>
 	</ol>
@@ -30,10 +30,10 @@
 	<h3>Latest high score match</h3>
 	<div id="scorecard">
 		<?php
-		if($stats['highest_match_score']['MatchType']['id'] == 1){
-			echo $this->element('scorecard-singles', array('match'=>$stats['highest_match_score']));
-		}else{
-			echo $this->element('scorecard-doubles', array('match'=>$stats['highest_match_score']));
+		if ($stats['highest_match_score']['MatchType']['id'] == 1) {
+			echo $this->element('scorecard-singles', array('match' => $stats['highest_match_score']));
+		} else {
+			echo $this->element('scorecard-doubles', array('match' => $stats['highest_match_score']));
 		}
 		?>
 	</div>
@@ -55,7 +55,7 @@
 					items = [
 							['Type','Matches'],
 						<?php
-						foreach($stats['match_types'][0][0] as $type => $count){
+						foreach ($stats['match_types'][0][0] as $type => $count) {
 							?>
 							['<?php echo ucfirst($type);?>', <?php echo $count ?>],
 							<?php
@@ -76,7 +76,7 @@
 					items = [
 							['Day','Matches'],
 						<?php
-						foreach($stats['matches_by_day'] as $item){
+						foreach ($stats['matches_by_day'] as $item) {
 							?>
 							['<?php echo $item[0]['day'];?>', <?php echo $item[0]['matches'] ?>],
 							<?php

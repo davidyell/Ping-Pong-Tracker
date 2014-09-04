@@ -8,16 +8,27 @@ App::uses('AppController', 'Controller');
 
 class DepartmentsController extends AppController {
 
+/**
+ * List all departments
+ *
+ * @return void
+ */
 	public function index() {
 		$this->set('departments', $this->Department->Player->MatchesPlayer->getDepartmentRankings());
 	}
 
+/**
+ * View a department and it's users
+ *
+ * @param int $id The id of the department
+ * @return void
+ */
 	public function view($id) {
 		// Get the department and it's players
 		$department = $this->Department->find('first', [
 			'contain' => [
 				'Player' => [
-					'fields' => ['id','first_name','nickname','last_name','email'],
+					'fields' => ['id', 'first_name', 'nickname', 'last_name', 'email'],
 				]
 			],
 			'conditions' => [
@@ -25,14 +36,10 @@ class DepartmentsController extends AppController {
 			]
 		]);
 
-		foreach ($department['Player'] as $player) {
-			$player_ids[] = $player['id'];
-		}
-
 		// Get the departments scores
-		$department_stats = $this->Department->Player->MatchesPlayer->getDepartmentRankings($id);
+		$departmentStats = $this->Department->Player->MatchesPlayer->getDepartmentRankings($id);
 
-		$this->set(compact('department','department_stats'));
+		$this->set(compact('department', 'departmentStats'));
 	}
 
 }

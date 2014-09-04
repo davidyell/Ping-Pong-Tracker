@@ -42,14 +42,15 @@ class PerformanceRating extends AppModel {
 /**
  * Gets a history of the performance rating of a player over time by day
  *
- * @param int $player_id
+ * @param int $playerId The id of the player to get history for
+ * @param int $limit The limit
  * @return array CakePHP data array
  */
-	public function getRatingsHistory($player_id, $limit = 30){
+	public function getRatingsHistory($playerId, $limit = 30) {
 		$history = $this->find('all', [
 			'contain' => false,
 			'conditions' => [
-				'player_id' => $player_id
+				'player_id' => $playerId
 			],
 			'fields' => [
 				'SUM(rating) / COUNT(id) AS average',

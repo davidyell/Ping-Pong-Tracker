@@ -27,28 +27,27 @@
  * @copyright  Copyright (c) 2011 Signified (http://signified.com.au)
  * @license    http://www.opensource.org/licenses/bsd-license    New BSD License
  */
-class GravatarHelper extends AppHelper
-{
-	/**
-	 * Helpers used by GravatarHelper
-	 *
-	 * @var array
-	 * @access public
-	 */
+class GravatarHelper extends AppHelper {
+
+/**
+ * Helpers used by GravatarHelper
+ *
+ * @var array
+ * @access public
+ */
 	public $helpers = array('Html');
 
-	/**
-	 * Create a Gravatar
-	 *
-	 * @param string $email Email address of the user.
-	 * @param array $options Array of Gravatar options.
-	 * @param array $attributes Array of HTML attributes.
-	 * @return string completed img tag
-	 * @access public
-	 * @link http://gravatar.com/site/implement/images/
-	 */
-	public function image($email = null, $options = array(), $attributes = array())
-	{
+/**
+ * Create a Gravatar
+ *
+ * @param string $email Email address of the user.
+ * @param array $options Array of Gravatar options.
+ * @param array $attributes Array of HTML attributes.
+ * @return string completed img tag
+ * @access public
+ * @link http://gravatar.com/site/implement/images/
+ */
+	public function image($email = null, $options = array(), $attributes = array()) {
 		$attributes['height'] = 80;
 		$attributes['width'] = 80;
 		$hash = md5(strtolower(trim($email)));

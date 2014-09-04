@@ -36,8 +36,8 @@ class PlayersController extends AppController {
 /**
  * view method
  *
+ * @param string $id The id of the player to view
  * @throws NotFoundException
- * @param string $id
  * @return void
  */
 	public function view($id = null) {
@@ -56,14 +56,14 @@ class PlayersController extends AppController {
 				]);
 		$this->set('player', $player);
 
-		$last_win_id = $this->Player->MatchesPlayer->getLastResult($id, 'Won');
-		if ($last_win_id) {
-			$this->set('last_win', $this->Player->MatchesPlayer->getMatch($last_win_id['Match']['id']));
+		$lastWinId = $this->Player->MatchesPlayer->getLastResult($id, 'Won');
+		if ($lastWinId) {
+			$this->set('lastWin', $this->Player->MatchesPlayer->getMatch($lastWinId['Match']['id']));
 		}
 
-		$last_loss_id = $this->Player->MatchesPlayer->getLastResult($id, 'Lost');
-		if ($last_loss_id) {
-			$this->set('last_loss', $this->Player->MatchesPlayer->getMatch($last_loss_id['Match']['id']));
+		$lastLossId = $this->Player->MatchesPlayer->getLastResult($id, 'Lost');
+		if ($lastLossId) {
+			$this->set('lastLoss', $this->Player->MatchesPlayer->getMatch($lastLossId['Match']['id']));
 		}
 
 		$results = $this->Player->getPlayerStats($id);
@@ -81,9 +81,8 @@ class PlayersController extends AppController {
  * @return void
  */
 	public function head_to_head() {
-
 		if ($this->request->is('post')) {
-			if($this->request->data['Player']['player1'] == $this->request->data['Player']['player2']){
+			if ($this->request->data['Player']['player1'] == $this->request->data['Player']['player2']) {
 				$this->Session->setFlash('You can\'t compare youself to yourself.', 'alert-box', ['class' => 'alert-error']);
 				$this->redirect(['action' => 'head_to_head']);
 			}
@@ -102,7 +101,7 @@ class PlayersController extends AppController {
 			$this->request->data['Player']['player2'] = 0;
 		}
 
-		$this->set('player_list', $this->Player->getPlayers());
+		$this->set('playerList', $this->Player->getPlayers());
 	}
 
 /**
@@ -118,8 +117,8 @@ class PlayersController extends AppController {
 /**
  * admin_view method
  *
+ * @param string $id The id of the item to view
  * @throws NotFoundException
- * @param string $id
  * @return void
  */
 	public function admin_view($id = null) {
@@ -152,8 +151,8 @@ class PlayersController extends AppController {
 /**
  * admin_edit method
  *
+ * @param string $id The id of the item to edit
  * @throws NotFoundException
- * @param string $id
  * @return void
  */
 	public function admin_edit($id = null) {
@@ -178,9 +177,9 @@ class PlayersController extends AppController {
 /**
  * admin_delete method
  *
+ * @param string $id The id of the item to delete
  * @throws MethodNotAllowedException
  * @throws NotFoundException
- * @param string $id
  * @return void
  */
 	public function admin_delete($id = null) {

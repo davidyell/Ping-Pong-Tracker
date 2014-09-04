@@ -3,9 +3,8 @@
  * CakePHP TournamentController
  * @author david
  */
-
 App::uses('AppController', 'Controller');
-App::import('Vendor','knockout-tournament-scheduler/class_knockout');
+App::import('Vendor', 'knockout-tournament-scheduler/class_knockout');
 
 class TournamentsController extends AppController {
 
@@ -28,12 +27,12 @@ class TournamentsController extends AppController {
 					'order' => 'tournament_round DESC',
 					'limit' => 1,
 					'MatchesPlayer' => [
-						'fields' => ['id','result','player_id'],
+						'fields' => ['id', 'result', 'player_id'],
 						'conditions' => [
 							'result' => 'Won'
 						],
 						'Player' => [
-							'fields' => ['id','first_name','nickname','last_name']
+							'fields' => ['id', 'first_name', 'nickname', 'last_name']
 						]
 					]
 				]
@@ -63,16 +62,16 @@ class TournamentsController extends AppController {
 			$tournamentId = $this->Tournament->getLastInsertId();
 
 			// Move the image
-			if (file_exists(APP.WEBROOT_DIR.DS.'files'.DS.'tournament.png')) {
-				mkdir(APP.WEBROOT_DIR.DS.'files'.DS.'tournaments'.DS.$tournamentId);
-				rename(APP.WEBROOT_DIR.DS.'files'.DS.'tournament.png', APP.WEBROOT_DIR.DS.'files'.DS.'tournaments'.DS.$tournamentId.DS.'tournament_'.$tournamentId.'.png');
+			if (file_exists(ROOT . DS . WEBROOT_DIR . DS . 'files' . DS . 'tournament.png')) {
+				mkdir(ROOT . DS . WEBROOT_DIR . DS . 'files' . DS . 'tournaments' . DS . $tournamentId);
+				rename(ROOT . DS . WEBROOT_DIR . DS . 'files' . DS . 'tournament.png', ROOT . DS . WEBROOT_DIR . DS . 'files' . DS . 'tournaments' . DS . $tournamentId . DS . 'tournament_' . $tournamentId . '.png');
 			}
 
 			$matches = $this->Tournament->jsonRoundsToArray($this->request->data['Tournament']['rounds'], $tournamentId);
 
 			foreach ($matches as $match) {
 				$this->Tournament->Match->create();
-				if (!$this->Tournament->Match->saveAll($match, ['validate'=>false])) {
+				if (!$this->Tournament->Match->saveAll($match, ['validate' => false])) {
 					$error = true;
 				}
 			}
@@ -96,7 +95,7 @@ class TournamentsController extends AppController {
  * @return string A json string of the rounds to be played
  */
 	public function draw() {
-		if($this->request->is('ajax')){
+		if ($this->request->is('ajax')) {
 			$this->loadModel('Player');
 			$competitors = $this->Player->find('all', [
 				'contain' => false,
@@ -108,21 +107,19 @@ class TournamentsController extends AppController {
 			]);
 
 			$data = [];
-			foreach($competitors as $player){
-				$data[$player['Player']['id']] = "(".$player['Player']['id'].") ".$player['Player']['first_name']." ".substr($player['Player']['last_name'], 0, 1);
+			foreach ($competitors as $player) {
+				$data[$player['Player']['id']] = "(" . $player['Player']['id'] . ") " . $player['Player']['first_name'] . " " . substr($player['Player']['last_name'], 0, 1);
 			}
 
-			/**
-			 * As we need to instantiate the Knockout class in the same way each
-			 * time we use it to manage the tournament, we will need to store the
-			 * competitors
-			 */
+			// As we need to instantiate the Knockout class in the same way each
+			// time we use it to manage the tournament, we will need to store the
+			// competitors
 			$this->Session->write('Tournament.competitors', $data);
 
 			$tournament = new KnockoutGD($data);
 
 			$image = $tournament->getImage($this->request->data['Tournament']['name']);
-			$source = imagepng($image, ROOT . DS .WEBROOT_DIR . DS . 'files' . DS . 'tournament.png');
+			$source = imagepng($image, ROOT . DS . WEBROOT_DIR . DS . 'files' . DS . 'tournament.png');
 
 			$rounds = $tournament->getBracket();
 			$this->set('rounds', $rounds);
@@ -134,9 +131,10 @@ class TournamentsController extends AppController {
  * Resolves the matches for a tournament round
  * Single matches are posted to Matches::edit() via Ajax
  *
- * @param int $tournamentId
+ * @param int $tournamentId The id of the tournament
+ * @return void
  */
-	public function play($tournamentId){
+	public function play($tournamentId) {
 		$tournament = $this->Tournament->find('first', [
 			'contain' => [
 				'Match' => [
@@ -145,7 +143,7 @@ class TournamentsController extends AppController {
 							'result' => ''
 						],
 						'Player' => [
-							'fields' => ['id','first_name','nickname','last_name','email','facebook_id','performance_rating']
+							'fields' => ['id', 'first_name', 'nickname', 'last_name', 'email', 'facebook_id', 'performance_rating']
 						]
 					]
 				]
@@ -171,7 +169,7 @@ class TournamentsController extends AppController {
 /**
  * Update the draw image for a tournament using played matches
  *
- * @param int $tournamentId
+ * @param int $tournamentId The tournament to draw for
  * @return bool
  */
 	public function update_draw($tournamentId) {
@@ -205,13 +203,13 @@ class TournamentsController extends AppController {
 					$match['MatchesPlayer'][1]['score'] = 0;
 				}
 
-				$tournament->setResByMatch((int)$match['tournament_match_num'], (int)$match['tournament_round'], (int) $match['MatchesPlayer'][0]['score'], (int) $match['MatchesPlayer'][1]['score']);
+				$tournament->setResByMatch((int)$match['tournament_match_num'], (int)$match['tournament_round'], (int)$match['MatchesPlayer'][0]['score'], (int)$match['MatchesPlayer'][1]['score']);
 			}
 		}
 
 		// Generate the new draw image with played results
 		$image = $tournament->getImage($tourney['Tournament']['name']);
-		imagepng($image, APP.WEBROOT_DIR.DS.'files'.DS.'tournaments'.DS.$tournamentId.DS.'tournament_'.$tournamentId.'.png');
+		imagepng($image, ROOT . DS . WEBROOT_DIR . DS . 'files' . DS . 'tournaments' . DS . $tournamentId . DS . 'tournament_' . $tournamentId . '.png');
 
 		// Gather up the brackets and results we have so far
 		$rounds = $tournament->getBracket();
@@ -249,7 +247,7 @@ class TournamentsController extends AppController {
 
 						foreach ($fixtures as $match) {
 							$this->Tournament->Match->create();
-							if (!$this->Tournament->Match->saveAll($match, ['validate'=>false])) {
+							if (!$this->Tournament->Match->saveAll($match, ['validate' => false])) {
 								$error = true;
 							}
 						}

@@ -1,5 +1,5 @@
 <div class="pages home">
-	<h1>Uk Web Media Ping-Pong Tracker</h1>
+	<h1>Table-Tennis Tracker</h1>
 
 	<div class="buttons">
 		<?php echo $this->Html->link('Add new match', array('controller'=>'matches','action'=>'add'), array('class'=>'btn btn-inverse btn-large'));?>
