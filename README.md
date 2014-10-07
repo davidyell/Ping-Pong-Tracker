@@ -14,7 +14,7 @@ This is an ongoing project and is not supported. Feel free to contribute and I w
 ###Get the code
 You can download and unzip the site into a folder.  
 **OR**  
-Clone the repository `git clone git@bitbucket.org:davidyell/ping-pong-tracker.git`
+Clone the repository from Github.
 
 ###Database
 You can create the database schema using the Cake shell.  
