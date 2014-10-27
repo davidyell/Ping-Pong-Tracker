@@ -32,8 +32,6 @@ App::uses('Model', 'Model');
  */
 class AppModel extends Model {
 
-    public $actsAs = array('Containable', 'Linkable.Linkable');
-
-//    public $useDbConfig = 'development';
+	public $actsAs = ['Containable', 'Linkable.Linkable'];
 
 }

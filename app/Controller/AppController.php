@@ -33,22 +33,13 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
-    public $components = array(
-        'Session',
-        'DebugKit.Toolbar'
-    );
+	public $components = [
+		'Session',
+		'DebugKit.Toolbar'
+	];
 
-    public $helpers = array(
-        'NiceAdmin.Actions',
-        'Gravatar',
-    );
-
-    public function beforeFilter() {
-        
-//        if($_SERVER['REMOTE_ADDR'] != '192.168.16.76'){
-//            echo "<h1>Maintenance</h1><p>Sorry, but the site is currently down for maintenance. Don't worry, it should be back shortly.</p>";
-//            exit;
-//        }
-
-    }
+	public $helpers = [
+		'NiceAdmin.Actions',
+		'Gravatar',
+	];
 }
