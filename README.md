@@ -13,7 +13,7 @@ Needs Composer and a Database. Developed on MySQL 5.
 ###Get the code
 You can download and unzip the site into a folder.  
 **OR**  
-Clone the repository `git clone git@bitbucket.org:davidyell/ping-pong-tracker.git`
+Clone the repository from Github.
 
 ###Database
 You can create the database schema using the Cake shell.  
