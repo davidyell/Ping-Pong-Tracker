@@ -63,7 +63,7 @@ class TournamentsController extends AppController {
 
 			// Move the image
 			if (file_exists(ROOT . DS . WEBROOT_DIR . DS . 'files' . DS . 'tournament.png')) {
-				mkdir(ROOT . DS . WEBROOT_DIR . DS . 'files' . DS . 'tournaments' . DS . $tournamentId);
+				mkdir(ROOT . DS . WEBROOT_DIR . DS . 'files' . DS . 'tournaments' . DS . $tournamentId, 0775, true);
 				rename(ROOT . DS . WEBROOT_DIR . DS . 'files' . DS . 'tournament.png', ROOT . DS . WEBROOT_DIR . DS . 'files' . DS . 'tournaments' . DS . $tournamentId . DS . 'tournament_' . $tournamentId . '.png');
 			}
 

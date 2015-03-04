@@ -1,6 +1,6 @@
 <div class="tournament view">
 	<h2>Tournament</h2>
-	<?php echo $this->Html->image('../files/tournaments/' . $tournament['Tournament']['id'] . '/tournament_' . $tournament['Tournament']['id'] . ' . png', array('id' => 'tournament-draw'));?>
+	<?php echo $this->Html->image('../files/tournaments/' . $tournament['Tournament']['id'] . '/tournament_' . $tournament['Tournament']['id'] . '.png', array('id' => 'tournament-draw'));?>
 	<div style="clear:both"><!-- blank --></div>
 
 	<?php
