@@ -2,7 +2,7 @@
 
 App::uses('AppController', 'Controller');
 
-App::import('Vendor', 'knockout-tournament-scheduler/class_knockout');
+App::import('Vendor', 'Knockout', ['file' => 'knockout-tournament-scheduler ' . DS . 'class_knockout.php']);
 
 /**
  * Matches Controller
