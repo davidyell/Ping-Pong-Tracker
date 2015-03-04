@@ -70,6 +70,7 @@ define('CACHE', TMP . 'cache' . DS);
  * /lib/Cake/Console/Templates/skel/webroot/index.php
  */
 //define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'lib');
+define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'Vendor' . DS . 'cakephp' . DS . 'cakephp' . DS . 'lib');
 
 /**
  * Editing below this line should NOT be necessary.
