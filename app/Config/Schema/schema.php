@@ -34,6 +34,9 @@ class AppSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => true, 'key' => 'primary'),
 		'match_type_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
 		'notes' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'tournament_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
+		'tournament_round' => array('type' => 'integer', 'null' => true, 'default' => '1', 'unsigned' => false),
+		'tournament_match_num' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
