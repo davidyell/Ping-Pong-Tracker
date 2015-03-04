@@ -88,8 +88,7 @@ class Match extends AppModel {
  * @return void
  */
 	public function doEloRating() {
-		$vendor = App::path('Vendor');
-		require_once ($vendor[0] . 'EloRating' . DS . 'EloRating.php');
+        App::import('Vendor', 'Rating', ['file' => 'EloRating' . DS . 'EloRating.php']);
 
 		$this->MatchesPlayer->Player->recursive = -1;
 		$ratingA = $this->MatchesPlayer->Player->read(['id', 'performance_rating', 'first_name', 'last_name'], $this->data['MatchesPlayer'][1]['MatchesPlayer']['player_id']);
