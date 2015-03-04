@@ -8,14 +8,14 @@
         }
     ],
     "require": {
-		"cakephp/cakephp": "2.5.3",
-		"davidyell/nice-admin": "0.1.0",
-		"cakephp/debug_kit": "2.2.*@dev",
+		"cakephp/cakephp": "2.6.2",
+		"davidyell/nice-admin": "0.1.1",
+		"cakephp/debug_kit": "~2.2",
 		"lorenzo/linkable": "1.1.1"
     },
 	"require-dev": {
-		"squizlabs/php_codesniffer": "1.5.4",
-		"cakephp/cakephp-codesniffer": "0.1.27"
+		"squizlabs/php_codesniffer": "~1.4",
+		"cakephp/cakephp-codesniffer": "~1"
 	},
 	"minimum-stability": "dev",
 	"config": {

@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "67a802f7b677061ee1f6731142f5db35",
+    "hash": "3e20cb94d89b3853baa3e4ecc96001fc",
     "packages": [
         {
             "name": "cakephp/cakephp",
-            "version": "2.5.3",
+            "version": "2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "ac9af7e3269f956b5a030a1bb6e6b95325af8b9c"
+                "reference": "3fee5b9eaafdcca986f776129aef7c2c04c427df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/ac9af7e3269f956b5a030a1bb6e6b95325af8b9c",
-                "reference": "ac9af7e3269f956b5a030a1bb6e6b95325af8b9c",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/3fee5b9eaafdcca986f776129aef7c2c04c427df",
+                "reference": "3fee5b9eaafdcca986f776129aef7c2c04c427df",
                 "shasum": ""
             },
             "require": {
@@ -47,7 +47,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2014-07-21 02:20:47"
+            "time": "2015-02-19 12:34:27"
         },
         {
             "name": "cakephp/debug_kit",
@@ -55,12 +55,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/debug_kit.git",
-                "reference": "61d91e8eac30b7d6eb3d145101ea1622bd6e8c34"
+                "reference": "c91103061d9b7ec3141e642913f88090a292b2bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/61d91e8eac30b7d6eb3d145101ea1622bd6e8c34",
-                "reference": "61d91e8eac30b7d6eb3d145101ea1622bd6e8c34",
+                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/c91103061d9b7ec3141e642913f88090a292b2bf",
+                "reference": "c91103061d9b7ec3141e642913f88090a292b2bf",
                 "shasum": ""
             },
             "require": {
@@ -96,7 +96,7 @@
                 "debug",
                 "kit"
             ],
-            "time": "2014-07-29 01:27:30"
+            "time": "2014-11-22 17:58:32"
         },
         {
             "name": "composer/installers",
@@ -104,12 +104,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "74fb0a7a1a23696d9c8cc2fba5903f6711cdd067"
+                "reference": "d64e23fce42a4063d63262b19b8e7c0f3b5e4c45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/74fb0a7a1a23696d9c8cc2fba5903f6711cdd067",
-                "reference": "74fb0a7a1a23696d9c8cc2fba5903f6711cdd067",
+                "url": "https://api.github.com/repos/composer/installers/zipball/d64e23fce42a4063d63262b19b8e7c0f3b5e4c45",
+                "reference": "d64e23fce42a4063d63262b19b8e7c0f3b5e4c45",
                 "shasum": ""
             },
             "replace": {
@@ -151,8 +151,11 @@
                 "Hurad",
                 "MODX Evo",
                 "OXID",
+                "SMF",
+                "Thelia",
                 "WolfCMS",
                 "agl",
+                "aimeos",
                 "annotatecms",
                 "bitrix",
                 "cakephp",
@@ -160,9 +163,11 @@
                 "codeigniter",
                 "concrete5",
                 "croogo",
+                "dokuwiki",
                 "drupal",
                 "elgg",
                 "fuelphp",
+                "grav",
                 "installer",
                 "joomla",
                 "kohana",
@@ -186,20 +191,20 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2014-08-18 20:00:12"
+            "time": "2015-02-18 17:17:01"
         },
         {
             "name": "davidyell/nice-admin",
-            "version": "v0.1.0",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/davidyell/CakePHP-NiceAdmin.git",
-                "reference": "1da070b5f96ae146b6b06b06ade583ab99b4ea38"
+                "reference": "061b2343f27e6b1c286882e6642b55563890eeb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davidyell/CakePHP-NiceAdmin/zipball/1da070b5f96ae146b6b06b06ade583ab99b4ea38",
-                "reference": "1da070b5f96ae146b6b06b06ade583ab99b4ea38",
+                "url": "https://api.github.com/repos/davidyell/CakePHP-NiceAdmin/zipball/061b2343f27e6b1c286882e6642b55563890eeb6",
+                "reference": "061b2343f27e6b1c286882e6642b55563890eeb6",
                 "shasum": ""
             },
             "require": {
@@ -220,7 +225,7 @@
             ],
             "description": "A roll up plugin of various bits to improve the look of admin areas index view.",
             "homepage": "https://github.com/davidyell/CakePHP-NiceAdmin",
-            "time": "2013-05-10 10:38:37"
+            "time": "2015-02-16 10:14:41"
         },
         {
             "name": "lorenzo/linkable",
@@ -264,20 +269,23 @@
     "packages-dev": [
         {
             "name": "cakephp/cakephp-codesniffer",
-            "version": "0.1.27",
+            "version": "1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp-codesniffer.git",
-                "reference": "dd69e7d9c425ea9755c66bee651a14d9f3b58228"
+                "reference": "e137baba93d812413a246060f3fb0c0ebeb470a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp-codesniffer/zipball/dd69e7d9c425ea9755c66bee651a14d9f3b58228",
-                "reference": "dd69e7d9c425ea9755c66bee651a14d9f3b58228",
+                "url": "https://api.github.com/repos/cakephp/cakephp-codesniffer/zipball/e137baba93d812413a246060f3fb0c0ebeb470a7",
+                "reference": "e137baba93d812413a246060f3fb0c0ebeb470a7",
                 "shasum": ""
             },
             "require": {
-                "squizlabs/php_codesniffer": ">=1.4"
+                "squizlabs/php_codesniffer": "~1.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.1.*"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
@@ -296,20 +304,20 @@
                 "codesniffer",
                 "framework"
             ],
-            "time": "2014-06-30 02:43:57"
+            "time": "2014-12-22 02:40:50"
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "1.5.4",
+            "version": "1.5.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "4097e2c106e4a32bc234ae880e5585a19137e435"
+                "reference": "6f3e42d311b882b25b4d409d23a289f4d3b803d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/4097e2c106e4a32bc234ae880e5585a19137e435",
-                "reference": "4097e2c106e4a32bc234ae880e5585a19137e435",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/6f3e42d311b882b25b4d409d23a289f4d3b803d5",
+                "reference": "6f3e42d311b882b25b4d409d23a289f4d3b803d5",
                 "shasum": ""
             },
             "require": {
@@ -371,15 +379,14 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2014-08-05 23:54:05"
+            "time": "2014-12-04 22:32:15"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "cakephp/debug_kit": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }
