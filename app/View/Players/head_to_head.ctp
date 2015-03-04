@@ -3,8 +3,8 @@
 
 	<?php
 	echo $this->Form->create();
-		echo $this->Form->input('player1', array('type' => 'select', 'options' => $playerList, 'div' => array('class' => 'input select player1'), 'after' => '&nbsp;vs&nbsp;'));
-		echo $this->Form->input('player2', array('type' => 'select', 'options' => $playerList, 'div' => array('class' => 'input select player2')));
+		echo $this->Form->input('player1', array('type' => 'select', 'options' => $playerList, 'empty' => 'Select player', 'div' => array('class' => 'input select player1'), 'after' => '&nbsp;vs&nbsp;'));
+		echo $this->Form->input('player2', array('type' => 'select', 'options' => $playerList, 'empty' => 'Select player', 'div' => array('class' => 'input select player2')));
 		?><div class="clearfix"><!-- blank --></div><?php
 	echo $this->Form->end('Compare');
 	?>

@@ -84,7 +84,6 @@ class MatchesController extends AppController {
 			$i++;
 		}
 
-		var_dump('Done!. Processed ' . $i . ' matches.');
 		$this->render(false);
 	}
 
